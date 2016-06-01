@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Charles Chen's blog - 编程</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html">High-level GPU-accelerated Program in Python</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2015-12-22T09:58:00+08:00">
+                Published: 周二 22 十二月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info --><p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable, easily crashes when fed with large data. And the acceleration is still far from my expectations.</p>
+<p>According to <a href="http://stackoverflow.com/questions/30833917/how-to-properly-use-anaconda-accelerate-for-gpu">this article from stackoverflow</a> (2015.6), the <a href="https://github.com/lebedov/scikit-cuda">scikit-cuda</a> package can provide some frequently used functions such as matrix multiplication. Although there are some restrictions: (1) Python27 only; (2) No customization ability (???).</p>
+<p><code>numba.cuda</code> is a relatively low-level package. It sounds interesting, but I just don&#8217;t have that time to dig deep into that. The ideal solution is that the guy at Continuum can keep improving the <code>guvectorize</code> in the NumbaPro, and make it really usable.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
+                           title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-11-18T19:25:00+08:00">
+                Published: 周三 18 十一月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
+<p>首先从下面一段非常简单的程序开始：</p>
+<div class="highlight"><pre><span></span>def main():
+    x = [1, 2, 3, 4, 5]
+    foo(x)
+    print(x)
+
+def foo(x):
+    bar(x)
+    # x = bar2(x)
+    for i in range(len(x)):
+        x[i] = x[i]**2
+
+def bar(x):
+    for i in range(len ...</pre></div>
+                <a class="readmore" href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/try-julia.html" rel="bookmark"
+                           title="Permalink to 初试 Julia 语言">初试 Julia 语言</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-08-10T12:55:00+08:00">
+                Published: 周一 10 八月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的<strong>通用</strong>编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）</p>
+<p>之所以这样说，有三个方面的理由：</p>
+<ol>
+<li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba ...</li></ol>
+                <a class="readmore" href="http://seekiu.github.io/2015/try-julia.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/use-numba-to-accelerate-python.html" rel="bookmark"
+                           title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-02T20:49:00+08:00">
+                Published: 周四 02 七月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
+<p>推荐的原因，首先得从 Python 科学计算说起。</p>
+<p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 ...</p>
+                <a class="readmore" href="http://seekiu.github.io/2015/use-numba-to-accelerate-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/matplotlib-ref.html" rel="bookmark"
+                           title="Permalink to Matplotlib快速参考">Matplotlib快速参考</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-04-26T06:05:00+08:00">
+                Published: 周日 26 四月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>写了一个笔记，关于Matplotlib的实用小索引。</p>
+<p>因为是用iPython写的，直接导出成静态的html文件了，还好Farbox也同时支持静态页面，只是需要手动链接一下。</p>
+<p>笔记的链接是 <a href="http://seekiu.farbox.com/201504-mpl_ref.html">http://seekiu.farbox.com/201504-mpl_ref.html</a></p>
+                <a class="readmore" href="http://seekiu.github.io/2015/matplotlib-ref.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2014/program-to-verify-counterintuitive-math-problem.html" rel="bookmark"
+                           title="Permalink to 一个反直觉数学题的程序验证">一个反直觉数学题的程序验证</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-11-14T21:13:00+08:00">
+                Published: 周五 14 十一月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>很久之前看到的东西了，今天总算抽空把它写完了。</p>
+<p>最开始是在 Quora 上看到一个很有意思的<a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit">答案</a>，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。</p>
+<p>第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。</p>
+<div class="highlight"><pre><span></span>def game1():  
+    # flip twice, the possibility of HH or HT  
+    hh = 0; ht = 0  
+    for i in xrange(100000):  
+        pre = &#39;&#39;; cur ...</pre></div>
+                <a class="readmore" href="http://seekiu.github.io/2014/program-to-verify-counterintuitive-math-problem.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 3
+        <a href="http://seekiu.github.io/tag/bian-cheng2.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

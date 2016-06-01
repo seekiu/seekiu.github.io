@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>修复Windows中批处理启动Vim的奇怪问题</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2015/fix-vim-startup-by-bat.html" rel="bookmark"
+           title="Permalink to 修复Windows中批处理启动Vim的奇怪问题">修复Windows中批处理启动Vim的奇怪问题</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-02-04T21:20:00+08:00">
+                Published: 周三 04 二月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> <a href="http://seekiu.github.io/tag/vim.html">Vim</a> </p>
+</footer><!-- /.post-info -->      <p>现在在笔记本和工作站上都安装上了 Vim，但这两天发现了一个非常奇怪的问题，SP3 上在批处理文件中启动 vim 时，会非常不按常规地出现或关闭命令行窗口。本来加 <code>start</code> 是继续批处理的后面命令或者直接关掉命令行，结果莫名其妙总是多出来一个窗口，需要等它执行完再进行下一个命令的时候它又变成了加 <code>start</code> 的模式。</p>
+<p>经过排查，发现直接运行 gvim 或者 vim 的时候显示的工作目录是 C:\Windows，总算明白问题出在安装时勾上的 create bat file to use in command line （凭记忆写的，大概这个意思），它其实在这个目录下创建了一个快捷方式。把这个一点都不快捷的bat删掉（以防万一只在文件名加.bak），然后把真正的 gvim.exe 所在目录加入到系统 PATH，这样处理之后，问题就解决了。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

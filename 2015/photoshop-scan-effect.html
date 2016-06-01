@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>新手向教程：用 Photoshop 将照片处理成扫描的效果</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2015/photoshop-scan-effect.html" rel="bookmark"
+           title="Permalink to 新手向教程：用 Photoshop 将照片处理成扫描的效果">新手向教程：用 Photoshop 将照片处理成扫描的效果</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-08-29T10:06:00+08:00">
+                Published: 周六 29 八月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->      <p>最近接到一个简单但十分繁琐的任务，要将几百张用手机、微单拍下来的文档照片，处理成方便打印的效果，也就是类似扫描的效果。本文记录了我用 Photoshop 处理用到的几个小技巧，虽然都是比较初级的办法，但希望能给有需要的人提供借鉴。</p>
+<h1>达到扫描效果</h1>
+<p>相机拍出来的照片与扫描仪扫出来的图片，最显著的区别是照片中，白纸上由于光线的原因，会出现亮度的差异，而扫描仪则会直接把这些部分「还原」成纸原来的纯白色，直接抹掉灰度较低的部分。</p>
+<p>要做到这一步，其实比较简单，可参考<a href="http://blog.csdn.net/pleasecallmewhy/article/details/8776998">这篇文章</a>的做法，大致有以下几个步骤：</p>
+<ol>
+<li>导入所拍的照片，复制背景图层。</li>
+<li>对背景副本图层使用滤镜-模糊-高斯模糊，半径为100像素。</li>
+<li>将背景副本图层的混合模式改为「划分」（图层）。</li>
+<li>添加曲线调整层（调整-曲线），把曲线中部拉低一些，使得文字更清楚。</li>
+<li>合并可见图层。</li>
+<li>用柔画笔擦掉多余的噪点和边缘的背景等。</li>
+</ol>
+<p>至此，在绝大多数情况下，都可以达到基本与扫描的效果一致，少数情况下也会出现效果不佳，这时用类似的方法做一些微调即可。</p>
+<h1>局部加黑</h1>
+<p>有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单：</p>
+<ol>
+<li>用套索工具选中需要局部加黑的区域。</li>
+<li>按Shift-F6羽化选区，半径取为15（参考值）。</li>
+<li>按Ctrl-M打开曲线工具，调整明暗。</li>
+</ol>
+<p>由于羽化了选区的边缘，加黑的效果会形成平滑的过渡。</p>
+<h1>批处理</h1>
+<p>当有几百张甚至几千张照片需要处理的时候，一张一张按上面的办法处理是不现实的，最好的办法还是把这些操作存成一个动作。</p>
+<p>类似扫描效果这样的，就可以用批处理无脑地先全部过一遍，而局部加黑这种需要根据不同情况选择区域的，也可以把大部分步骤保存成动作，这样在选好区域之后，点一下就完成了处理，大大节省了时间。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

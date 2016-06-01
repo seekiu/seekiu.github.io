@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Charles Chen's blog</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="5">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2014/guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html" rel="bookmark"
+                           title="Permalink to 关于 Numpy 数组作为函数参数的一个小问题">关于 Numpy 数组作为函数参数的一个小问题</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-05-16T20:56:00+08:00">
+                Published: 周五 16 五月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <blockquote>
+<p>注：本文的所写的只是我自己想出来的一个办法，很可能不是最优或者最标准的做法，如果有高手看到，欢迎指正！ </p>
+</blockquote>
+<p>在计算过程中遇到这样的一个问题，需要对一个 nx*ny 的网格上每一个节点调用一次函数，然后返回一个 nx*ny 的数组。</p>
+<p>我之前就写过类似的程序，numpy 可以直接调用普通的计算程序，比如：</p>
+<pre class="lang:python decode:true " >def x_square(x):
+    return x*x
+a = np.arange(nx*ny).reshape(nx,ny)
+print x_square(a)</pre>
+
+<p>直接把 ndarray 对象作为参数传入函数，就可以得到一个正确的结果。</p>
+<p>于是，想当然地，也针对上面的需求，写了这样一个程序：</p>
+<pre class="lang:python decode:true " >ff = np.linspace(1.0,2.0 ...</pre>
+                <a class="readmore" href="http://seekiu.github.io/2014/guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html" rel="bookmark"
+                           title="Permalink to 用Python作流场计算时的后处理问题">用Python作流场计算时的后处理问题</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-30T20:48:00+08:00">
+                Published: 周三 30 四月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>由于我现在正试图用Numpy来实现 Lattice Boltzmann method 的算法，也会涉及到一些简单的后处理功能。这里的后处理具体的说是输出一些关于流场的图像问题，因为输出单点的信息没有任何难度。而图像输出主要是依靠 Matplotlib 这个强大的库来完成。后续如果要做进一步的后处理的话，应该还是要学一学如何导出数据到专业后处理软件中，但就调试过程而言，能及时输出一些直观的图像是十分必要的。</p>
+<p>我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。</p>
+<p>例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot ...</p>
+                <a class="readmore" href="http://seekiu.github.io/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2013/shi-jian-guan-li-di-yi-ke.html" rel="bookmark"
+                           title="Permalink to 时间管理第一课">时间管理第一课</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-09-26T06:01:00+08:00">
+                Published: 周四 26 九月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info -->                <p>对我自己来说，如果要向别人讲时间管理，第一课也是传递「技巧」方面最重要的一课是一句话：快速推进，各个击破。</p>
+<p>类似的概念最开始是我自己在高中时候开始提出的，那时候课繁多，采用这样的办法很适合当时的状态。后来上大学似乎就渐渐忘了这样的风格，而是更自由更散漫了。</p>
+<p>重新想起这个概念是因为一句被我长期曲解的Facebook箴言：Move fast and break things。后半句被我理解成了分解任务，于是乎就产生了「快速推进，各个击破」的说法。</p>
+<p>其实实践下来，恰恰是这个原则最有用，尤其是在针对大块任务或者批量处理的时候。隐含的思路是，如果针对大块任务，把它分解成多个小任务，然后各个击破，而不是对着一个大块头发怵。</p>
+<p>简单实用的原则，值得写在记事本的第一页。</p>
+                <a class="readmore" href="http://seekiu.github.io/2013/shi-jian-guan-li-di-yi-ke.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html" rel="bookmark"
+                           title="Permalink to 用Sublime Text写作和记笔记">用Sublime Text写作和记笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T05:59:00+08:00">
+                Published: 周一 26 八月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->                <p>上个学期的时候，发现了一个软件<a href="https://www.literatureandlatte.com/scrivener.php">Scrivener</a>，它本身号称是一个给作家使用的软件，当时觉得很适合，但可惜价格昂贵，而且对数学公式的支持很差（windows版），所以一直在寻找类似的替代品。找来找去，最后发现一直在使用的文本编辑器sublime text 2其实就已经可以很好地完成这个功能了。</p>
+<p><a href="http://www.sublimetext.com/">Sublime text</a>是过去一段时间相当火的一个面向程序员的文本编辑器，有多个颇有新意有实用功能。虽然它几十刀的价格对穷学生来说相当没有亲和力，比Scrivener还贵一点，但作者也很厚道地允许无限试用，只是在使用时以相当低的频率弹出窗口提示买证书（似乎是按保存的次数来算的），也算是个准免费软件吧。</p>
+<p>废话不多说，简单说一下我怎么用ST2实现接近Scrivener的功能的。</p>
+<ol>
+<li>准备工作：安装sublime text，建立存放文件的文件夹，如「research | journal | misc」；</li>
+<li>首先安装必要的插件，Sidebarenhancements，可以通过package control完成。</li>
+<li>新建一个Project。菜单栏Project&#8211;Add folder to project&#8230;，把上面这些文件夹依次添加进去，然后Project&#8211;Save project as&#8230;将其保存。如果没有清除记录的话 ...</li></ol>
+                <a class="readmore" href="http://seekiu.github.io/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2013/bian-cheng-liang-san-shi.html" rel="bookmark"
+                           title="Permalink to 编程两三事">编程两三事</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T05:56:00+08:00">
+                Published: 周一 26 八月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>学期末的时候有一些数据处理的任务，花了很长时间按部就班地以常规办法解决，基本上是在excel、Wolfram Alpha和origin中倒腾数据，在数据量少且源数据不变的时候，可以比较轻松地应付，但偏偏我的问题两个条件都不符合。后来按《你早该这样玩excel》里提的源数据表原则，排成了一个统一并大量冗余的源数据表，全部数据处理用公式完成，效率提高了不少，但依然不够满意。主要还是excel里批量处理的数据不能及时转为图像（不会啊。。。），它的公式处理也不够灵活，也缺少「拟合」这样的高级功能。</p>
+<p>后来其中某个小问题由于需要不停地迭代试算，实在伤脑筋，就干脆请身边的某matlab达人 ^[没错，就是传说中的鸡爷！] 帮忙编写了一个自动解决其中一部分问题的小程序，当时惊为天人。当然，没过多久，又开始对这个小程序不满足了，但这种提前告诉程序需要做什么事，然后具体的任务由它完成的思想给了我很好的启发。这个小程序解决的只是一部分需要迭代的小部分（甚至它都没实现迭代本身，只是自动实现了迭代的过程），而如果能由程序完成尽可能多的问题呢？</p>
+<p>刚好此前在室友的推荐下看过<a href="http://hyry.dip.jp/tech/book/page/scipy/index.html">《用python作科学计算》</a>，知道python的开源包一定程度上可以实现matlab的常用功能，又由于python本身是一个全功能的编程语言，因此就决定在暑假学一学python。</p>
+<p>说一下编程的两大罪状：</p>
+<ol>
+<li>会不断地碰到小问题，不断地通过google、查文档解决，于是如果堆代码的过程比较顺利的话，就是一个不断地产生小成就感的过程。这种小成就感给人一种幻觉，让人觉得似乎完成了很大的成就 ...</li></ol>
+                <a class="readmore" href="http://seekiu.github.io/2013/bian-cheng-liang-san-shi.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2013/ru-xian-shu-ji-de-gu-shi.html" rel="bookmark"
+                           title="Permalink to 如先书记的故事">如先书记的故事</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-07-26T05:55:00+08:00">
+                Published: 周五 26 七月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info -->                <p>如先书记是20世纪70年代为数不多的还有真功夫的人，在县里也小有名气。如先书记的出名主要是因为两件事：</p>
+<p>一次是下乡的时候，一行3人，遇到一群抬花轿的人，当时的政策不允许再用花轿，如先作为书记，便上前与人说理，却不料对方仗着人多，反倒想欺负人，两人制住如先书记的双手，另一个欲给以当面一拳，却不料如先一发力，竟将手中两人一齐甩出，出拳之人亦即惊呆，不再造次。旁人劝道，「您是书记，不能打人啊！」，如先曰，「我不打你们，如果我真要打，怕你们也承不住。」</p>
+<p>另一次是与外乡人喝酒，席间外乡人道，早闻如先书记功夫了得，何不一起耍耍，如先欣然应允。遂有四外乡人，都是农民出身，自认力气不小，两前两后，如先直立居其中，不执任何器物。前后四人倾尽其力，不可移其分毫。众皆奇之。</p>
+<p>当然，对如先的子女来说，记得更清楚的是，如果不小心割伤，血流不止，如先只需在伤口周围稍微按摩穴位，流血顷刻可止。可惜，此技已失传矣。</p>
+<p><em>注：本文除人名外，故事大概属实。</em></p>
+                <a class="readmore" href="http://seekiu.github.io/2013/ru-xian-shu-ji-de-gu-shi.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+        <a href="http://seekiu.github.io/index4.html">&laquo;</a>
+    Page 5 / 6
+        <a href="http://seekiu.github.io/index6.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

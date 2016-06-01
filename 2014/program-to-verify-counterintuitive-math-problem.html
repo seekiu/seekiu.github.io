@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>一个反直觉数学题的程序验证</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2014/program-to-verify-counterintuitive-math-problem.html" rel="bookmark"
+           title="Permalink to 一个反直觉数学题的程序验证">一个反直觉数学题的程序验证</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-11-14T21:13:00+08:00">
+                Published: 周五 14 十一月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>很久之前看到的东西了，今天总算抽空把它写完了。</p>
+<p>最开始是在 Quora 上看到一个很有意思的<a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit">答案</a>，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。</p>
+<p>第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。</p>
+<div class="highlight"><pre><span></span>def game1():  
+    # flip twice, the possibility of HH or HT  
+    hh = 0; ht = 0  
+    for i in xrange(100000):  
+        pre = &#39;&#39;; cur = &#39;&#39;  # previous and current  
+        pre = random.choice([&#39;H&#39;,&#39;T&#39;])  
+        cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+        if pre+cur == &#39;HH&#39;:  
+            hh += 1  
+        if pre+cur == &#39;HT&#39;:  
+            ht += 1  
+    print hh, ht  
+    ## my result: 24943 24776
+</pre></div>
+
+
+<p>那么，游戏变一下。假如连续抛一个硬币，直到出现HH或HT（注意HT是有顺序的），问题是，两者需要抛的次数相同吗？基于前面的结论，似乎应该相同，然而，结果是，不同。同样地，代码说话：</p>
+<div class="highlight"><pre><span></span>def game2():  
+    # flip until HH or HT, in average which took more flips?  
+    hh = []; ht = []  
+    for _ in xrange(100000):  
+        pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if pre+cur == &#39;HH&#39;:  
+                hh += [i+1]  
+                break  
+    for _ in xrange(100000):  
+        pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if pre+cur == &#39;HT&#39;:  
+                ht += [i+1]  
+                break  
+    hh = np.array(hh); ht = np.array(ht)  
+    print np.mean(hh), np.mean(ht)  
+    ## my result: 6.00559 3.99
+</pre></div>
+
+
+<p>无视里面用了一小段很丑陋的实现吧。。。对结果是没影响的。</p>
+<p>接下来，如果连续抛，出现HH则A赢，出现HT则B赢，问，谁更可能赢？结果是，一样的可能：</p>
+<div class="highlight"><pre><span></span>def game3():  
+    # flip until HH or HT, if HH, A win, if HT, B win. Is the game fair?  
+    hh = 0; ht = 0  
+    for _ in xrange(100000):  
+        pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if pre+cur == &#39;HH&#39;:  
+                hh += 1  
+                break  
+            if pre+cur == &#39;HT&#39;:  
+                ht += 1  
+                break  
+    print hh, ht  
+    ## my result: 50028 49972
+</pre></div>
+
+
+<p>再然后，连续抛，如果出现HHT则A赢，如果出现THH则B赢。注意到HHT和THH是对称的，所以一个直观的猜测是两人赢面相同，但实际上，并非如此：</p>
+<div class="highlight"><pre><span></span>def game4():  
+    # flip until HHT and THH, if HHT, A win, if THH, B win. Is the game fair?  
+    hht = 0; thh = 0  
+    for _ in xrange(100000):  
+        ppr = &#39;&#39;; pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if ppr+pre+cur == &#39;HHT&#39;:  
+                hht += 1  
+                break  
+            if ppr+pre+cur == &#39;THH&#39;:  
+                thh += 1  
+                break  
+    print hht, thh  
+    ## my result: 25031 74969
+</pre></div>
+
+
+<p>最有意思的来了。上面的游戏里A发现B赢得更多一点，于是A选择了THH，B就换成了TTH，结果A还是输。A换成TTH，B就换成HTT，A又输。A换成HTT，B换成HHT，A还输。上面几局写成不等式更直观一点：thh &gt; hht, tth &gt; thh, htt &gt; tth, hht &gt; htt。WTF?!!!</p>
+<div class="highlight"><pre><span></span>def game5():  
+    print &quot;THH vs HHT&quot;  
+    thh = 0; hht = 0  
+    for _ in xrange(100000):  
+        ppr = &#39;&#39;; pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if ppr+pre+cur == &#39;THH&#39;:  
+                thh += 1  
+                break  
+            if ppr+pre+cur == &#39;HHT&#39;:  
+                hht += 1  
+                break  
+    print &#39;THH, HHT: &#39;, thh, hht
+
+    print &quot;\nTTH vs. THH&quot;  
+    tth = 0; thh = 0  
+    for _ in xrange(100000):  
+        ppr = &#39;&#39;; pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if ppr+pre+cur == &#39;TTH&#39;:  
+                tth += 1  
+                break  
+            if ppr+pre+cur == &#39;THH&#39;:  
+                thh += 1  
+                break  
+    print &#39;TTH, THH: &#39;, tth, thh
+
+    print &quot;\nHTT vs. TTH&quot;  
+    htt = 0; tth = 0  
+    for _ in xrange(100000):  
+        ppr = &#39;&#39;; pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if ppr+pre+cur == &#39;TTH&#39;:  
+                tth += 1  
+                break  
+            if ppr+pre+cur == &#39;HTT&#39;:  
+                htt += 1  
+                break  
+    print &#39;HTT, TTH: &#39;, htt, tth
+
+    print &quot;\nHHT vs. HTT&quot;  
+    hht = 0; htt = 0  
+    for _ in xrange(100000):  
+        ppr = &#39;&#39;; pre = &#39;&#39;; cur = &#39;&#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&#39;H&#39;,&#39;T&#39;])  
+            if ppr+pre+cur == &#39;HHT&#39;:  
+                hht += 1  
+                break  
+            if ppr+pre+cur == &#39;HTT&#39;:  
+                htt += 1  
+                break  
+    print &#39;HHT, HTT: &#39;, hht, htt  
+    ## Result:  
+    ## THH vs HHT  
+    ## THH, HHT:  75095 24905  
+    ##   
+    ## TTH vs. THH  
+    ## TTH, THH:  66986 33014  
+    ##   
+    ## HTT vs. TTH  
+    ## HTT, TTH:  74937 25063  
+    ##   
+    ## HHT vs. HTT  
+    ## HHT, HTT:  66880 33120
+</pre></div>
+
+
+<p>其实这个游戏叫 Penny&#8217;s Game，有兴趣的并且高中数学没丢的可以自己再手算一下上面的概率或者数学期望，再验证一下。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

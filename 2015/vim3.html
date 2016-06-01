@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Vim 系列（三） 进入 comfort zone</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2015/vim3.html" rel="bookmark"
+           title="Permalink to Vim 系列（三） 进入 comfort zone">Vim 系列（三） 进入 comfort zone</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-02-08T21:21:00+08:00">
+                Published: 周日 08 二月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->      <p>尝试从 Sublime 迁移到 Vim 有一些时间了，现在基本适应（算不上熟悉）它的基本操作方式，配置了一些用得上的插件，基本上可以说进入 comfort zone 了。这其中最主要的一点是，一方面适应了 vim 某些方面更便捷的一些操作，另一方面，也基本找到了 sublime 中一些很常用功能的替代品。</p>
+<p>首先是学会了安装插件，我采用的办法是 Pathogen。虽然网上现在现多的声音支持 Vundle，它也似乎相对更接近 sublime 中的 package control 的功能，但对我而言它有一个非常大的不便，就是必须信赖 GIT，而我至少目前为止，还没有想法去折腾它。另一方面，Pathogen 相对简单很多，新建一个 bundle 文件夹，然后把相应的插件从 Github 上下载下来丢到里面即可（感谢 Github 提供了从网页下载 zip 的选项），几乎是简便得不能再简便了。</p>
+<p>安装好 Pathogen 之后，我对插件还是保持尽可能精简，除非很有必要，尽量不多装插件。相比 sublime 的开箱即用，vim 也确实需要一些基础的插件来补充它的功能，看了一下，我现在装的插件基本也都是在模拟 sublime 的一些常用功能。其实稍作检索就会发现，像我一样从 sublime 跑到 vim 的人真不在少数，因此一些功能也没费多少时间就找到了。</p>
+<p>最怀念的一点是 Project 功能，按下 ctrl-p 之后就可以启用模糊搜索快速切换到常用的文件。Vim 中实现类似功能的插件也很多，我选择的是「ctrlp」，基本实现了类似的功能，加载速度也和原版接近。</p>
+<p>此外还有一点非常不能理解的是，vim 号称程序员的编辑器，居然没有自带一个快速切换注释的功能，也就是 sublime 中 ctrl-/ 的功能。虽然很容易就能找到插件实现它（commentary），但还是觉得很不能理解。。。</p>
+<p>意外发现一个很有意思的插件是「Easymotion」，似乎也是起源于 sublime 的，但此前并没有听说过。写普通文字的时候用处不大，写代码需要跳来跳去的时候应该很有用。</p>
+<p>还有一个极其怀念的功能，是 multiple-cursor 的功能，也是 sublime 最大的特色之一。现在装了个插件模拟这个功能，但跟原版相比，还是有一些差距。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>用 numexpr 库优化 numpy 计算速度</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2014/use-numexpr-to-accelerate.html" rel="bookmark"
+           title="Permalink to 用 numexpr 库优化 numpy 计算速度">用 numexpr 库优化 numpy 计算速度</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-05-22T21:00:00+08:00">
+                Published: 周四 22 五月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>NumPy 虽然通过底层高度优化过的计算库可以实现接近C的高效计算，但在计算复杂且计算量庞大的时候多少还是有些嫌慢。Numexpr 库是最近发现的一个非常简单易用的 Numpy性能提升工具，很大程度上从我的需求上解决了性能的问题。</p>
+<p>先看一个例子：</p>
+<pre><code class="python">import numpy as np
+import numexpr as ne
+nx, ny = 1200, 1500
+a = np.linspace(0.,3.1416,nx*ny).reshape(nx,ny)
+for i in range(100):
+    b = np.sin(a+i)**2 + np.cos(a+i)**2 + a**1.5
+</code></pre>
+
+<p>这个程序对一个较大的网格，进行一个较复杂的计算，在使用 Numpy的情况下，我的电脑大约需要运行35.5秒。</p>
+<p>如果对其中最后一行进行修改，改成 numexpr 的表达式：</p>
+<pre><code class="python">b = ne.evaluate("sin(a+i)**2 + cos(a+i)**2 + a**1.5")
+</code></pre>
+
+<p>这次的运行时间是3.2秒，10多倍的速度提升！</p>
+<p>按 numexpr 官网的说明，现在的 CPU 计算速度多少都有点过剩，很多程序计算速度的瓶颈不在于 CPU，而在于 memory，很多时候 CPU 都「饿着」在等 memory 喂数据。因此，numexpr 做的主要工作是对数据存储方面的优化，细节就不展开了，不能不懂装懂。</p>
+<p>更有趣的一点是，numexpr 可以实现自动的多线程计算，而且不需要复杂的配置。光这一点，就比 numba、cython 等方便许多。不过也许是与上面一段所说的对应，它并不会把计算机所有的可用核心都用上，妄自猜测这时是因为瓶颈在 memory 了吧。</p>
+<p>根据我个人计算的需求来说，numexpr有几个好处：</p>
+<ol>
+<li>对程序的修改简单，对支持的函数及表达式的提速效果明显；</li>
+<li>自动化的多线程；</li>
+<li>相比 numba 这种JIT式的优化，编译几乎没有占用时间；</li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

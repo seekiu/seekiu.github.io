@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>用Sublime Text写作和记笔记</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html" rel="bookmark"
+           title="Permalink to 用Sublime Text写作和记笔记">用Sublime Text写作和记笔记</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T05:59:00+08:00">
+                Published: 周一 26 八月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->      <p>上个学期的时候，发现了一个软件<a href="https://www.literatureandlatte.com/scrivener.php">Scrivener</a>，它本身号称是一个给作家使用的软件，当时觉得很适合，但可惜价格昂贵，而且对数学公式的支持很差（windows版），所以一直在寻找类似的替代品。找来找去，最后发现一直在使用的文本编辑器sublime text 2其实就已经可以很好地完成这个功能了。</p>
+<p><a href="http://www.sublimetext.com/">Sublime text</a>是过去一段时间相当火的一个面向程序员的文本编辑器，有多个颇有新意有实用功能。虽然它几十刀的价格对穷学生来说相当没有亲和力，比Scrivener还贵一点，但作者也很厚道地允许无限试用，只是在使用时以相当低的频率弹出窗口提示买证书（似乎是按保存的次数来算的），也算是个准免费软件吧。</p>
+<p>废话不多说，简单说一下我怎么用ST2实现接近Scrivener的功能的。</p>
+<ol>
+<li>准备工作：安装sublime text，建立存放文件的文件夹，如「research | journal | misc」；</li>
+<li>首先安装必要的插件，Sidebarenhancements，可以通过package control完成。</li>
+<li>新建一个Project。菜单栏Project&#8211;Add folder to project&#8230;，把上面这些文件夹依次添加进去，然后Project&#8211;Save project as&#8230;将其保存。如果没有清除记录的话，下次打开ST2后，只需要按下ctrl-alt-p，即可出现近期Project的面板，选择即可载入，如果清除了记录，重新Project&#8211;open project即可；</li>
+<li>默认情况下ST2并不显示边栏，按下ctrl-k后再按下ctrl-b即可出现。由于前面安装了sidebarenhancements，其右键菜单已经能完成相当部分的功能了。这里最需要的功能是在project中搜索全文的功能，只需要在边栏任一文件（夹）点右键，选择Find in Project&#8230;，即可全文搜索其下的所有文件；</li>
+</ol>
+<p>其中有了这几步，已经实现了我的需求：我只需要一个方便管理纯文本（边栏中方便地浏览）和能够全文搜索即可。但ST2提供了一些选项，能做得更好。</p>
+<p>首先是打开project之后，可以用ctrl-p来快速切换其中的文件，它采用的是所谓fuzzy search的算法，只要按顺序输入几个字母（可以跳着输），就可以快速定位到相应的文件，搜索速度完全不亚于everything。如果养成习惯文件名写成英文或中英混合，可以非常快速打开和切换文件。</p>
+<p>此外还可以对相当常用的全文搜索添加快捷键，依次点击Preferences&#8211;Package Settings&#8211;Side Bar&#8211;Key Bindings &#8211; User，在其中添加类似下面的一段：</p>
+<pre><code class="json">{ "keys": ["alt+f9"],
+        "command": "side_bar_find_in_project",
+        "args":{}
+}
+</code></pre>
+
+<p>然后就可以用快捷键来开启project内所有文件的全文搜索了。</p>
+<p>总结起来，用sublime text可以实现我在scrivener里用到的绝大部分功能，包括在边栏中用目录树的方式浏览笔记、所有笔记全文搜索、快速切换文件等。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

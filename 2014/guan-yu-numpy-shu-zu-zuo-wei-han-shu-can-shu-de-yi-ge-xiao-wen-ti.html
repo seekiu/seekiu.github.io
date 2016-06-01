@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>关于 Numpy 数组作为函数参数的一个小问题</title>
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.github.io/2014/guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html" rel="bookmark"
+           title="Permalink to 关于 Numpy 数组作为函数参数的一个小问题">关于 Numpy 数组作为函数参数的一个小问题</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-05-16T20:56:00+08:00">
+                Published: 周五 16 五月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <blockquote>
+<p>注：本文的所写的只是我自己想出来的一个办法，很可能不是最优或者最标准的做法，如果有高手看到，欢迎指正！ </p>
+</blockquote>
+<p>在计算过程中遇到这样的一个问题，需要对一个 nx*ny 的网格上每一个节点调用一次函数，然后返回一个 nx*ny 的数组。</p>
+<p>我之前就写过类似的程序，numpy 可以直接调用普通的计算程序，比如：</p>
+<pre class="lang:python decode:true " >def x_square(x):
+    return x*x
+a = np.arange(nx*ny).reshape(nx,ny)
+print x_square(a)</pre>
+
+<p>直接把 ndarray 对象作为参数传入函数，就可以得到一个正确的结果。</p>
+<p>于是，想当然地，也针对上面的需求，写了这样一个程序：</p>
+<pre class="lang:python decode:true " >ff = np.linspace(1.0,2.0,nx*ny).reshape(nx,ny)
+def test(x, y):
+    x=np.int_(x); y=np.int_(y) # to be used as index, x & y should be integer
+    return ff[x,y]
+print test(np.arange(nx), np.arange(ny))</pre>
+
+<p>运行上面的程序的时候，就出现了 &#8220;shape mismatch: objects cannot be broadcast to a single shape&#8221; 的错误，百思不得其解。在stackoverflow上提问，总算弄明白了这个问题。原来 ndarray 对象作为参数传入函数的时候，如果同时传入多个参数，这些数组可以被当成普通的数来计算，但前提是这些数组的维数都相同，或者是0维的数（也其实相当于任意维），如果维数不同是无法处理的。</p>
+<p>至于上面这个问题，我想到的一个有点丑陋的做法是用 fromfunction 函数，再新建一个中间函数：</p>
+<pre class="lang:python decode:true " >def tt(x0, x1, y0, y1):
+    dx = x1-x0; dy = y1-y0
+    return np.fromfunction(lambda a,b: test(a+x0,b+y0), (dx, dy))</pre>
+
+<p>这样，调用函数的格式有所不同，但毕竟目的是达到了。</p>
+<p>不知是否还有更简单直接的办法，现在的做法总觉得有些 dirty。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
