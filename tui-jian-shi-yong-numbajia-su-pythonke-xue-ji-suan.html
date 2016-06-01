@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>推荐使用Numba加速Python科学计算</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html" rel="bookmark"
+           title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-02T20:49:00+08:00">
+                Published: 周四 02 七月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
+<p>推荐的原因，首先得从 Python 科学计算说起。</p>
+<p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型，Python 不再需要动态地猜测变量的数据类型；二是提供了一系列高速的 ufunc，可以快速地对大规模的数组进行运算操作。</p>
+<p>Numpy 提供的 ndarray 以及 ufunc 在有些情况下是足够应付一些简单的计算逻辑的，比如 Palabos 官网提供的<a href="http://wiki.palabos.org/numerics:codes">圆柱绕流的代码</a>。按 Palabos 自己的说法，这个代码短得惊人，而且速度也非常快。</p>
+<p>但是，总会有一些情况是用简单的数组没法完成的。至少有两种典型的情况。其一是沿时间的迭代，后一步依赖前一步的结果。即使每一个时间步中的计算量都不大，但所有的时间步不能或者很难做成一个简单的数组计算。另一种情况是确实是基于数组的计算，但计算逻辑比较复杂，没法用简单的数组算式来完成，比如 LBM 中的碰撞迁移如果有非规则障碍物就很难用数组简单表达了。</p>
+<p>这种时候，最直接的解决办法是，回到写 C 的方法中来，写循环然后一个元素一个元素地算。Numba、Numexpr 属于直接在 Python 程序基础上作修改来实现加速的，Cython 以及直接写 Fortran 或 C 扩展都属于充分利用 Python 脱水语言特性的办法。按照<a href="http://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/">这篇13年的文章</a>的测试，它们的速度没有太大的区别。</p>
+<p>如果速度没有太大区别的话，对我们这种应用语言来计算，而不是专门研究高效计算的人来说，简便、可靠成了最重要的考量因素。而这，也正是我推荐 Numba 的最主要的原因。与 Cython 相比，Numba 在编写的时候与 Cython 是非常类似的，甚至比它还要简洁（不等于简单），因为不用声明变量类型。</p>
+<p>然而 Numba 有一些非常明显的优势。</p>
+<p>首先，Cython 有一些普通人不一定知道的优化技巧，比如关闭 <code>boundscheck</code> 等，Numba 中则不需要考虑这些问题。前面提到的那篇文章的结果来看，Cython 即使高度优化，在速度上也没有优势，甚至可能更慢。</p>
+<p>然后，Numba 在语言层面上还完全是 Python，而不是像 Cython 一样是一种杂交的语言。当然两者都基本是按照 C 的逻辑在写，比如大量出现的嵌套循环（这在纯 Python 脚本中是不可想象的）。</p>
+<p>如果说上一条还是一个洁癖的话，这一条则是 Numba 明显优势的地方：Numba 对源程序的修改很小，<strong>几乎</strong>是只需要加一个 <code>@jit</code> 修饰符就可以了。而 Cython 相对来说就麻烦不少，要额外编译，<code>pyx</code> 文件也有一些讲究，比如还需要 <code>cimport numpy</code> 之类。</p>
+<p>最后，Numba 可以以 GPU 或多核 CPU 为目标编译代码，实现方式同样十分简单。</p>
+<p>简而言之，Numba 提供的方案，不比别的速度慢，但实现起来要方便不少。既然如此，为何不用它呢？我反正已经全面从 Cython 迁移过来了。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

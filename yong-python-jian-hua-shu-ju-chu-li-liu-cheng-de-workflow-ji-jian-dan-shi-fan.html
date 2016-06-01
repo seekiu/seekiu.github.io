@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>用 Python 简化数据处理流程的 workflow 及简单示范</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./yong-python-jian-hua-shu-ju-chu-li-liu-cheng-de-workflow-ji-jian-dan-shi-fan.html" rel="bookmark"
+           title="Permalink to 用 Python 简化数据处理流程的 workflow 及简单示范">用 Python 简化数据处理流程的 workflow 及简单示范</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-07T21:12:00+08:00">
+                Published: 周四 07 八月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。</p>
+<p>如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。</p>
+<p>这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。</p>
+<p>举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件。按我原来的做法，就是分别打开每个文件夹，把所有的数据拷到一个大的 Excel 表中，进行了后处理之后，再复制到 Origin 中作图。这样的做法，会有几个潜在的问题。</p>
+<ol>
+<li>当结果中的列数很多时，最后的 Excel 总表的列数会更多得多，处理起来不方便；</li>
+<li>在 Excel 中处理数据虽然也算方便，但处理过程不直观；</li>
+<li>需要在多个软件中来回复制数据，如果数据发生变化，要重新走一遍所有流程。</li>
+</ol>
+<p>而如果用 Python 来做这些事，至少一致性会好很多，因为读取数据、处理数据以及作图三大功能它都能很简单地完成，尤其是当前两步已经完成的时候，作图其实就已经比用 Origin 更方便了。读取数据很简单，可以用专门读取 csv 格式的函数，也可以直接用 numpy 自带的 genfromtxt，一次性就可以从所有目录里把数据读成 numpy 数组。而处理数据和作图本来也就是 Python 的强项。</p>
+<p>按 Python 的这种 workflow，也许第一次做的时候花费的时间更长一些，但只要走通了第一步，后面任何一个环节发生修改，比如源数据修改了，或者数据处理稍作改变，或者作图的格式需要修改，这些都只需要在代码中作很小的改动，就可以很快地看到结果，而不再需要在几个软件中倒来倒去。</p>
+<p>通过编程的学习，慢慢带来的这些小改变，虽然每一次都只是提升一点点，但这种「把繁琐的事情写成自动程序让电脑完成」的思维，确实大有帮助。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

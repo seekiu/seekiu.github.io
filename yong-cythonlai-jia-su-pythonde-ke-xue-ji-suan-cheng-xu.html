@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>用Cython来加速Python的科学计算程序</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./yong-cythonlai-jia-su-pythonde-ke-xue-ji-suan-cheng-xu.html" rel="bookmark"
+           title="Permalink to 用Cython来加速Python的科学计算程序">用Cython来加速Python的科学计算程序</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-07-24T21:11:00+08:00">
+                Published: 周四 24 七月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>从网上照抄的一些 LBM 算例基本都是在规整的矩形区域内的计算，用简单的 Numpy 非常适合，但当需要计算一些稍微更复杂的计算域时，纯 Numpy 的计算逻辑就有点复杂了，这时最简单的办法还是循环计算节点，这时候就不得不请出 Cython 了。</p>
+<p>对我这种级别的人来说，Cython 基本上可以理解成用 Python 的语法来写 C，与 Python 的主要区别在于可以定义变量的类型，以及需要编译成 Python 库才能运行。这篇文章简单记录一下使用 Cython 的一些入门知识。</p>
+<p>使用 Cython，先需要建立一个 <code>pyx</code> 格式的源文件，以计算宏观密度的函数为例，建立 <code>rho.pyx</code> 文件，并写入如下的函数：</p>
+<div class="highlight"><pre><span></span>def calc_rho_notype(f):  
+    rho = np.empty_like(f[:,:,0])  
+    for i in xrange(f.shape[0]):  
+        for j in xrange(f.shape[1]):  
+            for k in xrange(f.shape[2]):  
+                rho[i,j] += f[i,j,k]  
+    return rho
+</pre></div>
+
+
+<p>由于使用到了 Numpy，需要在程序前面加上：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>  
+<span class="n">cimport</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</pre></div>
+
+
+<p>注意这里除了 <code>import</code> 外，还需要再 <code>cimport</code> 一次才行。</p>
+<p>编译这个源代码有多种办法，这里讲最基础的一种，在同目录下建立 <code>setup.py</code> 文件，文件内容为：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>  
+<span class="kn">from</span> <span class="nn">distutils.extension</span> <span class="kn">import</span> <span class="n">Extension</span>  
+<span class="kn">from</span> <span class="nn">Cython.Distutils</span> <span class="kn">import</span> <span class="n">build_ext</span>  
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">ext_module</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span>  
+    <span class="s2">&quot;rho&quot;</span><span class="p">,</span>  
+    <span class="p">[</span><span class="s2">&quot;rho.pyx&quot;</span><span class="p">],</span>  
+    <span class="n">include_dirs</span><span class="o">=</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="kp">get_include</span><span class="p">()],</span>  
+<span class="p">)</span>
+
+<span class="n">setup</span><span class="p">(</span>  
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Cython Test&#39;</span><span class="p">,</span>  
+    <span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;build_ext&#39;</span><span class="p">:</span> <span class="n">build_ext</span><span class="p">},</span>  
+    <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">ext_module</span><span class="p">],</span>  
+<span class="p">)</span>
+</pre></div>
+
+
+<p>注意这里跟 Numpy 的地方有两处，一处是开头的导入，另一处是告诉编译器需要包括相关的 h 文件。</p>
+<p>有了 setup.py 之后，在 cmd 中执行：<code>python setup.py build_ext --inplace</code>，编译不出错的话就会生成 <code>rho.pyd</code> 文件，这个就可以在主函数中导入了。</p>
+<p>但是，这样直接使用 Python 代码生成的效率仍然很低，因为里面的变量仍是 Python 对象，作为对比，可以再写一个 Cython 函数：</p>
+<div class="highlight"><pre><span></span>def calc_rho_type(np.ndarray[double,ndim=3] f):  
+    cdef np.ndarray[double,ndim=2] rho = np.empty_like(f[:,:,0])  
+    cdef int i,j,k  
+    for i in xrange(f.shape[0]):  
+        for j in xrange(f.shape[1]):  
+            for k in xrange(f.shape[2]):  
+                rho[i,j] += f[i,j,k]  
+    return rho
+</pre></div>
+
+
+<p>对比的结果在后文。</p>
+<p>还有一个重要的措施可以提高运行速率，即让它并行化！Cython 的并行库用的是 Openmp，使用也非常简单，Cython 函数如下：</p>
+<div class="highlight"><pre><span></span>def calc_rho_openmp(np.ndarray[double,ndim=3] f):  
+    cdef np.ndarray[double,ndim=2] rho = np.empty_like(f[:,:,0])  
+    cdef int i,j,k  
+    with nogil:  
+        for i in prange(f.shape[0]):  
+            for j in xrange(f.shape[1]):  
+                for k in xrange(f.shape[2]):  
+                    rho[i,j] += f[i,j,k]  
+    return rho
+</pre></div>
+
+
+<p>注意其中为了并行需要释放 GIL，并在外层循环中把 <code>xrange</code> 写成了 <code>prange</code>。这样标记表明这个循环的结果与执行顺序无关，可以并行，为了使用它，需要在开关添加：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cython.parallel</span> <span class="kn">import</span> <span class="n">prange</span>
+</pre></div>
+
+
+<p>并且 setup.py 也要稍作修改，在 <code>ext_module</code> 中增加两个参数：</p>
+<div class="highlight"><pre><span></span>extra_compile_args=[&#39;-fopenmp&#39;],  
+extra_link_args=[&#39;-fopenmp&#39;]
+</pre></div>
+
+
+<p>其它流程都是一样的。</p>
+<p>下面用 iPython 自带的 timeit 工具看看各种方法的效率：</p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numexpr</span> <span class="kn">as</span> <span class="nn">ne</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">rho</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">np</span><span class="o">.</span><span class="kp">sum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  
+<span class="mi">10</span> <span class="n">loops</span><span class="p">,</span> <span class="n">best</span> <span class="n">of</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">31.3</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sum(f,axis=2)&quot;</span><span class="p">)</span>  
+<span class="mi">10</span> <span class="n">loops</span><span class="p">,</span> <span class="n">best</span> <span class="n">of</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">122</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">rho</span><span class="o">.</span><span class="n">calc_rho_notype</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  
+<span class="mi">1</span> <span class="n">loops</span><span class="p">,</span> <span class="n">best</span> <span class="n">of</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">6.52</span> <span class="n">s</span> <span class="n">per</span> <span class="n">loop</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">rho</span><span class="o">.</span><span class="n">calc_rho_type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  
+<span class="mi">10</span> <span class="n">loops</span><span class="p">,</span> <span class="n">best</span> <span class="n">of</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">70.3</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">rho</span><span class="o">.</span><span class="n">calc_rho_openmp</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  
+<span class="mi">10</span> <span class="n">loops</span><span class="p">,</span> <span class="n">best</span> <span class="n">of</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">35</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span>
+</pre></div>
+
+
+<p>这里为了比较，还用了之前提到过的 Numexpr 包。可以看到，在不声明类型的情况下，这种嵌套循环的程序效率还是非常低，而添加类型就让执行速度提升了接近100倍，使用 Openmp 之后，CPU 迅速升到 90% 以上，但带来的速度提升是50%（4核心）。值得注意的是，在这个简单的例子中， Numexpr 包以及 Cython 并行的函数两者的计算速度都输给了 Numpy 原生的数组求和函数，一方面这说明 Numpy 原生函数确实是经过了高度优化，平时还是应当尽可能使用它们，但另一方面，由于这是逻辑非常简单的计算，而在更复杂的计算中，例如在将 f 求和之前，先作 <code>f**1.5</code> 的操作，结果就不同了：</p>
+<div class="highlight"><pre><span></span>In [5]: %timeit np.sum(f**1.5,axis=2)  
+1 loops, best of 3: 891 ms per loop
+
+In [6]: %timeit ne.evaluate(&quot;sum(f,axis=2)&quot;)  
+10 loops, best of 3: 117 ms per loop
+
+In [7]: %timeit rho.calc_rho_notype(f)  
+1 loops, best of 3: 8.19 s per loop
+
+In [8]: %timeit rho.calc_rho_type(f)  
+1 loops, best of 3: 1.45 s per loop
+
+In [9]: %timeit rho.calc_rho_openmp(f)  
+1 loops, best of 3: 382 ms per loop
+</pre></div>
+
+
+<p>可以看出，这时候，Numexpr 以及 并行 Cython 都开始出现了明显的优势。考虑到 Numexpr 极其简单的使用方法，还是推荐在绝大多数逻辑不复杂的时候，尽量使用它。</p>
+<p>最后值得一提的是，在我稍复杂的 LBM 程序中，核心计算函数都采用并行 Cython 比 Numexpr 快 30% 左右。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

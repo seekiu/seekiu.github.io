@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Python中指针式传递的函数遇到的问题</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./pythonzhong-zhi-zhen-shi-chuan-di-de-han-shu-yu-dao-de-wen-ti.html" rel="bookmark"
+           title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-11-18T19:25:00+08:00">
+                Published: 周三 18 十一月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
+<p>首先从下面一段非常简单的程序开始：</p>
+<div class="highlight"><pre><span></span>def main():
+    x = [1, 2, 3, 4, 5]
+    foo(x)
+    print(x)
+
+def foo(x):
+    bar(x)
+    # x = bar2(x)
+    for i in range(len(x)):
+        x[i] = x[i]**2
+
+def bar(x):
+    for i in range(len(x)):
+        x[i] = x[i] - 1
+
+# def bar2(x):
+#     xx = x.copy()
+#     for i in range(len(x)):
+#         xx[i] = x[i] - 1
+#     return xx
+
+
+if __name__ == &#39;__main__&#39;:
+    main()
+</pre></div>
+
+
+<p>暂时忽略被注释掉的部分，这段程序实现的功能非常简单，main 中产生一个数组，调用 foo 函数，foo 函数又调用 bar 函数，后者使数组中的每一个元素减一，然后返回 foo 函数中，数组的每个元素再次求平方。</p>
+<p>上面两个函数中都没有返回值，因为它接受的是数组，类似于 C 语言中的指针传递，直接操作的是原数组。类似的逻辑应该对很多编程语言都是类似的。</p>
+<p>然而，如果要考虑通过多进程来将它并行化（比如用 foo 函数来处理非常大的数组），就需要再多一点考虑了。首先因为 Python 中 GIL 的限制，虽然也可以多线程，但速度甚至不如单线程的版本，要有效地实现纯 Python 的并行，（也许是）最佳也是最简单的方案是用多进程。但多进程中各个进程不能共享内存，也就无法像上面那样用指针传递的方式来建立操作数组的方式。</p>
+<p>这种情况下，就需要把函数相应地改成显式地返回新数组的形式，也就是上面的 bar2 函数。然而，改写之后，试运行就可以发现，计算的结果不同了。比如<code>x = [1, 2, 3, 4, 5]</code>的输入，得到的结果应该是<code>[0, 1, 4, 9, 16]</code>，但实际并非如此。更奇怪的是，监测 foo 函数，发现在函数内部的结果是正确的。这说明是 foo 函数没有正确地操作原输入数组。</p>
+<p>想到这里，问题解决了一半。真正的原因是于<code>x = bar2(x)</code>这一行，等号左侧虽然同样用了 x 的变量名，但由于返回了一个新的数组，也就是说开辟了一块新的内存，使得函数后面操作的跟传入的并不是同一个数组，所以返回值看起来就像没变一样。</p>
+<p>找到原因，解决的方法也就简单了，两个办法：</p>
+<ol>
+<li>把所有的指针传递函数都改回显式返回数组的形式。</li>
+<li>把<code>x = bar2(x)</code>改为<code>x[:] = bar2(x)</code>，这样操作的就仍然是原来的数组了。</li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

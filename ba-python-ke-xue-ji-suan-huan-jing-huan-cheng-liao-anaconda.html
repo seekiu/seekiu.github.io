@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>把 python 科学计算环境换成了 Anaconda</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./ba-python-ke-xue-ji-suan-huan-jing-huan-cheng-liao-anaconda.html" rel="bookmark"
+           title="Permalink to 把 python 科学计算环境换成了 Anaconda">把 python 科学计算环境换成了 Anaconda</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-07-08T21:07:00+08:00">
+                Published: 周二 08 七月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>此前尝试过 python(x,y)，但最终还是换回了纯 python 的环境，一方面是因为它太大，另一方面它实在包含了太多不可控的东西，包括潜在的污染系统 python 的危险等。偶然看到 Anaconda 的介绍，似乎是一种较为「绿色」的方案，而且带的科学计算包也比较全，试着装了一下，确实不错。Anaconda 的一个主要优势在于，它集成了绝大部分常用的计算包，并全部放在自己的文件夹中，与系统内已安装的 Python 相对独立，因此安装下来非常干净。如果其它人也想运行在这个环境下写出来的代码，只需要安装 Anaconda 环境即可，而不再需要一个一个把需要的包都下载下来，这一点，在与其它人交流代码时就太方便了。</p>
+<p>从原来配置的环境换到 Anaconda 也非常简单，大概会有这么几个问题：</p>
+<ol>
+<li>
+<p>删除重复的包，如 numpy / scipy / matplotlib 等，用 <code>pip uninstall</code> 即可。这一点，看个人需要，我是不太喜欢保留重复的东西。</p>
+</li>
+<li>
+<p>安装过程中会提示是否把 Anaconda 自带的 python 注册成系统的 python，相当于屏蔽掉系统原来安装的版本。我选择了否，因此需要额外设置一下，在其根目录下建立一个 anapy.exe 的符号链接，指向它自带的 python.exe，这样，需要用系统版本的时候，用的是 python 命令，而要用 Anaconda 版本的时候，用 anapy 命令就可以了。</p>
+</li>
+<li>
+<p>同样的，如果要把一个 Anaconda 没有自带的一个包安装到它里面，比如我常用的 evtk 包，只需要 <code>anapy setup.py install</code> 即可。</p>
+</li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

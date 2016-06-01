@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Charles Chen's blog</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Tue, 22 Dec 2015 09:58:00 +0800</lastBuildDate><item><title>High-level GPU-accelerated Program in Python</title><link>http://seekiu.com/high-level-gpu-accelerated-program-in-python.html</link><description>&lt;p&gt;After some basic digging, sadly I found that currently (2015.12) there&amp;#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable, easily crashes when fed with large data. And the acceleration is still far from my expectations.&lt;/p&gt;
+&lt;p&gt;According to &lt;a href="http://stackoverflow.com/questions/30833917/how-to-properly-use-anaconda-accelerate-for-gpu"&gt;this article from stackoverflow&lt;/a&gt; (2015.6), the &lt;a href="https://github.com/lebedov/scikit-cuda"&gt;scikit-cuda&lt;/a&gt; package can provide some frequently used functions such as matrix multiplication. Although there are some restrictions: (1) Python27 only; (2) No customization ability (???).&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;numba.cuda&lt;/code&gt; is a relatively low-level package. It sounds interesting, but I just don&amp;#8217;t have that time to dig deep into that. The ideal solution is that the guy at Continuum can keep improving the &lt;code&gt;guvectorize&lt;/code&gt; in the NumbaPro, and make it really usable.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 22 Dec 2015 09:58:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-12-22:high-level-gpu-accelerated-program-in-python.html</guid><category>编程</category></item><item><title>Python中指针式传递的函数遇到的问题</title><link>http://seekiu.com/pythonzhong-zhi-zhen-shi-chuan-di-de-han-shu-yu-dao-de-wen-ti.html</link><description>&lt;p&gt;最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。&lt;/p&gt;
+&lt;p&gt;首先从下面一段非常简单的程序开始：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def main():
+    x = [1, 2, 3, 4, 5]
+    foo(x)
+    print(x)
+
+def foo(x):
+    bar(x)
+    # x = bar2(x)
+    for i in range(len(x)):
+        x[i] = x[i]**2
+
+def bar(x):
+    for i in range(len(x)):
+        x[i] = x[i] - 1
+
+# def bar2(x):
+#     xx = x.copy()
+#     for i in range(len(x)):
+#         xx[i] = x[i] - 1
+#     return xx
+
+
+if __name__ == &amp;#39;__main__&amp;#39;:
+    main()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;暂时忽略被注释掉的部分，这段程序实现的功能非常简单，main 中产生一个数组，调用 foo 函数，foo 函数又调用 bar 函数，后者使数组中的每一个元素减一，然后返回 foo 函数中，数组的每个元素再次求平方。&lt;/p&gt;
+&lt;p&gt;上面两个函数中都没有返回值，因为它接受的是数组，类似于 C 语言中的指针传递，直接操作的是原数组。类似的逻辑应该对很多编程语言都是类似的。&lt;/p&gt;
+&lt;p&gt;然而，如果要考虑通过多进程来将它并行化（比如用 foo 函数来处理非常大的数组），就需要再多一点考虑了。首先因为 Python 中 GIL 的限制，虽然也可以多线程，但速度甚至不如单线程的版本，要有效地实现纯 Python 的并行，（也许是）最佳也是最简单的方案是用多进程。但多进程中各个进程不能共享内存，也就无法像上面那样用指针传递的方式来建立操作数组的方式。&lt;/p&gt;
+&lt;p&gt;这种情况下，就需要把函数相应地改成显式地返回新数组的形式，也就是上面的 bar2 函数。然而，改写之后，试运行就可以发现，计算的结果不同了。比如&lt;code&gt;x = [1, 2, 3, 4, 5]&lt;/code&gt;的输入，得到的结果应该是&lt;code&gt;[0, 1, 4, 9, 16]&lt;/code&gt;，但实际并非如此。更奇怪的是，监测 foo 函数，发现在函数内部的结果是正确的。这说明是 foo 函数没有正确地操作原输入数组。&lt;/p&gt;
+&lt;p&gt;想到这里，问题解决了一半。真正的原因是于&lt;code&gt;x = bar2(x)&lt;/code&gt;这一行，等号左侧虽然同样用了 x 的变量名，但由于返回了一个新的数组，也就是说开辟了一块新的内存，使得函数后面操作的跟传入的并不是同一个数组，所以返回值看起来就像没变一样。&lt;/p&gt;
+&lt;p&gt;找到原因，解决的方法也就简单了，两个办法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把所有的指针传递函数都改回显式返回数组的形式。&lt;/li&gt;
+&lt;li&gt;把&lt;code&gt;x = bar2(x)&lt;/code&gt;改为&lt;code&gt;x[:] = bar2(x)&lt;/code&gt;，这样操作的就仍然是原来的数组了。&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Wed, 18 Nov 2015 19:25:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-11-18:pythonzhong-zhi-zhen-shi-chuan-di-de-han-shu-yu-dao-de-wen-ti.html</guid><category>编程</category></item><item><title>用LaTeX写文章的一种懒人写法</title><link>http://seekiu.com/yong-latexxie-wen-zhang-de-yi-chong-lan-ren-xie-fa.html</link><description>&lt;p&gt;自从两年前用 LaTeX 写了第一篇论文，后续的几篇都回到了用 Word。主要原因在于学会用 LaTeX 之后，用 Word 的习惯也好了很多，再加上后者还有所见即所得的优势。不过回顾一些以前写的小笔记，发现如果做某个小专题的笔记，页数在十几页范围以内时，其实用 LaTeX 也是不错的选择，尤其是当出现大量公式的时候。正好最近要写一个简单的报告，就尝试着用 LaTeX 来写。由于已经比较长时间没有使用了，不少命令已经记得不熟了，另外也习惯了 markdown 那种接近所见即所得的方便，所以感觉纯 LaTeX 已经显得挺繁琐了。&lt;/p&gt;
+&lt;p&gt;基于这样的背景，大概考虑了有几种方案。&lt;/p&gt;
+&lt;p&gt;直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制。这样的特性也就决定了，它只适合写一些只给自己看的小笔记，稍正式的文档就不太好了。&lt;/p&gt;
+&lt;p&gt;另一个选项是直接用 markdown，然后用 &lt;a href="http://pandoc.org/"&gt;pandoc&lt;/a&gt; 来输出格式。这个办法最不方便的地方在于 pandoc 要输出满意的 PDF 格式还是比较折腾，尤其是带中文的时候，尽管它有这个能力，所以暂时排除。&lt;/p&gt;
+&lt;p&gt;最终采用的折衷方案是，建一个 &lt;code&gt;tex&lt;/code&gt; 文件，把 &lt;code&gt;documentclass&lt;/code&gt; 之类的头尾写好，然后在 document 环境中就留一句话：&lt;code&gt;\input{body_file_name}&lt;/code&gt;。另外建一个 markdown 文件写主体，写完之后用 pandoc 输出非 stand-alone 的 tex 文件，最后用 &lt;code&gt;xelatex&lt;/code&gt; 编译主文件输出 PDF。&lt;/p&gt;
+&lt;p&gt;这种方法看起来很绕，实践起来却比较简单。用 markdown 写，大大简化了写 itemize 一类的环境的过程。如果写个简单的批处理，再加上 sumatrapdf，基本上也就算所见即所得了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 08 Oct 2015 10:12:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-10-08:yong-latexxie-wen-zhang-de-yi-chong-lan-ren-xie-fa.html</guid><category>工具</category></item><item><title>新手向教程：用 Photoshop 将照片处理成扫描的效果</title><link>http://seekiu.com/xin-shou-xiang-jiao-cheng-yong-photoshop-jiang-zhao-pian-chu-li-cheng-sao-miao-de-xiao-guo.html</link><description>&lt;p&gt;最近接到一个简单但十分繁琐的任务，要将几百张用手机、微单拍下来的文档照片，处理成方便打印的效果，也就是类似扫描的效果。本文记录了我用 Photoshop 处理用到的几个小技巧，虽然都是比较初级的办法，但希望能给有需要的人提供借鉴。&lt;/p&gt;
+&lt;h1&gt;达到扫描效果&lt;/h1&gt;
+&lt;p&gt;相机拍出来的照片与扫描仪扫出来的图片，最显著的区别是照片中，白纸上由于光线的原因，会出现亮度的差异，而扫描仪则会直接把这些部分「还原」成纸原来的纯白色，直接抹掉灰度较低的部分。&lt;/p&gt;
+&lt;p&gt;要做到这一步，其实比较简单，可参考&lt;a href="http://blog.csdn.net/pleasecallmewhy/article/details/8776998"&gt;这篇文章&lt;/a&gt;的做法，大致有以下几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;导入所拍的照片，复制背景图层。&lt;/li&gt;
+&lt;li&gt;对背景副本图层使用滤镜-模糊-高斯模糊，半径为100像素。&lt;/li&gt;
+&lt;li&gt;将背景副本图层的混合模式改为「划分」（图层）。&lt;/li&gt;
+&lt;li&gt;添加曲线调整层（调整-曲线），把曲线中部拉低一些，使得文字更清楚。&lt;/li&gt;
+&lt;li&gt;合并可见图层。&lt;/li&gt;
+&lt;li&gt;用柔画笔擦掉多余的噪点和边缘的背景等。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至此，在绝大多数情况下，都可以达到基本与扫描的效果一致，少数情况下也会出现效果不佳，这时用类似的方法做一些微调即可。&lt;/p&gt;
+&lt;h1&gt;局部加黑&lt;/h1&gt;
+&lt;p&gt;有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用套索工具选中需要局部加黑的区域。&lt;/li&gt;
+&lt;li&gt;按Shift-F6羽化选区，半径取为15（参考值）。&lt;/li&gt;
+&lt;li&gt;按Ctrl-M打开曲线工具，调整明暗。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于羽化了选区的边缘，加黑的效果会形成平滑的过渡。&lt;/p&gt;
+&lt;h1&gt;批处理&lt;/h1&gt;
+&lt;p&gt;当有几百张甚至几千张照片需要处理的时候，一张一张按上面的办法处理是不现实的，最好的办法还是把这些操作存成一个动作。&lt;/p&gt;
+&lt;p&gt;类似扫描效果这样的，就可以用批处理无脑地先全部过一遍，而局部加黑这种需要根据不同情况选择区域的，也可以把大部分步骤保存成动作，这样在选好区域之后，点一下就完成了处理，大大节省了时间。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 29 Aug 2015 10:06:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-08-29:xin-shou-xiang-jiao-cheng-yong-photoshop-jiang-zhao-pian-chu-li-cheng-sao-miao-de-xiao-guo.html</guid><category>工具</category></item><item><title>初试 Julia 语言</title><link>http://seekiu.com/chu-shi-julia-yu-yan.html</link><description>&lt;p&gt;上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的&lt;strong&gt;通用&lt;/strong&gt;编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）&lt;/p&gt;
+&lt;p&gt;之所以这样说，有三个方面的理由：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;作为一个&lt;strong&gt;动态语言&lt;/strong&gt;，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba 版本相差三个数量级，占用的内存也异常地大。后来发现，最主要的原因是三层嵌套循环中，循环长度我按 Python 的习惯定义为变量，而在 Julia 中不变的全局量最好声明为常量。仅仅这个修改，让速度提升了两个数量级，但还不及 numba 的速度。进一步的测试还可以通过一些细小的地方来进一步提升速度，如&lt;a href="http://www.palladiumconsulting.com/2014/09/little-performance-explorations-julia/"&gt;这篇文章&lt;/a&gt;做的那样，最终高度优化之后速度也许可以达到接近 Fortran。但是，如果要这样做，为什么不干脆用 Fortran 呢？相比之下，numba 的可用性就要高太多了。不过毕竟它现在的稳定版本还是0.3.10，还需要再给它一点时间发展成熟。&lt;/p&gt; &lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;作为一个新兴、小众的语言，相关的工具链还太弱了。没有合格的 IDE，&lt;a href="http://junolab.org/"&gt;Juno&lt;/a&gt; 在我看来现在连半成品都还算不上。包管理似乎是用的 Git，有时会出一些奇怪的问题，这时候用 &lt;code&gt;Pkg&lt;/code&gt; 倒还不如手动去管理。调试程序也比较痛苦，一方面是很多错误信息跟没给差不多，像我这种不熟悉的人基本只能用 &lt;code&gt;print&lt;/code&gt; 一半一半地查，另一方面是相关的调试工具也还不够好用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文档、相关信息还太少。已经有不少人开始使用 Julia，但网上公开的信息中，官方的文档还比较简陋，其他用户贴出的博客也很少。这导致在遇到问题的时候，很难快速地难过 Google 直接得到问题的答案，而往往需要在社区中等待圈内人士的解答。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;另外一个对 Julia 印象不太好的是，官网给出的 benchmark 没有多少参考价值，至少其结果中 Python 和 Matlab 都很有问题，多半是单纯地逐行翻译出来的程序。这就跟我把 numba 的程序直接翻译成 Julia，然后得出结论它很慢一样，是不公平的比较。&lt;/p&gt;
+&lt;p&gt;不管怎么样，Julia 目前看来还是值得持续关注的，但是目前，我还不会考虑把它作为主要的计算语言。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Mon, 10 Aug 2015 12:55:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-08-10:chu-shi-julia-yu-yan.html</guid><category>编程</category></item><item><title>推荐使用Numba加速Python科学计算</title><link>http://seekiu.com/tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html</link><description>&lt;p&gt;因为正在用 Python 写 &lt;a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method"&gt;lattice Boltzmann&lt;/a&gt; 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（&lt;a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6"&gt;1&lt;/a&gt;、&lt;a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6"&gt;2&lt;/a&gt;）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。&lt;/p&gt;
+&lt;p&gt;推荐的原因，首先得从 Python 科学计算说起。&lt;/p&gt;
+&lt;p&gt;Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型，Python 不再需要动态地猜测变量的数据类型；二是提供了一系列高速的 ufunc，可以快速地对大规模的数组进行运算操作。&lt;/p&gt;
+&lt;p&gt;Numpy 提供的 ndarray 以及 ufunc 在有些情况下是足够应付一些简单的计算逻辑的，比如 Palabos 官网提供的&lt;a href="http://wiki.palabos.org/numerics:codes"&gt;圆柱绕流的代码&lt;/a&gt;。按 Palabos 自己的说法，这个代码短得惊人，而且速度也非常快。&lt;/p&gt;
+&lt;p&gt;但是，总会有一些情况是用简单的数组没法完成的。至少有两种典型的情况。其一是沿时间的迭代，后一步依赖前一步的结果。即使每一个时间步中的计算量都不大，但所有的时间步不能或者很难做成一个简单的数组计算。另一种情况是确实是基于数组的计算，但计算逻辑比较复杂，没法用简单的数组算式来完成，比如 LBM 中的碰撞迁移如果有非规则障碍物就很难用数组简单表达了。&lt;/p&gt;
+&lt;p&gt;这种时候，最直接的解决办法是，回到写 C 的方法中来，写循环然后一个元素一个元素地算。Numba、Numexpr 属于直接在 Python 程序基础上作修改来实现加速的，Cython 以及直接写 Fortran 或 C 扩展都属于充分利用 Python 脱水语言特性的办法。按照&lt;a href="http://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/"&gt;这篇13年的文章&lt;/a&gt;的测试，它们的速度没有太大的区别。&lt;/p&gt;
+&lt;p&gt;如果速度没有太大区别的话，对我们这种应用语言来计算，而不是专门研究高效计算的人来说，简便、可靠成了最重要的考量因素。而这，也正是我推荐 Numba 的最主要的原因。与 Cython 相比，Numba 在编写的时候与 Cython 是非常类似的，甚至比它还要简洁（不等于简单），因为不用声明变量类型。&lt;/p&gt;
+&lt;p&gt;然而 Numba 有一些非常明显的优势。&lt;/p&gt;
+&lt;p&gt;首先，Cython 有一些普通人不一定知道的优化技巧，比如关闭 &lt;code&gt;boundscheck&lt;/code&gt; 等，Numba 中则不需要考虑这些问题。前面提到的那篇文章的结果来看，Cython 即使高度优化，在速度上也没有优势，甚至可能更慢。&lt;/p&gt;
+&lt;p&gt;然后，Numba 在语言层面上还完全是 Python，而不是像 Cython 一样是一种杂交的语言。当然两者都基本是按照 C 的逻辑在写，比如大量出现的嵌套循环（这在纯 Python 脚本中是不可想象的）。&lt;/p&gt;
+&lt;p&gt;如果说上一条还是一个洁癖的话，这一条则是 Numba 明显优势的地方：Numba 对源程序的修改很小，&lt;strong&gt;几乎&lt;/strong&gt;是只需要加一个 &lt;code&gt;@jit&lt;/code&gt; 修饰符就可以了。而 Cython 相对来说就麻烦不少，要额外编译，&lt;code&gt;pyx&lt;/code&gt; 文件也有一些讲究，比如还需要 &lt;code&gt;cimport numpy&lt;/code&gt; 之类。&lt;/p&gt;
+&lt;p&gt;最后，Numba 可以以 GPU 或多核 CPU 为目标编译代码，实现方式同样十分简单。&lt;/p&gt;
+&lt;p&gt;简而言之，Numba 提供的方案，不比别的速度慢，但实现起来要方便不少。既然如此，为何不用它呢？我反正已经全面从 Cython 迁移过来了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 02 Jul 2015 20:49:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-07-02:tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html</guid><category>编程</category></item><item><title>如何在Windows下给Vim安装YouCompleteMe</title><link>http://seekiu.com/ru-he-zai-windowsxia-gei-viman-zhuang-youcompleteme.html</link><description>&lt;p&gt;更合理的一个标题是「A (far from perfect) guide for installing YouCompleteMe under Windows」，因为虽然我已经成功地安装好了YCM，但确实全程都非常不优雅。此处「优雅」的定义为有良好的可重现能力，换一台机器同样可以比较轻松地重新安装一遍。不管怎样，不优雅的过程还是值得记录一下的。&lt;/p&gt;
+&lt;p&gt;由于YCM官方没有提供Windows下的安装指南，我主要参考的是&lt;a href="https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/"&gt;Haroogan的方案&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;安装YCM有几个基本的要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;包含Python支持的Vim版本。&lt;/li&gt;
+&lt;li&gt;LLVM/Clang，具体地说其实是&lt;code&gt;libclang.dll&lt;/code&gt;这一个文件。&lt;/li&gt;
+&lt;li&gt;Haroogan预编译好的YCM库，主要是指&lt;code&gt;ycm_core.pyd&lt;/code&gt;这个文件。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;检查Vim的Python支持的办法是在cmd中运行&lt;code&gt;python --version&lt;/code&gt;看看出来的Python前面是否有加号，或者在Vim中执行&lt;code&gt;:echo has('python')&lt;/code&gt;。不过相信会看这篇文章的多半是从官网下的gvim74，很不幸地这个版本并不支持Python。&lt;/p&gt;
+&lt;p&gt;不过Haroogan同学很贴心地给出了全套解决方案，上面的三个基本要求他都提供了预编译好的版本：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;带Python和其它一大票语言支持的&lt;a href="https://bitbucket.org/Haroogan/vim-for-windows"&gt;Vim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bitbucket.org/Haroogan/llvm-for-windows"&gt;LLVM for Windows&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows"&gt;YCM&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;需要提醒的是，不知道什么原因，上面的&lt;bitbucket.org&gt;网站中正文里的链接都挂了，不过还好下载链接可以在左侧的Downloads里找到。&lt;/p&gt;
+&lt;p&gt;下载好上面三个包之后，首先把Vim解压到程序文件夹，设置好Vim的其它东西。如果用的是Vundle管理插件，基本上复制原来的vimrc然后Update一下就好了。&lt;/p&gt;
+&lt;p&gt;然后直接把&lt;code&gt;libclang.dll&lt;/code&gt;复制到任意PATH中的目录下（比如就在Vim文件夹中）。再在bundle文件夹下新建「YouCompleteMe」的目录，把上面第三个压缩包解压到其中。如果用Pathogen应该就可以直接用了，如果用Vundle的话，需要在vimrc中告诉Vim有这个包。&lt;/p&gt;
+&lt;p&gt;幸运的话，到这里YCM就可以使用了，随便打开一个C的文件，输入一点就可以看到自动提示了。&lt;/p&gt;
+&lt;p&gt;然而，对我来说，折腾显然没有结束。完成上面的安装之后，我用Vim打开任何文件都提示YCM server shutdown，而且没有任何其它有益的提示信息。经过很多的排除，最终确认是Python版本的问题。在我的电脑中安装了两个版本，一个是Anaconda套装（3.4），另一个是官网的几乎没有任何第三方库的2.7版，而且我的PATH中前者的目录是在前面的，所以系统运行&lt;code&gt;python.exe&lt;/code&gt;时找到的是3.4版。然而前面的&lt;code&gt;ycm_core.pyd&lt;/code&gt;是基于2.7版编译的，当然不能在3.4中正常使用。因此在我的情况中，只要把PATH中的2.7版移到前面，问题就部分解决了。&lt;/p&gt;
+&lt;p&gt;另外一个遇到的小问题是，需要在vimrc中显式指定一个文件的位置，才能正确地处理C语言族的文件，只需要加入如下的一行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;let g:ycm_global_ycm_extra_conf = &amp;#39;~/vimfiles/bundle/YouCompleteMe/third_party/ycmd/ycmd/tests/testdata/.ycm_extra_conf.py&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;另外，其实开始YCM之后，Vim的启动速度还是有一点明显的变慢的，建议还是用个白名单，只允许在特定的文件类型中开启YCM，这个在帮助中有，就不再赘述了。&lt;/p&gt;
+&lt;p&gt;到此，YCM基本上就可以正常工作了。然而，对我来说还有一个没有漂亮地解决的问题是，vimrc中告诉了Vundle有YCM这个插件，但在更新或安装插件时仍然会报警。应该是Vundle的设置有问题，不过暂时不影响使用也就不管了。&lt;/p&gt;
+&lt;p&gt;题外话，当PATH中Python2.7的目录被移到Anaconda3的前面时，为了还能方便地使用后者，我创建了符号链接，把&lt;code&gt;py.exe&lt;/code&gt;指向了&lt;code&gt;python.exe&lt;/code&gt;，这样在命令行中输入&lt;code&gt;py&lt;/code&gt;就可以运行3.4版了。另外由于没有把2.7的Scripts文件夹加入PATH，所以直接在命令行中还是可以运行3.4的常用命令比如&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;ipython&lt;/code&gt;等。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 30 May 2015 20:15:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-05-30:ru-he-zai-windowsxia-gei-viman-zhuang-youcompleteme.html</guid><category>工具</category><category>Vim</category></item><item><title>高效的沟通有时需要省略不必要的细节</title><link>http://seekiu.com/gao-xiao-de-gou-tong-you-shi-xu-yao-sheng-lue-bu-bi-yao-de-xi-jie.html</link><description>&lt;p&gt;先讲一个编造的故事。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;小新在科研中遇到一个问题，要求求解一个几乎不可能得到分析解的一元方程，小新通过查文献，发现牛顿迭代可以用数值解法得到解，于是自己开始写程序实现牛顿迭代。小新在这个问题上已经困扰了很久，因此很高兴地向老板汇报，说他终于找到可行的办法了，两天内就可以得到结果！但小新在计算的时候发现，自己的那个方程在某些系数的条件下，对给定的初值非常敏感，迭代不稳定，结果容易发散。然后经过仔细排查，发现如果不让两次迭代的结果跨越太大，比如添加一个系数，让下一步的解只跳一半的距离，迭代就稳定多了。经过加班加点，总算在两天之内按照改进的迭代算法，得到了正确的结果。&lt;/p&gt;
+&lt;p&gt;然而在向老板报告结果的时候，小新遇到了意想不到的麻烦。他向老板大致地讲了牛顿迭代的原理（编造的故事，不用在意细节~），然后重点讲了自己在迭代计算中做出的改进，最后简单讲了一下计算的结果。小新的意图是，强调自己在迭代算法中的创新，来突出自己做的工作，毕竟也是在这部分花费了最多的时间，也是最「原创」的工作。然而，从老板的角度来看，他的目的只是得到方程的解，本来听牛顿迭代就已经云里雾里了，然后又听小新大篇幅地讲了他在牛顿迭代上做的&lt;strong&gt;修改&lt;/strong&gt;，怎么听都不怎么靠谱。因此，本来一次比较简短的讨论会，介绍一下采用的求解方法，然后交流一下求解的结果，最后却变成了在算法的细节上无休止的争论。老板认为小新修改了别人的算法，但又提不出足够的理由来说这样做的合理性；小新则认为老板在求解方法这个几乎不懂的领域不懂装懂，乱提意见。&lt;/p&gt;
+&lt;p&gt;经历过几次这样的事情之后，小新无奈地得出结论，老板只看重结果，不必再跟他讲具体过程。 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;类似的故事，相信很多研究生、职场人士都经历过。事情本身很难用对或错来单纯地判断，双方各有各的道理，但现实中遇到这样的事情，还是非常恼人的，既浪费时间，又影响情绪。&lt;/p&gt;
+&lt;p&gt;有些时候，处事还是要灵活一些，尤其是像小新这样在多次遇到这种情况的时候，就应该慎重地考虑在与老板沟通的策略上是不是要适当调整了。在跟老板报告最新结果之前，最好自己先想明白，他最关心的部分是什么，那么这些问题应该作为汇报的重点来讲，而其它方面的，尤其是太过技术的具体细节，应当避免过于深入，给出&lt;strong&gt;足够的&lt;/strong&gt;证据说明它是合理的即可。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 26 May 2015 06:07:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-05-26:gao-xiao-de-gou-tong-you-shi-xu-yao-sheng-lue-bu-bi-yao-de-xi-jie.html</guid><category>个人</category></item><item><title>Matplotlib快速参考</title><link>http://seekiu.com/matplotlibkuai-su-can-kao.html</link><description>&lt;p&gt;写了一个笔记，关于Matplotlib的实用小索引。&lt;/p&gt;
+&lt;p&gt;因为是用iPython写的，直接导出成静态的html文件了，还好Farbox也同时支持静态页面，只是需要手动链接一下。&lt;/p&gt;
+&lt;p&gt;笔记的链接是 &lt;a href="http://seekiu.farbox.com/201504-mpl_ref.html"&gt;http://seekiu.farbox.com/201504-mpl_ref.html&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 26 Apr 2015 06:05:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-04-26:matplotlibkuai-su-can-kao.html</guid><category>编程</category></item><item><title>关于效率的一点新想法——不同时期的「效率」概念</title><link>http://seekiu.com/guan-yu-xiao-lu-de-yi-dian-xin-xiang-fa-bu-tong-shi-qi-de-xiao-lu-gai-nian.html</link><description>&lt;p&gt;相信现在相当一部分人都和我一下，曾经或现在仍有一种心理，认为自己现在的工作、科研、学习效率远不如高中时的自己。这其中大多数应该也在_口头上_表达过「要是能有那时的效率，现在应该能做出好得多的成绩吧」的说法，当然也仅限于口头上而已，因为其实心里都知道，这不可能实现，即使实现了也未必能达到那样的结果。&lt;/p&gt;
+&lt;p&gt;说得俗一些，这种心理叫&lt;strong&gt;中二&lt;/strong&gt;，说得难听点，算是一种为自己开脱的一种说辞。本文无意于评价这种心理如何，而是想写一些对它的理性的思考。&lt;/p&gt;
+&lt;p&gt;现在的我们（工作的、读研究生的、上大学的）不再能实现中学时代的集中精力，原因是多方面的，分心的事情更多&lt;strong&gt;得多&lt;/strong&gt;，生活中要面对的琐事也更多。&lt;/p&gt;
+&lt;p&gt;但除开这些，假如我们没有手机，不会再随时被微信、手机游戏干扰，假如我们像以前在家一样，有一个贴心的管家帮我们打点好生活，是否我们的效率就能大幅度提升呢？&lt;/p&gt;
+&lt;p&gt;是也不是。&lt;/p&gt;
+&lt;p&gt;首先可以肯定的是，假如没有&lt;strong&gt;过于方便&lt;/strong&gt;的社交和娱乐，我们大脑受到的干扰会少得多，与原来相比，工作时精力肯定会更集中，效率（productivity）也会有可观的提升。&lt;/p&gt;
+&lt;p&gt;然而，很多新人，包括我自己，一直没有意识到的是，即便这样，我们的&lt;strong&gt;工作状态&lt;/strong&gt;也不太可能像中学时期那样。造成这种结果的主要原因是，我们的工作内容发生了很大的变化。学生时期，尤其是高中，大学有所不同但也大体类似，我们面临的主要问题是在有限的知识点内，强化解题能力，而这个过程，有很大比例的工作是&lt;strong&gt;重复&lt;/strong&gt;。通过机械的重复，来使得解题的思路_硬编码_到大脑中，使得我们看到类似的题目就能条件反射地想起来怎么做。而现在的工作，尤其是研究生的工作，与此则大不相同。我们的工作在很多时候并没有得到很好的限定（well-defined），只是说限定一个大的目标，中间过程自由发挥。这种工作性质的差别，决定了很多时候，即使现在的我们保证了工作时间，也未必能保证成果。&lt;/p&gt;
+&lt;p&gt;举个例子。高中时期面临的一个典型问题是，我今晚要把数学第几章的习题做完，做完后基本上就巩固了今天所学的知识点。而研究生面临的一个典型问题是，我要想明白上次我试的某种方法为什么不行。很明显地，后一个问题甚至无法给出一个清晰的时间节点，因为有些问题，可能一小时就想明白了，但有些问题，一周甚至一个月都没法弄清楚，中间自己主动去查阅文献、设计验证实验等等。&lt;/p&gt;
+&lt;p&gt;也就是说，所谓「高中」的工作方式，是有着清晰定义好的流程和目标的，多数问题都是类似的，即使自己出现很新的问题或者很难的问题，也总有别的同学或者老师能解决。而「成人」的工作，则伴随着太多的不确定性和自由度。这种时候，如果按以前的方式来，强制地设定边界，比如「我今晚必须把前面遇到的那个问题解决」，很多时候是行不通的，甚至在某些时候是有害的，尤其是在影响士气方面。&lt;/p&gt;
+&lt;p&gt;单纯地期望自己能回到以前的那种状态，是很多人在设定目标时会犯的错误，这种错误不一定致命，但如果多次出现，则很容易影响到我们的自我评价，认为自己「堕落」了，不能再像以前那样解决问题了。出现这种心态之后，则陷入了更为麻烦的恶性循环。&lt;/p&gt;
+&lt;p&gt;再回过头来，正确的做法（之一）应该是，认识到我们在不同时期的工作的差异，恰当地设定边界，才可以有效地调整好我们的心态。&lt;/p&gt;
+&lt;p&gt;当然，这种所谓工作性质带来的差异，更多的只是心态上的区别，真正大幅影响效率的，还是那些distractions，所以要想高效工作，尽可能创造不被打扰的时间才是要点。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 26 Apr 2015 06:04:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-04-26:guan-yu-xiao-lu-de-yi-dian-xin-xiang-fa-bu-tong-shi-qi-de-xiao-lu-gai-nian.html</guid><category>个人</category></item><item><title>关于《Do it now!》的笔记</title><link>http://seekiu.com/guan-yu-do-it-now-de-bi-ji.html</link><description>&lt;p&gt;Steve Pavlina写的博文《Do it now!》，在我读本科的时候给过我很多启发和激励。在现在读博士的期间，遇到困难的时候，我也喜欢时不时翻出来读一读。作者Steve自己在九十年代上本科的时候，决定挑战一下自己，用三_学期_的时间，来完成别人通常花四年时间才能完成的本科学业，最终他完成了自己定下的目标，并以相当优秀的成绩毕业。这样的故事，放在如今这个浮躁的时代，算是十分符合它的风气。但有点讽刺的是，文章中最强调的核心思想，却恰恰是与浮躁相悖的，甚至这篇文章本身，它的篇幅，在现在动不动都是一百四十字限制的微博时代，也显得有些格格不入。&lt;/p&gt;
+&lt;p&gt;说实话，到目前为止，我对Steve讲的这个故事，也并非百分之百全信，因为要坚持做完这样一件事，需要相当强大的决心和毅力，仅就我现实中认识的人而言，尚没有一人能做到。有趣的是，随着我自己读这篇文章的次数增多，通过一些实践中的体会，却渐渐发现它讲的一些东西很有道理。也因此增加了一些对它的信任度。&lt;/p&gt;
+&lt;p&gt;以下是2015年2月，寒假在家的时候，读大约第十几遍的时候，写的一点感想。&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;这篇文章有很多论点，粗看起来都很有道理，但对我而言，也仅限于「看起来很有道理」而已。比如文章开头的时候强调的，「Clarity is key」，即你要做成一件事情，首先必须给自己定义清楚，你究竟想做什么，然后你才有可能把它做成。这个道理听起来很简单很正确，但就我个人的经验而言，这更多像是一件不言自明的事情。&lt;/p&gt;
+&lt;p&gt;另一方面，也有一些其它的论点，是我自己在看到这篇文章之前，或者在看到它之后当时忘记，再回过头来看的时候却发现「十分有道理」的东西。这些论点，将是以下笔记的重点。&lt;/p&gt;
+&lt;p&gt;「The key period I&amp;#8217;ve found useful for defining and working on specific goals is ninety days, or the length of one season. In that period of time, you can make dramatic and measurable changes if you set crystal clear goals.」&lt;/p&gt;
+&lt;p&gt;我现在一些制定的中期计划基本上就是按照这个周期来的。因为我发现更长时间，比如一年，一方面会发生太多的变化，以致最初的计划完全偏离了实际，另一方面时间长了，最开始制定计划时的那股冲劲也消耗得差不多了。而如果是更短的时间，又不足以产生足够的变化。&lt;/p&gt;
+&lt;p&gt;「Stephen Covey often uses the expression, &amp;#8220;integrity in the moment of choice.&amp;#8221;」&lt;/p&gt;
+&lt;p&gt;这句话是一个在面临抉择时的原则——保持一致。当有新的机会、新的方向、新的选择出现时，应当根据一致的价值观，作出选择。&lt;/p&gt;
+&lt;p&gt;「I believe that the real purpose of planning is simply so that you remain convinced that a possible path exists.」&lt;/p&gt;
+&lt;p&gt;不是非常理解这句话，但隐约总觉得，会越来越喜欢它。&lt;/p&gt;
+&lt;p&gt;「My only organizing tool was a notepad where I wrote down all my assignments and their deadlines. I didn&amp;#8217;t worry about doing any advance scheduling or prioritizing. I would simply scan the list to select the most pressing item which fit the time I had available. Then I&amp;#8217;d complete it, and cross it off the list. 」&lt;/p&gt;
+&lt;p&gt;从这里已经可以大致看出Steve对于时间管理的核心思想，也就是只将注意力集中在自己目前正在做的事上面，而尽量少把时间_浪费_在担忧未完成的任务上。能做到这一点，其实也是被逼的，毕竟三学期要完成别人八学期的任务，每天的工作量基本上是别人的两倍多。这样，就逼得自己，必须手上有什么任务，就尽可能一次性完成它，而不是做完一半，然后说今天差不多就这样了，下次再继续做。这样一方面在任务转换的过程中，浪费太多的时间，另一方面更重要的是，大脑就会习惯这种简单的工作逻辑：某件任务如果我开始了，就肯定把它做完，没有商量的余地，如果它还在我的任务列表里，我现在也不用管它，不需要什么复杂的管理系统来分配时间，等我有恰当的时间能完成它的时候，我就会去做它。有这样的心理，基本上杜绝了拖延症的可能，并且没有任何「安排任务」方面的负担。&lt;/p&gt;
+&lt;p&gt;「If I had a 10-hour term paper to write, I would do the whole thing at once instead of breaking it into smaller tasks. I&amp;#8217;d usually do large projects on weekends. I&amp;#8217;d go to the library in the morning, do the necessary research, and then go back to my dorm room and continue working until the final text was rolling off my printer.」&lt;/p&gt;
+&lt;p&gt;「While for some people it&amp;#8217;s helpful to block off a specific period of time for a task, I find that I work best with long, open-ended stretches of uninterrupted time. I&amp;#8217;ll often allocate a starting time for a task but usually not a specific finishing time. Whenever possible I just allow myself to stick with a task as long as I can, until I eventually succumb to hunger or other bodily needs.」&lt;/p&gt;
+&lt;p&gt;「The state of flow, where you are totally absorbed in a task and lose all sense of time, takes about 15 minutes to enter. Every time you get interrupted, it can take you another 15 minutes to get back to that state. Once you enter the state of flow, guard it with your life. That is the state in which you will go through enormous amounts of work and experience total connection with the task. When I&amp;#8217;m in this state, I have no sense of past or future. I simply feel like I&amp;#8217;m one with my work. 」&lt;/p&gt;
+&lt;p&gt;「I had no time to study outside of class because most of that time was used for my job. So I simply had to learn everything the first time it came up. If a teacher wrote out something on the board, I would memorize it then and there; I couldn&amp;#8217;t afford to learn things later and risk falling behind.」&lt;/p&gt;
+&lt;p&gt;以上四段我想是Steve的时间管理「策略」方面最重要的核心思想。正如前面所说的，当任务多到一定程度的时候，会给自己额外带来一些效率的提升。一些至少潜意识里_享受_拖延症的人大概也是追求这种效果。这种用任务填满自己的时间，直至接近极限，会带来几个方面的好处。&lt;/p&gt;
+&lt;p&gt;一，逼自己在第一次看到某个新信息的时候，就当场把它吸收掉，有效地避免了拖延以及拖延带来的时间浪费，这一点对学生来说是很有参考价值的。事实上，我在高中的时候就有充分的体会（尽管那时候的信息量以及难度都和大学时期的有很大差距），即在课上第一次听到某个新知识的时候，就尽可能跟上老师的思路，当场把它弄懂，这样，即使事后还需要复习，也会非常轻松。&lt;/p&gt;
+&lt;p&gt;二，有第一次看到就要看懂的意识，潜意识里就会使自己更加集中精神，因为自己很清楚如果现在不看后面也不会找到时间回来看，即使真会回头再看也会浪费不少时间。其实这一点是与现在网络上广泛流传的思想有所不同的，网上更注重的是说由于现在信息爆炸，需要把信息做多级过滤，只对小部分的信息进行深入阅读，而这种多级过滤的过程，如果没有_做好_，就会把大部分信息走马观花地看完，最终只是浅浅地获得一个印象。&lt;/p&gt;
+&lt;p&gt;三，开始一件事情之后，就必须把它做完。当养成这种习惯之后，心理上的压力会小很多。自己会在完成事情之前，尽可能克制做其它「娱乐」的欲望。另外也把「安排时间」的逻辑变得十分简单，任何一件任务，只有两种可能的状态，「完成」或者「未开始」，没有「做了30%」的中间状态。那么在决定某段时间做什么事情的逻辑也很简单，只需要看完成它的时间是否符合我现在的空余时间即可，而不必管什么「优先级」或者「Deadline」。当然，要做到这一点远比想象的难，需要相当的自律。&lt;/p&gt;
+&lt;p&gt;四，开始一件事情之后，就全力投入到它。进入state of flow，此时眼中只有眼前的任务，不再考虑身外的其它事情。这种状态我记忆中最良好的体验是在高中初期的考试的时候，带着适当的「紧张感」，全身的精力都集中到了眼前的试题中。这种状态下，整个大脑基本上处于最佳的情况，完成事情的效率比一般的状态要高很多。Steve也提到了，真正想做什么较大的任务时，要尽量让自己能进入这种状态，并给自己营造这种环境（_不受打扰_的大块时间），然后guard it with your life。&lt;/p&gt;
+&lt;p&gt;「Letting go of the fear of failure will serve you well. If you&amp;#8217;re excited about achieving a particular goal, but you&amp;#8217;re afraid you might not be able to pull it off, jump on it and do it anyway. Even if you fail in your attempt, you&amp;#8217;ll learn something valuable and can make a better attempt next time.」&lt;/p&gt;
+&lt;p&gt;这一部分关于failure is friend与其说是技巧，倒不如说是一种生活的哲学。看得出来，Steve应该是个很典型的实践主义者，这一点与我倒有些不同。他更主张有什么想法就马上去执行，这样即使没有成功也可以当场得到一些数据来修正自己的行动。而我的哲学是take a step back and first think about it，这种思想在多数智力工作中都有一定的合理性，但如果被滥用，则往往成为拖延的借口，陷入无意义思考的漩涡。因此，有必要参考学习一下这种哲学。&lt;/p&gt;
+&lt;p&gt;「It is absolutely imperative that you develop the habit of making decisions as soon as possible. I use a 60-second rule for almost every decision I have to make, no matter how big or important.」&lt;/p&gt;
+&lt;p&gt;与前面在一条主线上，这里讲的同样是，不要_浪费时间_在「无意义的决策」上，很多时候，所谓的考虑，只不过是进行一些无意义的纠结。也正是因为留给他的时间紧迫，不能花费很多时间来考虑普通的决定。与此对应的，是另一个很重要的原则，即「when in doubt, throw it out」。也就是说，对于无法确定是否需要的事情上，如果短时间内不能做出决定，那么默认就是不要。这一点与《The millionaire fastlane》中的一点也是有一定的异曲同工之妙的，该书里说的是当你在考虑是不是负担得起某件东西时，已经说明你负担不起它了。&lt;/p&gt;
+&lt;p&gt;「 Trying to cut out time-wasting habits is a common starting point for people who desire to become more efficient, but I think this is a mistake. Optimizing your personal habits should only come later. Clarity of purpose must come first. If you don&amp;#8217;t have clarity, then your attempts to install more efficient habits and to break inefficient habits will only fizzle. You won&amp;#8217;t have a strong enough reason to put your time to good use, so it will be easy to quit when things get tough. You need a big, attractive goal to stay motivated. The reason to shave 15 minutes off a task is that you&amp;#8217;re overflowing with motivation to put that 15 minutes to better use. 」&lt;/p&gt;
+&lt;p&gt;这一段非常重要。这里Steve明面上表达的是需要明确目标，但我的理解是，「purpose」只是表面上的东西，真正重要的是明确了这种目标之后，产生的一种内在的推动力，也就是一种强烈的想达成这个目标的欲望。关于这种思想，中西方古代都不约而同地有类似地表达，大意都是讲想要成其事必先立其志。当有强烈的内因去推动自己做事时，效率确实是会高很多，而仅仅依靠习惯，尤其是试图_去掉坏习惯_在很多时候往往流于形式，结果为了去掉某个坏习惯又产生了另外一个坏习惯。内在动力则不同，它是一种_非理性_的情绪，促使自己产生完成某件事情的冲动。&lt;/p&gt;
+&lt;p&gt;关于这一点，我也有过「辩证」的思考。动机毕竟是一种_情绪_，而情绪的一个很大的特征就是容易被时间冲淡。典型的例子是，很多人都有这样的体验，在晚上看了一些激励的东西，当时觉得热血澎湃，但睡了一觉之后，虽然还记得前一晚那种情绪的「事实」，但怎么都找不回那种情绪了。相对应的，「好习惯」的养成，则是在追求一种_持续性_，让自己在「主观状态」不好的时候，也可以继续推动自己往前。因此，动机和习惯，实在是一种相辅相成的关系。要实现很高的效率，需要强大的内因，但要让自己平稳度过低潮期，则需要良好习惯的辅助。&lt;/p&gt;
+&lt;p&gt;关于内因的衰退，Steve本人也强调需要_每天_去强化它，否则状态随时都要降低。不管是每天温习一遍自己的目标，还是听、看各种激励的材料。我自己的体会也是，一般每周的第一天精神干劲都是最强的，周二周三最差，周四稍好，总是处于波动之中，有时状态不好甚至一天都不想干活。因此，时时激励自己，加强一下内因，确实十分必要。&lt;/p&gt;
+&lt;p&gt;「To work effectively you need uninterrupted blocks of time in which you can complete meaningful work. When you know for certain that you won&amp;#8217;t be interrupted, your productivity is much, much higher.」&lt;/p&gt;
+&lt;p&gt;当你处在一个「确信不会被打扰」的环境中，你的效率就会大大提升。这种心理上的效应十分有趣。其实前面的一些论点也跟这个心理效应有关，比如当你知道你必须把开始的任务完成才会结束的时候，就不会在工作的时候想太多娱乐的事情。这种心态也许可以说成是一种破釜沉舟，当没退路的时候，就会逼得自己勇往直前，而当给自己留了退路时，就往往畏首畏尾。&lt;/p&gt;
+&lt;p&gt;「Parkinson&amp;#8217;s Law」&lt;/p&gt;
+&lt;p&gt;这个定律比文中出现的另一个帕累托定律更有意思，它讲的是你分配给一个任务多少资源，不管是偏多还是偏少，最终这个任务都会占用掉分配的全部时间。&lt;/p&gt;
+&lt;p&gt;Steve说的是当在做某件事情的时候，总会时不时出现新的小想法，那么此时更好的策略是当时就把这些小想法实现了，尽管这样会使完成这个任务的时间稍微延长，但很多时候是值得的，因为往往安排到后面再来实践效率会更低。&lt;/p&gt;
+&lt;p&gt;我自己的体会与Parkinson&amp;#8217;s law的本意更为相关，当给一件任务分配的时间较为充裕，那么这件任务也不太可能提前很多完成。生活中另一个更常见的问题是，我们对一件事情所花费的时间往往过于乐观，以至于出现太多意外的情况导致完成时间一再推后。这里的矛盾就来了，预期安排的时间偏长则浪费，偏短则太紧，那怎么办？如果这样想的话，也许Steve采用的是较优的方案，即做一件事，只看开始的时间，而不管结束的时间，只要开始，就一直做到结束，这样，中间究竟花费了多少时间，并不是最重要的点。重要的是，我花费了一些时间，确实把它完成了。&lt;/p&gt;
+&lt;p&gt;「Decide what it is you should be doing, and then do nothing but that.」&lt;/p&gt;
+&lt;p&gt;「If you need a break, then take a real break and do nothing else. Don&amp;#8217;t semi-work during a break if you feel you need rest and restoration. Checking email or web surfing is not a break. When you take a break, close your eyes and do some deep breathing, listen to relaxing music and zone out for a while, take a 20-minute nap, or eat some fresh fruit. Rest until you feel capable of doing productive work again. When you need rest, rest. When you should be working, work. Work with either 100% concentration, or don&amp;#8217;t work at all. It&amp;#8217;s perfectly fine to take as much down time as you want. Just don&amp;#8217;t allow your down time to creep into your work time. 」&lt;/p&gt;
+&lt;p&gt;这两部分讲的是类似的意思，即在工作的时候就完全工作，不同让休息的时间侵入工作时间，也不要在休息的时间再耗费脑力，在休息时就真正地休息。现在要做到两点中的任何一点都不容易，工作时间长了，容易产生「乏味」的感觉，好不容易等到休息了，又只能闭目养神。说到底，要进入这种状态，还是需要一定的自律，甚至是寡欲。这时，如果有强大的内因，即在完成任务的冲动强于想「享乐」的冲动，达到这种状态就会容易很多。也因此，好习惯信赖的是自律，而内因带来的则是自觉，一种是被动，一种是主动，两者效果不可同日而语。&lt;/p&gt;
+&lt;p&gt;「What you eat can have a profound effect on your productivity.」&lt;/p&gt;
+&lt;p&gt;这一点在国外已经受到很多重视，但在国内还没什么人注意这一点，我自己也没有多少实际的体会，只是一些模糊的感觉。Steve的经验是肉类食品需要更多的时间和精力来消化吸收，因此他转向了素食，但我的经验是素食很难带给我足够的饱腹感，长时间也可能会导致营养不足，因为时间长了会对肉食有一种强烈的欲望。关于食物的影响，我还需要进一步实验，但这个经验确实是十分正确的。&lt;/p&gt;
+&lt;p&gt;至此，我摘录并简写的一些东西暂时就写完了。一遍写下来，确实觉得Steve的整个体系是十分一致的，因此，存在较高的可信度。未来如果有新的体会再来更新。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 26 Feb 2015 06:03:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-02-26:guan-yu-do-it-now-de-bi-ji.html</guid></item><item><title>Vim 系列（三） 进入 comfort zone</title><link>http://seekiu.com/vim-xi-lie-san-jin-ru-comfort-zone.html</link><description>&lt;p&gt;尝试从 Sublime 迁移到 Vim 有一些时间了，现在基本适应（算不上熟悉）它的基本操作方式，配置了一些用得上的插件，基本上可以说进入 comfort zone 了。这其中最主要的一点是，一方面适应了 vim 某些方面更便捷的一些操作，另一方面，也基本找到了 sublime 中一些很常用功能的替代品。&lt;/p&gt;
+&lt;p&gt;首先是学会了安装插件，我采用的办法是 Pathogen。虽然网上现在现多的声音支持 Vundle，它也似乎相对更接近 sublime 中的 package control 的功能，但对我而言它有一个非常大的不便，就是必须信赖 GIT，而我至少目前为止，还没有想法去折腾它。另一方面，Pathogen 相对简单很多，新建一个 bundle 文件夹，然后把相应的插件从 Github 上下载下来丢到里面即可（感谢 Github 提供了从网页下载 zip 的选项），几乎是简便得不能再简便了。&lt;/p&gt;
+&lt;p&gt;安装好 Pathogen 之后，我对插件还是保持尽可能精简，除非很有必要，尽量不多装插件。相比 sublime 的开箱即用，vim 也确实需要一些基础的插件来补充它的功能，看了一下，我现在装的插件基本也都是在模拟 sublime 的一些常用功能。其实稍作检索就会发现，像我一样从 sublime 跑到 vim 的人真不在少数，因此一些功能也没费多少时间就找到了。&lt;/p&gt;
+&lt;p&gt;最怀念的一点是 Project 功能，按下 ctrl-p 之后就可以启用模糊搜索快速切换到常用的文件。Vim 中实现类似功能的插件也很多，我选择的是「ctrlp」，基本实现了类似的功能，加载速度也和原版接近。&lt;/p&gt;
+&lt;p&gt;此外还有一点非常不能理解的是，vim 号称程序员的编辑器，居然没有自带一个快速切换注释的功能，也就是 sublime 中 ctrl-/ 的功能。虽然很容易就能找到插件实现它（commentary），但还是觉得很不能理解。。。&lt;/p&gt;
+&lt;p&gt;意外发现一个很有意思的插件是「Easymotion」，似乎也是起源于 sublime 的，但此前并没有听说过。写普通文字的时候用处不大，写代码需要跳来跳去的时候应该很有用。&lt;/p&gt;
+&lt;p&gt;还有一个极其怀念的功能，是 multiple-cursor 的功能，也是 sublime 最大的特色之一。现在装了个插件模拟这个功能，但跟原版相比，还是有一些差距。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 08 Feb 2015 21:21:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-02-08:vim-xi-lie-san-jin-ru-comfort-zone.html</guid><category>工具</category></item><item><title>修复Windows中批处理启动Vim的奇怪问题</title><link>http://seekiu.com/xiu-fu-windowszhong-pi-chu-li-qi-dong-vimde-qi-guai-wen-ti.html</link><description>&lt;p&gt;现在在笔记本和工作站上都安装上了 Vim，但这两天发现了一个非常奇怪的问题，SP3 上在批处理文件中启动 vim 时，会非常不按常规地出现或关闭命令行窗口。本来加 &lt;code&gt;start&lt;/code&gt; 是继续批处理的后面命令或者直接关掉命令行，结果莫名其妙总是多出来一个窗口，需要等它执行完再进行下一个命令的时候它又变成了加 &lt;code&gt;start&lt;/code&gt; 的模式。&lt;/p&gt;
+&lt;p&gt;经过排查，发现直接运行 gvim 或者 vim 的时候显示的工作目录是 C:\Windows，总算明白问题出在安装时勾上的 create bat file to use in command line （凭记忆写的，大概这个意思），它其实在这个目录下创建了一个快捷方式。把这个一点都不快捷的bat删掉（以防万一只在文件名加.bak），然后把真正的 gvim.exe 所在目录加入到系统 PATH，这样处理之后，问题就解决了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Wed, 04 Feb 2015 21:20:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-02-04:xiu-fu-windowszhong-pi-chu-li-qi-dong-vimde-qi-guai-wen-ti.html</guid><category>工具</category><category>Vim</category></item><item><title>Vim 系列（二） 试用 Vim 几天的体会</title><link>http://seekiu.com/vim-xi-lie-er-shi-yong-vim-ji-tian-de-ti-hui.html</link><description>&lt;p&gt;如前所述，最近尝试着把主要的文本编辑器从 Sublime Text 3 迁移到 Vim，试用了几天，有一些体会，本文尝试做一些小结。&lt;/p&gt;
+&lt;p&gt;总的来说，从一个传统的编辑器到 Vim 的感觉，感觉很类似于学五笔的过程。&lt;/p&gt;
+&lt;p&gt;从拼音到五笔，基本上是一个不向后兼容的过程，最开始的时候需要记忆一些东西，在前面不熟悉的一个月到甚至几个月，使用的时候还需要时不时地动脑想某个字或词的拆法。而等到使用了五笔一年以上之后，绝大部分字词的编码就开始形成肌肉记忆了，从这时候开始，打字速度就开始产生了质的提升。&lt;/p&gt;
+&lt;p&gt;而刚开始使用 Vim 的时候，也有很强烈的这种感觉。最明显的一点是更方便但不那么直观的 HJKL 移动光标，对于习惯了鼠标或者方向键移动的人来说，就像是习惯了打拼音突然要打出一级简码一样，虽然方便，但经常都会按下以前熟悉的键才反应过来，哦，按错了。&lt;/p&gt;
+&lt;p&gt;除此之外，由于我对 ST3 已经算是中度用户了，平时常用的快捷键大概也有十来个，一些 ST3 中很有特色的便携操作比如多列编辑、ctrl-D 的 multi-selection 等等，都暂时没有找到在 vim 中舒服的用法（虽然我基本确信肯定有）。尤其是多列编辑，我现在掌握的 ctrl-Q （ctrl-C 在 win 版本中被定义成复制），用起来总觉得没有 ST3 的顺手，因此最近写某些模拟文件的时候，还是不得不用回 sublime。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 31 Jan 2015 21:19:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-01-31:vim-xi-lie-er-shi-yong-vim-ji-tian-de-ti-hui.html</guid><category>工具</category><category>Vim</category></item><item><title>Vim 系列（一） Vim tutor 要点小结</title><link>http://seekiu.com/vim-xi-lie-yi-vim-tutor-yao-dian-xiao-jie.html</link><description>&lt;p&gt;因为各种原因，准备慢慢把主要的编辑器从 Sublime Text 3 迁移至古老的 Vim。今天开始，不定期地更新一系列的学习笔记。这篇是第一篇，大致整理了一下自带的教程（vim tutor）中的主要内容。&lt;/p&gt;
+&lt;p&gt;启动 Vim。把 vim 的目录添加到 PATH 中，则输入 &lt;code&gt;vim&lt;/code&gt; 可直接在命令行中启动 Vim，而 &lt;code&gt;gvim&lt;/code&gt; 则启动带界面的版本。&lt;/p&gt;
+&lt;p&gt;Vim 有多种模式，其中最基本的是「普通模式」，启动 Vim 后默认打开的就是普通模式，普通模式中光标是覆盖在字符上的方块，而如果在「插入模式」中，光标是字符之间的一条闪烁的线（绝大多数程序中也如此）。如果处在其它模式中，多按几次 ESC 就可以回到普通模式。&lt;/p&gt;
+&lt;p&gt;普通模式下的光标移动。最基本的是用 &lt;code&gt;hjkl&lt;/code&gt; 来实现上下左右，这一点刚上手，估计需要一段时间来适应。其它常用的，&lt;code&gt;` 是移动到行首，&lt;/code&gt;$&lt;code&gt;是移动到行尾，分别相当于键盘上的 HOME 和 END。&lt;/code&gt;w&lt;code&gt;移动到下一单词的第一个字符，&lt;/code&gt;e&lt;code&gt;移动到当前单词的最后一个字符，再按则跳到下一个单词的词尾。&lt;/code&gt;%&lt;code&gt;跳转到配对的括号。输入行号紧接着大写 G 直接跳到指定的行（的开头），只输入 G 跳到最后一行，&lt;/code&gt;gg` 跳至第一行。&lt;/p&gt;
+&lt;p&gt;进入「插入模式」的命令。&lt;code&gt;i&lt;/code&gt; 是在光标前插入文本，&lt;code&gt;a&lt;/code&gt; 是在光标后，&lt;code&gt;A&lt;/code&gt; 是在行末。&lt;code&gt;o&lt;/code&gt; 是在当前行下方插入新行，&lt;code&gt;O&lt;/code&gt; 是在当前行上方。&lt;/p&gt;
+&lt;p&gt;删除文本。&lt;code&gt;x&lt;/code&gt; 删除光标所在字符。&lt;code&gt;dd&lt;/code&gt; 删除整行。删除命令可以与移动命令结合，比如 &lt;code&gt;dw&lt;/code&gt; 是当前光标删除至下一单词，&lt;code&gt;d$&lt;/code&gt; 是当前光标删除至行尾。&lt;/p&gt;
+&lt;p&gt;撤消：&lt;code&gt;u&lt;/code&gt; 撤消一步的操作，&lt;code&gt;U&lt;/code&gt; 撤消对整行的改动，&lt;code&gt;ctrl-R&lt;/code&gt; 撤消撤消的操作本身（相当于一般程序中的 &lt;code&gt;ctrl-Y&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;退出 Vim：&lt;code&gt;:q!&lt;/code&gt; 放弃修改并退出，&lt;code&gt;:wq&lt;/code&gt; 保存并退出。&lt;/p&gt;
+&lt;p&gt;执行外部命令。&lt;code&gt;:!command&lt;/code&gt; 可以执行外部的 &lt;code&gt;command&lt;/code&gt; 命令，如 &lt;code&gt;:!dir&lt;/code&gt;、&lt;code&gt;:!del filename&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;命令自动补全。输入 &lt;code&gt;:&lt;/code&gt; 开头的命令时，按 &lt;code&gt;ctrl-D&lt;/code&gt; 可以显示所有的命令提示，按 TAB 可以自动补全。&lt;/p&gt;
+&lt;p&gt;帮助。输入 &lt;code&gt;:help cmd&lt;/code&gt; 可以找到关于 cmd 命令的帮助，再输入 &lt;code&gt;:q&lt;/code&gt; 可以关闭帮助窗口。&lt;/p&gt;
+&lt;p&gt;PS. 本文的内容并不涵盖教程中的全部，只有一些必须的基础，比如还没有讲到如何编辑 vimrc 文件以保存自定义设置、如何搜索替换等等。后面再继续更新。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 27 Jan 2015 21:17:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-01-27:vim-xi-lie-yi-vim-tutor-yao-dian-xiao-jie.html</guid><category>工具</category></item><item><title>奇怪的bug，win8里的ctrl-backspace失效了</title><link>http://seekiu.com/qi-guai-de-bugwin8li-de-ctrl-backspaceshi-xiao-liao.html</link><description>&lt;p&gt;最近遇到一个十分奇怪的bug，用于删除前一个单词的ctrl-backspace快捷键失效了。甚至在sublime text这种另外定义了这个快捷键行为的软件里也一样，奇怪。&lt;/p&gt;
+&lt;p&gt;最开始是在一个机器上出现的，而记忆中唯一记得的近期对它做过的最大改动是把Python升级到了3.4，并删掉了原来的2.7，但暂时还无法确认是这个问题。更奇怪的是，在一台新的机器上，最开始没有这个问题，没过多久也出现了。&lt;/p&gt;
+&lt;p&gt;另外自己的一台电脑上是从win7升级上来的，没有出现这个情况。&lt;/p&gt;
+&lt;p&gt;Google了一番，似乎没有人出现过类似的情况。&lt;/p&gt;
+&lt;p&gt;太奇怪了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Wed, 21 Jan 2015 21:16:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2015-01-21:qi-guai-de-bugwin8li-de-ctrl-backspaceshi-xiao-liao.html</guid><category>工具</category></item><item><title>一个反直觉数学题的程序验证</title><link>http://seekiu.com/yi-ge-fan-zhi-jue-shu-xue-ti-de-cheng-xu-yan-zheng.html</link><description>&lt;p&gt;很久之前看到的东西了，今天总算抽空把它写完了。&lt;/p&gt;
+&lt;p&gt;最开始是在 Quora 上看到一个很有意思的&lt;a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit"&gt;答案&lt;/a&gt;，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。&lt;/p&gt;
+&lt;p&gt;第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def game1():  
+    # flip twice, the possibility of HH or HT  
+    hh = 0; ht = 0  
+    for i in xrange(100000):  
+        pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  # previous and current  
+        pre = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+        cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+        if pre+cur == &amp;#39;HH&amp;#39;:  
+            hh += 1  
+        if pre+cur == &amp;#39;HT&amp;#39;:  
+            ht += 1  
+    print hh, ht  
+    ## my result: 24943 24776
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;那么，游戏变一下。假如连续抛一个硬币，直到出现HH或HT（注意HT是有顺序的），问题是，两者需要抛的次数相同吗？基于前面的结论，似乎应该相同，然而，结果是，不同。同样地，代码说话：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def game2():  
+    # flip until HH or HT, in average which took more flips?  
+    hh = []; ht = []  
+    for _ in xrange(100000):  
+        pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if pre+cur == &amp;#39;HH&amp;#39;:  
+                hh += [i+1]  
+                break  
+    for _ in xrange(100000):  
+        pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if pre+cur == &amp;#39;HT&amp;#39;:  
+                ht += [i+1]  
+                break  
+    hh = np.array(hh); ht = np.array(ht)  
+    print np.mean(hh), np.mean(ht)  
+    ## my result: 6.00559 3.99
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;无视里面用了一小段很丑陋的实现吧。。。对结果是没影响的。&lt;/p&gt;
+&lt;p&gt;接下来，如果连续抛，出现HH则A赢，出现HT则B赢，问，谁更可能赢？结果是，一样的可能：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def game3():  
+    # flip until HH or HT, if HH, A win, if HT, B win. Is the game fair?  
+    hh = 0; ht = 0  
+    for _ in xrange(100000):  
+        pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if pre+cur == &amp;#39;HH&amp;#39;:  
+                hh += 1  
+                break  
+            if pre+cur == &amp;#39;HT&amp;#39;:  
+                ht += 1  
+                break  
+    print hh, ht  
+    ## my result: 50028 49972
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再然后，连续抛，如果出现HHT则A赢，如果出现THH则B赢。注意到HHT和THH是对称的，所以一个直观的猜测是两人赢面相同，但实际上，并非如此：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def game4():  
+    # flip until HHT and THH, if HHT, A win, if THH, B win. Is the game fair?  
+    hht = 0; thh = 0  
+    for _ in xrange(100000):  
+        ppr = &amp;#39;&amp;#39;; pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if ppr+pre+cur == &amp;#39;HHT&amp;#39;:  
+                hht += 1  
+                break  
+            if ppr+pre+cur == &amp;#39;THH&amp;#39;:  
+                thh += 1  
+                break  
+    print hht, thh  
+    ## my result: 25031 74969
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最有意思的来了。上面的游戏里A发现B赢得更多一点，于是A选择了THH，B就换成了TTH，结果A还是输。A换成TTH，B就换成HTT，A又输。A换成HTT，B换成HHT，A还输。上面几局写成不等式更直观一点：thh &amp;gt; hht, tth &amp;gt; thh, htt &amp;gt; tth, hht &amp;gt; htt。WTF?!!!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def game5():  
+    print &amp;quot;THH vs HHT&amp;quot;  
+    thh = 0; hht = 0  
+    for _ in xrange(100000):  
+        ppr = &amp;#39;&amp;#39;; pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if ppr+pre+cur == &amp;#39;THH&amp;#39;:  
+                thh += 1  
+                break  
+            if ppr+pre+cur == &amp;#39;HHT&amp;#39;:  
+                hht += 1  
+                break  
+    print &amp;#39;THH, HHT: &amp;#39;, thh, hht
+
+    print &amp;quot;\nTTH vs. THH&amp;quot;  
+    tth = 0; thh = 0  
+    for _ in xrange(100000):  
+        ppr = &amp;#39;&amp;#39;; pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if ppr+pre+cur == &amp;#39;TTH&amp;#39;:  
+                tth += 1  
+                break  
+            if ppr+pre+cur == &amp;#39;THH&amp;#39;:  
+                thh += 1  
+                break  
+    print &amp;#39;TTH, THH: &amp;#39;, tth, thh
+
+    print &amp;quot;\nHTT vs. TTH&amp;quot;  
+    htt = 0; tth = 0  
+    for _ in xrange(100000):  
+        ppr = &amp;#39;&amp;#39;; pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if ppr+pre+cur == &amp;#39;TTH&amp;#39;:  
+                tth += 1  
+                break  
+            if ppr+pre+cur == &amp;#39;HTT&amp;#39;:  
+                htt += 1  
+                break  
+    print &amp;#39;HTT, TTH: &amp;#39;, htt, tth
+
+    print &amp;quot;\nHHT vs. HTT&amp;quot;  
+    hht = 0; htt = 0  
+    for _ in xrange(100000):  
+        ppr = &amp;#39;&amp;#39;; pre = &amp;#39;&amp;#39;; cur = &amp;#39;&amp;#39;  
+        for i in xrange(99):  
+            ppr = pre; pre = cur; cur = random.choice([&amp;#39;H&amp;#39;,&amp;#39;T&amp;#39;])  
+            if ppr+pre+cur == &amp;#39;HHT&amp;#39;:  
+                hht += 1  
+                break  
+            if ppr+pre+cur == &amp;#39;HTT&amp;#39;:  
+                htt += 1  
+                break  
+    print &amp;#39;HHT, HTT: &amp;#39;, hht, htt  
+    ## Result:  
+    ## THH vs HHT  
+    ## THH, HHT:  75095 24905  
+    ##   
+    ## TTH vs. THH  
+    ## TTH, THH:  66986 33014  
+    ##   
+    ## HTT vs. TTH  
+    ## HTT, TTH:  74937 25063  
+    ##   
+    ## HHT vs. HTT  
+    ## HHT, HTT:  66880 33120
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其实这个游戏叫 Penny&amp;#8217;s Game，有兴趣的并且高中数学没丢的可以自己再手算一下上面的概率或者数学期望，再验证一下。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 14 Nov 2014 21:13:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-11-14:yi-ge-fan-zhi-jue-shu-xue-ti-de-cheng-xu-yan-zheng.html</guid><category>编程</category></item><item><title>用 Python 简化数据处理流程的 workflow 及简单示范</title><link>http://seekiu.com/yong-python-jian-hua-shu-ju-chu-li-liu-cheng-de-workflow-ji-jian-dan-shi-fan.html</link><description>&lt;p&gt;注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。&lt;/p&gt;
+&lt;p&gt;如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。&lt;/p&gt;
+&lt;p&gt;这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。&lt;/p&gt;
+&lt;p&gt;举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件。按我原来的做法，就是分别打开每个文件夹，把所有的数据拷到一个大的 Excel 表中，进行了后处理之后，再复制到 Origin 中作图。这样的做法，会有几个潜在的问题。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当结果中的列数很多时，最后的 Excel 总表的列数会更多得多，处理起来不方便；&lt;/li&gt;
+&lt;li&gt;在 Excel 中处理数据虽然也算方便，但处理过程不直观；&lt;/li&gt;
+&lt;li&gt;需要在多个软件中来回复制数据，如果数据发生变化，要重新走一遍所有流程。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;而如果用 Python 来做这些事，至少一致性会好很多，因为读取数据、处理数据以及作图三大功能它都能很简单地完成，尤其是当前两步已经完成的时候，作图其实就已经比用 Origin 更方便了。读取数据很简单，可以用专门读取 csv 格式的函数，也可以直接用 numpy 自带的 genfromtxt，一次性就可以从所有目录里把数据读成 numpy 数组。而处理数据和作图本来也就是 Python 的强项。&lt;/p&gt;
+&lt;p&gt;按 Python 的这种 workflow，也许第一次做的时候花费的时间更长一些，但只要走通了第一步，后面任何一个环节发生修改，比如源数据修改了，或者数据处理稍作改变，或者作图的格式需要修改，这些都只需要在代码中作很小的改动，就可以很快地看到结果，而不再需要在几个软件中倒来倒去。&lt;/p&gt;
+&lt;p&gt;通过编程的学习，慢慢带来的这些小改变，虽然每一次都只是提升一点点，但这种「把繁琐的事情写成自动程序让电脑完成」的思维，确实大有帮助。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 07 Aug 2014 21:12:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-08-07:yong-python-jian-hua-shu-ju-chu-li-liu-cheng-de-workflow-ji-jian-dan-shi-fan.html</guid><category>编程</category></item><item><title>用Cython来加速Python的科学计算程序</title><link>http://seekiu.com/yong-cythonlai-jia-su-pythonde-ke-xue-ji-suan-cheng-xu.html</link><description>&lt;p&gt;从网上照抄的一些 LBM 算例基本都是在规整的矩形区域内的计算，用简单的 Numpy 非常适合，但当需要计算一些稍微更复杂的计算域时，纯 Numpy 的计算逻辑就有点复杂了，这时最简单的办法还是循环计算节点，这时候就不得不请出 Cython 了。&lt;/p&gt;
+&lt;p&gt;对我这种级别的人来说，Cython 基本上可以理解成用 Python 的语法来写 C，与 Python 的主要区别在于可以定义变量的类型，以及需要编译成 Python 库才能运行。这篇文章简单记录一下使用 Cython 的一些入门知识。&lt;/p&gt;
+&lt;p&gt;使用 Cython，先需要建立一个 &lt;code&gt;pyx&lt;/code&gt; 格式的源文件，以计算宏观密度的函数为例，建立 &lt;code&gt;rho.pyx&lt;/code&gt; 文件，并写入如下的函数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def calc_rho_notype(f):  
+    rho = np.empty_like(f[:,:,0])  
+    for i in xrange(f.shape[0]):  
+        for j in xrange(f.shape[1]):  
+            for k in xrange(f.shape[2]):  
+                rho[i,j] += f[i,j,k]  
+    return rho
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由于使用到了 Numpy，需要在程序前面加上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;  
+&lt;span class="n"&gt;cimport&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意这里除了 &lt;code&gt;import&lt;/code&gt; 外，还需要再 &lt;code&gt;cimport&lt;/code&gt; 一次才行。&lt;/p&gt;
+&lt;p&gt;编译这个源代码有多种办法，这里讲最基础的一种，在同目录下建立 &lt;code&gt;setup.py&lt;/code&gt; 文件，文件内容为：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;distutils.core&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;  
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;distutils.extension&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Extension&lt;/span&gt;  
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Distutils&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build_ext&lt;/span&gt;  
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;
+
+&lt;span class="n"&gt;ext_module&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;  
+    &lt;span class="s2"&gt;&amp;quot;rho&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;rho.pyx&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+    &lt;span class="n"&gt;include_dirs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;get_include&lt;/span&gt;&lt;span class="p"&gt;()],&lt;/span&gt;  
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;  
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Cython Test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;cmdclass&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;build_ext&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build_ext&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;  
+    &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ext_module&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意这里跟 Numpy 的地方有两处，一处是开头的导入，另一处是告诉编译器需要包括相关的 h 文件。&lt;/p&gt;
+&lt;p&gt;有了 setup.py 之后，在 cmd 中执行：&lt;code&gt;python setup.py build_ext --inplace&lt;/code&gt;，编译不出错的话就会生成 &lt;code&gt;rho.pyd&lt;/code&gt; 文件，这个就可以在主函数中导入了。&lt;/p&gt;
+&lt;p&gt;但是，这样直接使用 Python 代码生成的效率仍然很低，因为里面的变量仍是 Python 对象，作为对比，可以再写一个 Cython 函数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def calc_rho_type(np.ndarray[double,ndim=3] f):  
+    cdef np.ndarray[double,ndim=2] rho = np.empty_like(f[:,:,0])  
+    cdef int i,j,k  
+    for i in xrange(f.shape[0]):  
+        for j in xrange(f.shape[1]):  
+            for k in xrange(f.shape[2]):  
+                rho[i,j] += f[i,j,k]  
+    return rho
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;对比的结果在后文。&lt;/p&gt;
+&lt;p&gt;还有一个重要的措施可以提高运行速率，即让它并行化！Cython 的并行库用的是 Openmp，使用也非常简单，Cython 函数如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def calc_rho_openmp(np.ndarray[double,ndim=3] f):  
+    cdef np.ndarray[double,ndim=2] rho = np.empty_like(f[:,:,0])  
+    cdef int i,j,k  
+    with nogil:  
+        for i in prange(f.shape[0]):  
+            for j in xrange(f.shape[1]):  
+                for k in xrange(f.shape[2]):  
+                    rho[i,j] += f[i,j,k]  
+    return rho
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意其中为了并行需要释放 GIL，并在外层循环中把 &lt;code&gt;xrange&lt;/code&gt; 写成了 &lt;code&gt;prange&lt;/code&gt;。这样标记表明这个循环的结果与执行顺序无关，可以并行，为了使用它，需要在开关添加：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cython.parallel&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;prange&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;并且 setup.py 也要稍作修改，在 &lt;code&gt;ext_module&lt;/code&gt; 中增加两个参数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;extra_compile_args=[&amp;#39;-fopenmp&amp;#39;],  
+extra_link_args=[&amp;#39;-fopenmp&amp;#39;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其它流程都是一样的。&lt;/p&gt;
+&lt;p&gt;下面用 iPython 自带的 timeit 工具看看各种方法的效率：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numexpr&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;ne&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;rho&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;loops&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;31.3&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt; &lt;span class="n"&gt;ne&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;evaluate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sum(f,axis=2)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;loops&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;122&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt; &lt;span class="n"&gt;rho&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;calc_rho_notype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="n"&gt;loops&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;6.52&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt; &lt;span class="n"&gt;rho&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;calc_rho_type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;loops&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;70.3&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt; &lt;span class="n"&gt;rho&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;calc_rho_openmp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;loops&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt; &lt;span class="n"&gt;per&lt;/span&gt; &lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这里为了比较，还用了之前提到过的 Numexpr 包。可以看到，在不声明类型的情况下，这种嵌套循环的程序效率还是非常低，而添加类型就让执行速度提升了接近100倍，使用 Openmp 之后，CPU 迅速升到 90% 以上，但带来的速度提升是50%（4核心）。值得注意的是，在这个简单的例子中， Numexpr 包以及 Cython 并行的函数两者的计算速度都输给了 Numpy 原生的数组求和函数，一方面这说明 Numpy 原生函数确实是经过了高度优化，平时还是应当尽可能使用它们，但另一方面，由于这是逻辑非常简单的计算，而在更复杂的计算中，例如在将 f 求和之前，先作 &lt;code&gt;f**1.5&lt;/code&gt; 的操作，结果就不同了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;In [5]: %timeit np.sum(f**1.5,axis=2)  
+1 loops, best of 3: 891 ms per loop
+
+In [6]: %timeit ne.evaluate(&amp;quot;sum(f,axis=2)&amp;quot;)  
+10 loops, best of 3: 117 ms per loop
+
+In [7]: %timeit rho.calc_rho_notype(f)  
+1 loops, best of 3: 8.19 s per loop
+
+In [8]: %timeit rho.calc_rho_type(f)  
+1 loops, best of 3: 1.45 s per loop
+
+In [9]: %timeit rho.calc_rho_openmp(f)  
+1 loops, best of 3: 382 ms per loop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;可以看出，这时候，Numexpr 以及 并行 Cython 都开始出现了明显的优势。考虑到 Numexpr 极其简单的使用方法，还是推荐在绝大多数逻辑不复杂的时候，尽量使用它。&lt;/p&gt;
+&lt;p&gt;最后值得一提的是，在我稍复杂的 LBM 程序中，核心计算函数都采用并行 Cython 比 Numexpr 快 30% 左右。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 24 Jul 2014 21:11:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-07-24:yong-cythonlai-jia-su-pythonde-ke-xue-ji-suan-cheng-xu.html</guid><category>编程</category></item><item><title>把 python 科学计算环境换成了 Anaconda</title><link>http://seekiu.com/ba-python-ke-xue-ji-suan-huan-jing-huan-cheng-liao-anaconda.html</link><description>&lt;p&gt;此前尝试过 python(x,y)，但最终还是换回了纯 python 的环境，一方面是因为它太大，另一方面它实在包含了太多不可控的东西，包括潜在的污染系统 python 的危险等。偶然看到 Anaconda 的介绍，似乎是一种较为「绿色」的方案，而且带的科学计算包也比较全，试着装了一下，确实不错。Anaconda 的一个主要优势在于，它集成了绝大部分常用的计算包，并全部放在自己的文件夹中，与系统内已安装的 Python 相对独立，因此安装下来非常干净。如果其它人也想运行在这个环境下写出来的代码，只需要安装 Anaconda 环境即可，而不再需要一个一个把需要的包都下载下来，这一点，在与其它人交流代码时就太方便了。&lt;/p&gt;
+&lt;p&gt;从原来配置的环境换到 Anaconda 也非常简单，大概会有这么几个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;删除重复的包，如 numpy / scipy / matplotlib 等，用 &lt;code&gt;pip uninstall&lt;/code&gt; 即可。这一点，看个人需要，我是不太喜欢保留重复的东西。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装过程中会提示是否把 Anaconda 自带的 python 注册成系统的 python，相当于屏蔽掉系统原来安装的版本。我选择了否，因此需要额外设置一下，在其根目录下建立一个 anapy.exe 的符号链接，指向它自带的 python.exe，这样，需要用系统版本的时候，用的是 python 命令，而要用 Anaconda 版本的时候，用 anapy 命令就可以了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;同样的，如果要把一个 Anaconda 没有自带的一个包安装到它里面，比如我常用的 evtk 包，只需要 &lt;code&gt;anapy setup.py install&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 08 Jul 2014 21:07:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-07-08:ba-python-ke-xue-ji-suan-huan-jing-huan-cheng-liao-anaconda.html</guid><category>编程</category></item><item><title>用 VPN 时的一些小问题</title><link>http://seekiu.com/yong-vpn-shi-de-yi-xie-xiao-wen-ti.html</link><description>&lt;p&gt;从5月35日前两天左右开始，gg开始几乎全系被封，干脆买了个收费的 VPN，想一次性解决问题。当然，事实证明也没有这么简单，还是碰到了大大小小的不少问题，大致罗致如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;L2** 比 PP** 的「安全性」更好，一般推荐用前者；&lt;/li&gt;
+&lt;li&gt;路由表是个好东西，尤其是 chnroutes，它可以实现让国内流量不走 VPN，大量节约收费资源，并且提高速度；&lt;/li&gt;
+&lt;li&gt;在我的情况里，L2** 协议再加载智能路由表时，会导致上不了百度，至今没弄明白怎么回事，现在较好的解决办法是在浏览器里再用一个自动代理，让域名带 baidu.com 的都从一个国内的高速缓存里过，算是一个曲线救国的办法了。&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 24 Jun 2014 21:06:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-06-24:yong-vpn-shi-de-yi-xie-xiao-wen-ti.html</guid><category>工具</category></item><item><title>Python 输出用于 Paraview 后处理的 vtk 文件</title><link>http://seekiu.com/python-shu-chu-yong-yu-paraview-hou-chu-li-de-vtk-wen-jian.html</link><description>&lt;p&gt;好拗口的标题。。。&lt;/p&gt;
+&lt;p&gt;前面的博客中已经提到，Python 有 Matplotlib 这种强大的包可以「在线」地生成（并保存）漂亮的图形，但对于计算流体力学的后处理来说，很多时候需要更多「事后」的后处理。在线的即时输出，虽然可以快速预览结果，但对于想输出什么结果必须在写程序阶段就全部想明白，而不是先计算完，按一定间隔输出整个流场的信息，然后后期想要什么数据慢慢提取分析就行。&lt;/p&gt;
+&lt;p&gt;解决这个问题的方法也很简单，直接照抄开源 LBM 软件 Palabos 的方案，用 vtk 格式保存流场信息，然后用 Paraview 进行后处理。&lt;/p&gt;
+&lt;p&gt;这个「十分简单」的技术路线结果却花了我很多天的时间，才基本搞清楚其中的奥秘，从多个 tricky part 中脱身。技术上来说，Python 输出 vtk 有成熟的软件包（我采用的是pyevtk 这个库[1]），实现方法也比较直观。例如官方提供的一个示例是这样的（我稍作了修改）：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;from evtk.vtk import VtkFile, VtkRectilinearGrid
+import numpy as np
+
+nx, ny, nz = 6, 6, 2
+lx, ly, lz = 1.0, 1.0, 1.0
+dx, dy, dz = lx/nx, ly/ny, lz/nz
+npoints = (nx + 1) * (ny + 1) * (nz + 1)
+x = np.arange(0, lx + 0.1*dx, dx, dtype='float64')
+y = np.arange(0, ly + 0.1*dy, dy, dtype='float64')
+z = np.arange(0, lz + 0.1*dz, dz, dtype='float64')
+start, end = (0,0,0), (nx, ny, nz)
+
+w = VtkFile("./evtk_test", VtkRectilinearGrid)
+w.openGrid(start = start, end = end)
+w.openPiece( start = start, end = end)
+
+# Point data
+temp = np.random.rand(npoints)
+vx = vy = vz = np.zeros([nx + 1, ny + 1, nz + 1], dtype="float64", order = 'F')
+w.openData("Point", scalars = "Temperature", vectors = "Velocity")
+w.addData("Temperature", temp)
+w.addData("Velocity", (vx,vy,vz))
+w.closeData("Point")
+
+# Cell data
+# 因为 LBM 计算中结果都在 point 上，这里省略。
+
+# Coordinates of cell vertices
+w.openElement("Coordinates")
+w.addData("x_coordinates", x);
+w.addData("y_coordinates", y);
+w.addData("z_coordinates", z);
+w.closeElement("Coordinates");
+
+w.closePiece()
+w.closeGrid()
+
+w.appendData(data = temp)
+w.appendData(data = (vx,vy,vz))
+w.appendData(x).appendData(y).appendData(z)
+w.save()&lt;/pre&gt;
+
+&lt;p&gt;这里真正关于 vtk 输出的逻辑非常简单，基本上就跟 Python 写入普通文件的流程一样，唯一不同的是这里似乎有点冗余，先要 &lt;code&gt;addData&lt;/code&gt; 一下，然后又要 &lt;code&gt;appendData&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;但是，在自己写程序的时候，却碰到了一些问题。&lt;/p&gt;
+&lt;p&gt;首先的问题是，这个示例中展示的是3维的问题，而我初期 LBM 的计算都是2维的，怎么办？&lt;/p&gt;
+&lt;p&gt;很容易想到的办法是，把2维的数据映射到 z=0 平面上，然后再复制几份到 z=1,2,3&amp;#8230;nz 平面上，这样输出一个沿z轴完全相同的伪3维数据。办法虽然土了点，但简单有效！当然，后来发现更简单且不这么丑陋的办法是，只输出到 z=0 的平面上即可，即完全按3维的情况输出，只是z方向只有一组数据而已。这样导入 Paraview 时，可以直接就被识别成2维结果。&lt;/p&gt;
+&lt;p&gt;Vtk 文件输出了，进入 Paraview 也能正常打开，显示温场，正常，显示流场，全乱了！怎么回事？&lt;/p&gt;
+&lt;p&gt;经过至少3天断断续续的排查，总算弄明白了其中的蹊跷，全在一个非常小的地方：附加的数据不能用切片。我的速度数据是存储在一个 u = np.array([nx+1, ny+1, 1, 3]) 的数组中，于是在 appendData 中就把三个速度分量写成了切片的形式：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;ux, uy, uz = u_3d[:,:,:,0], u_3d[:,:,:,1], u_3d[:,:,:,2]&lt;/pre&gt;
+
+&lt;p&gt;结果这样输出的结果就怎么都不对。最后发现，只要不再用切片输出数据，而是复制一下上面的切片（np.copy 方法），结果就正常了。&lt;/p&gt;
+&lt;p&gt;实在是莫名其妙的问题，更莫名其妙的解决方案。&lt;/p&gt;
+&lt;p&gt;倒过头来看，这个问题肯定是由于存储数据的顺序决定的（后面是一段不太靠谱的分析）。u、t 等多维数组，虽然本身是多维的，但在存储的时候，肯定还是展开成一维的形式存储的。而多维数据的存储，有C和Fortran两种不同的顺序（注意 pyevtk 给出的示例中用的是 &lt;code&gt;order='F'&lt;/code&gt;）。Pyevtk 库可能内置了什么判断，可以知道输入的数组是什么类型的排序方式，但如果输入的是切片，就扰乱了这个判断，从而导致写入的顺序错误。&lt;/p&gt;
+&lt;p&gt;PS. 补充一下，之前用的复制多个z数据，强行输出伪3维结果的方法中，如果只输出两层结果，在 Paraview 中，可以正常显示标量云图和矢量图，但无法显示流线图，必须复制多份（我自己的测试是4份就行了）。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;[1] Python 似乎还有专门的库用于处理 vtk 格式，如 tvtk 等。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 23 May 2014 21:03:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-05-23:python-shu-chu-yong-yu-paraview-hou-chu-li-de-vtk-wen-jian.html</guid><category>编程</category></item><item><title>用 numexpr 库优化 numpy 计算速度</title><link>http://seekiu.com/yong-numexpr-ku-you-hua-numpy-ji-suan-su-du.html</link><description>&lt;p&gt;NumPy 虽然通过底层高度优化过的计算库可以实现接近C的高效计算，但在计算复杂且计算量庞大的时候多少还是有些嫌慢。Numexpr 库是最近发现的一个非常简单易用的 Numpy性能提升工具，很大程度上从我的需求上解决了性能的问题。&lt;/p&gt;
+&lt;p&gt;先看一个例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class="python"&gt;import numpy as np
+import numexpr as ne
+nx, ny = 1200, 1500
+a = np.linspace(0.,3.1416,nx*ny).reshape(nx,ny)
+for i in range(100):
+    b = np.sin(a+i)**2 + np.cos(a+i)**2 + a**1.5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个程序对一个较大的网格，进行一个较复杂的计算，在使用 Numpy的情况下，我的电脑大约需要运行35.5秒。&lt;/p&gt;
+&lt;p&gt;如果对其中最后一行进行修改，改成 numexpr 的表达式：&lt;/p&gt;
+&lt;pre&gt;&lt;code class="python"&gt;b = ne.evaluate("sin(a+i)**2 + cos(a+i)**2 + a**1.5")
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这次的运行时间是3.2秒，10多倍的速度提升！&lt;/p&gt;
+&lt;p&gt;按 numexpr 官网的说明，现在的 CPU 计算速度多少都有点过剩，很多程序计算速度的瓶颈不在于 CPU，而在于 memory，很多时候 CPU 都「饿着」在等 memory 喂数据。因此，numexpr 做的主要工作是对数据存储方面的优化，细节就不展开了，不能不懂装懂。&lt;/p&gt;
+&lt;p&gt;更有趣的一点是，numexpr 可以实现自动的多线程计算，而且不需要复杂的配置。光这一点，就比 numba、cython 等方便许多。不过也许是与上面一段所说的对应，它并不会把计算机所有的可用核心都用上，妄自猜测这时是因为瓶颈在 memory 了吧。&lt;/p&gt;
+&lt;p&gt;根据我个人计算的需求来说，numexpr有几个好处：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对程序的修改简单，对支持的函数及表达式的提速效果明显；&lt;/li&gt;
+&lt;li&gt;自动化的多线程；&lt;/li&gt;
+&lt;li&gt;相比 numba 这种JIT式的优化，编译几乎没有占用时间；&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 22 May 2014 21:00:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-05-22:yong-numexpr-ku-you-hua-numpy-ji-suan-su-du.html</guid><category>编程</category></item><item><title>关于 Numpy 数组作为函数参数的一个小问题</title><link>http://seekiu.com/guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html</link><description>&lt;blockquote&gt;
+&lt;p&gt;注：本文的所写的只是我自己想出来的一个办法，很可能不是最优或者最标准的做法，如果有高手看到，欢迎指正！ &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在计算过程中遇到这样的一个问题，需要对一个 nx&amp;#42;ny 的网格上每一个节点调用一次函数，然后返回一个 nx&amp;#42;ny 的数组。&lt;/p&gt;
+&lt;p&gt;我之前就写过类似的程序，numpy 可以直接调用普通的计算程序，比如：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;def x_square(x):
+    return x*x
+a = np.arange(nx*ny).reshape(nx,ny)
+print x_square(a)&lt;/pre&gt;
+
+&lt;p&gt;直接把 ndarray 对象作为参数传入函数，就可以得到一个正确的结果。&lt;/p&gt;
+&lt;p&gt;于是，想当然地，也针对上面的需求，写了这样一个程序：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;ff = np.linspace(1.0,2.0,nx*ny).reshape(nx,ny)
+def test(x, y):
+    x=np.int_(x); y=np.int_(y) # to be used as index, x &amp; y should be integer
+    return ff[x,y]
+print test(np.arange(nx), np.arange(ny))&lt;/pre&gt;
+
+&lt;p&gt;运行上面的程序的时候，就出现了 &amp;#8220;shape mismatch: objects cannot be broadcast to a single shape&amp;#8221; 的错误，百思不得其解。在stackoverflow上提问，总算弄明白了这个问题。原来 ndarray 对象作为参数传入函数的时候，如果同时传入多个参数，这些数组可以被当成普通的数来计算，但前提是这些数组的维数都相同，或者是0维的数（也其实相当于任意维），如果维数不同是无法处理的。&lt;/p&gt;
+&lt;p&gt;至于上面这个问题，我想到的一个有点丑陋的做法是用 fromfunction 函数，再新建一个中间函数：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;def tt(x0, x1, y0, y1):
+    dx = x1-x0; dy = y1-y0
+    return np.fromfunction(lambda a,b: test(a+x0,b+y0), (dx, dy))&lt;/pre&gt;
+
+&lt;p&gt;这样，调用函数的格式有所不同，但毕竟目的是达到了。&lt;/p&gt;
+&lt;p&gt;不知是否还有更简单直接的办法，现在的做法总觉得有些 dirty。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 16 May 2014 20:56:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-05-16:guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html</guid><category>编程</category></item><item><title>用Python作流场计算时的后处理问题</title><link>http://seekiu.com/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html</link><description>&lt;p&gt;由于我现在正试图用Numpy来实现 Lattice Boltzmann method 的算法，也会涉及到一些简单的后处理功能。这里的后处理具体的说是输出一些关于流场的图像问题，因为输出单点的信息没有任何难度。而图像输出主要是依靠 Matplotlib 这个强大的库来完成。后续如果要做进一步的后处理的话，应该还是要学一学如何导出数据到专业后处理软件中，但就调试过程而言，能及时输出一些直观的图像是十分必要的。&lt;/p&gt;
+&lt;p&gt;我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。&lt;/p&gt;
+&lt;p&gt;例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot.contour（后面把matplotlib.pyplot 简写为 plt），也可以更简单地用 plt.imshow。例如在 Palabos 网站上提供的 Python 示例代码就用了下面这样的代码来绘制速度（大小）的云图：&lt;/p&gt;
+&lt;pre class="lang:python decode:true " &gt;plt.imshow(sqrt(u[0]**2+u[1]**2).transpose(),cmap=cm.Reds)&lt;/pre&gt;
+
+&lt;p&gt;这里特别需要注意的是，在作图前，需要对其中的速度场数组（矩阵）作转置才能得到正确的结果。我自己在独立写代码算的时候，因为陷进这个坑里，浪费了好几个小时。需要转置是因为绘图时的索引顺序与数组的顺序有些不同，有兴趣的同学可以自己写几个测试代码研究一下。在其它几个图形输出函数中，都需要作相同的处理。&lt;/p&gt;
+&lt;p&gt;云图弄清楚了，矢量图和流线图都类似了，只要找到合适的函数，看看文档就会了。矢量图用的是 plt.quivier() 函数，而流线图用的是 plt.streamplot() 函数，这两个的用法我目前都没有发现什么很蹊跷的地方，暂时不细讲了。&lt;/p&gt;
+&lt;p&gt;如果要画其它类似的图不知道用哪个函数怎么办呢？我个人推荐的是，在用 Google 搜索之前，先看看 matplotlib 的这个示例页面有没有现成的例子，往往都能找到。这里最好的地方在于，直接给了结果图，所以很容易能发现自己想要的图形。&lt;/p&gt;
+&lt;p&gt;暂时写这么多，后面有更多再来更新吧。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Wed, 30 Apr 2014 20:48:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2014-04-30:yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html</guid><category>编程</category></item><item><title>时间管理第一课</title><link>http://seekiu.com/shi-jian-guan-li-di-yi-ke.html</link><description>&lt;p&gt;对我自己来说，如果要向别人讲时间管理，第一课也是传递「技巧」方面最重要的一课是一句话：快速推进，各个击破。&lt;/p&gt;
+&lt;p&gt;类似的概念最开始是我自己在高中时候开始提出的，那时候课繁多，采用这样的办法很适合当时的状态。后来上大学似乎就渐渐忘了这样的风格，而是更自由更散漫了。&lt;/p&gt;
+&lt;p&gt;重新想起这个概念是因为一句被我长期曲解的Facebook箴言：Move fast and break things。后半句被我理解成了分解任务，于是乎就产生了「快速推进，各个击破」的说法。&lt;/p&gt;
+&lt;p&gt;其实实践下来，恰恰是这个原则最有用，尤其是在针对大块任务或者批量处理的时候。隐含的思路是，如果针对大块任务，把它分解成多个小任务，然后各个击破，而不是对着一个大块头发怵。&lt;/p&gt;
+&lt;p&gt;简单实用的原则，值得写在记事本的第一页。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Thu, 26 Sep 2013 06:01:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-09-26:shi-jian-guan-li-di-yi-ke.html</guid><category>个人</category></item><item><title>用Sublime Text写作和记笔记</title><link>http://seekiu.com/yong-sublime-textxie-zuo-he-ji-bi-ji.html</link><description>&lt;p&gt;上个学期的时候，发现了一个软件&lt;a href="https://www.literatureandlatte.com/scrivener.php"&gt;Scrivener&lt;/a&gt;，它本身号称是一个给作家使用的软件，当时觉得很适合，但可惜价格昂贵，而且对数学公式的支持很差（windows版），所以一直在寻找类似的替代品。找来找去，最后发现一直在使用的文本编辑器sublime text 2其实就已经可以很好地完成这个功能了。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.sublimetext.com/"&gt;Sublime text&lt;/a&gt;是过去一段时间相当火的一个面向程序员的文本编辑器，有多个颇有新意有实用功能。虽然它几十刀的价格对穷学生来说相当没有亲和力，比Scrivener还贵一点，但作者也很厚道地允许无限试用，只是在使用时以相当低的频率弹出窗口提示买证书（似乎是按保存的次数来算的），也算是个准免费软件吧。&lt;/p&gt;
+&lt;p&gt;废话不多说，简单说一下我怎么用ST2实现接近Scrivener的功能的。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;准备工作：安装sublime text，建立存放文件的文件夹，如「research | journal | misc」；&lt;/li&gt;
+&lt;li&gt;首先安装必要的插件，Sidebarenhancements，可以通过package control完成。&lt;/li&gt;
+&lt;li&gt;新建一个Project。菜单栏Project&amp;#8211;Add folder to project&amp;#8230;，把上面这些文件夹依次添加进去，然后Project&amp;#8211;Save project as&amp;#8230;将其保存。如果没有清除记录的话，下次打开ST2后，只需要按下ctrl-alt-p，即可出现近期Project的面板，选择即可载入，如果清除了记录，重新Project&amp;#8211;open project即可；&lt;/li&gt;
+&lt;li&gt;默认情况下ST2并不显示边栏，按下ctrl-k后再按下ctrl-b即可出现。由于前面安装了sidebarenhancements，其右键菜单已经能完成相当部分的功能了。这里最需要的功能是在project中搜索全文的功能，只需要在边栏任一文件（夹）点右键，选择Find in Project&amp;#8230;，即可全文搜索其下的所有文件；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中有了这几步，已经实现了我的需求：我只需要一个方便管理纯文本（边栏中方便地浏览）和能够全文搜索即可。但ST2提供了一些选项，能做得更好。&lt;/p&gt;
+&lt;p&gt;首先是打开project之后，可以用ctrl-p来快速切换其中的文件，它采用的是所谓fuzzy search的算法，只要按顺序输入几个字母（可以跳着输），就可以快速定位到相应的文件，搜索速度完全不亚于everything。如果养成习惯文件名写成英文或中英混合，可以非常快速打开和切换文件。&lt;/p&gt;
+&lt;p&gt;此外还可以对相当常用的全文搜索添加快捷键，依次点击Preferences&amp;#8211;Package Settings&amp;#8211;Side Bar&amp;#8211;Key Bindings &amp;#8211; User，在其中添加类似下面的一段：&lt;/p&gt;
+&lt;pre&gt;&lt;code class="json"&gt;{ "keys": ["alt+f9"],
+        "command": "side_bar_find_in_project",
+        "args":{}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后就可以用快捷键来开启project内所有文件的全文搜索了。&lt;/p&gt;
+&lt;p&gt;总结起来，用sublime text可以实现我在scrivener里用到的绝大部分功能，包括在边栏中用目录树的方式浏览笔记、所有笔记全文搜索、快速切换文件等。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Mon, 26 Aug 2013 05:59:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-08-26:yong-sublime-textxie-zuo-he-ji-bi-ji.html</guid><category>工具</category></item><item><title>编程两三事</title><link>http://seekiu.com/bian-cheng-liang-san-shi.html</link><description>&lt;p&gt;学期末的时候有一些数据处理的任务，花了很长时间按部就班地以常规办法解决，基本上是在excel、Wolfram Alpha和origin中倒腾数据，在数据量少且源数据不变的时候，可以比较轻松地应付，但偏偏我的问题两个条件都不符合。后来按《你早该这样玩excel》里提的源数据表原则，排成了一个统一并大量冗余的源数据表，全部数据处理用公式完成，效率提高了不少，但依然不够满意。主要还是excel里批量处理的数据不能及时转为图像（不会啊。。。），它的公式处理也不够灵活，也缺少「拟合」这样的高级功能。&lt;/p&gt;
+&lt;p&gt;后来其中某个小问题由于需要不停地迭代试算，实在伤脑筋，就干脆请身边的某matlab达人 ^[没错，就是传说中的鸡爷！] 帮忙编写了一个自动解决其中一部分问题的小程序，当时惊为天人。当然，没过多久，又开始对这个小程序不满足了，但这种提前告诉程序需要做什么事，然后具体的任务由它完成的思想给了我很好的启发。这个小程序解决的只是一部分需要迭代的小部分（甚至它都没实现迭代本身，只是自动实现了迭代的过程），而如果能由程序完成尽可能多的问题呢？&lt;/p&gt;
+&lt;p&gt;刚好此前在室友的推荐下看过&lt;a href="http://hyry.dip.jp/tech/book/page/scipy/index.html"&gt;《用python作科学计算》&lt;/a&gt;，知道python的开源包一定程度上可以实现matlab的常用功能，又由于python本身是一个全功能的编程语言，因此就决定在暑假学一学python。&lt;/p&gt;
+&lt;p&gt;说一下编程的两大罪状：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;会不断地碰到小问题，不断地通过google、查文档解决，于是如果堆代码的过程比较顺利的话，就是一个不断地产生小成就感的过程。这种小成就感给人一种幻觉，让人觉得似乎完成了很大的成就，而事实的情况是即使整个程序拿出来也只是做了一点点事情而已。&lt;/li&gt;
+&lt;li&gt;会不断地碰到小问题，如果是比较冷门的问题，有可能会在原地打转，并且持续很久，这也是相当糟糕的情况。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;学会一门编程语言的三大好处：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以批量地完成某些计算任务。以前喜欢在excel中处理数据，然后在origin中作图，中间如果修改了数据，则所有流程都需要重新做一遍，较为繁琐。而如果写成一个程序，只需要对源数据文件作修改，后续所有的数据处理和绘图都自动完成。这在某些情况下是极其便利的。&lt;/li&gt;
+&lt;li&gt;对非程序员、数学专业出身的工科生来说，写程序、排除bug的过程非常锻炼逻辑化思维（不完全等于逻辑思维）的能力。我自己在排除自己写的小程序的bug过程中形成的思考方式，在其它方面有非常好的借鉴意义，例如在CFD模拟出现非预期问题时的排错等。&lt;/li&gt;
+&lt;li&gt;偶尔也可以做一些小项目，比如很常见的自动抓取网页信息等。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;关于python本身，发表一些个人意见：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;语法简单,相比C家族的语言更适合我这样的新手；&lt;/li&gt;
+&lt;li&gt;用缩进标记代码块，最后写出来的代码一般更美观些，适合我这样有「贱症」的人；&lt;/li&gt;
+&lt;li&gt;网上资源很多，常见问题在stackexchange基本都能找到答案，文档也比较丰富，基本都有例子，照做就行；&lt;/li&gt;
+&lt;li&gt;第三方库很强大，比如科学计算的numpy、scipy，基本上能替代matlab和origin的常用功能了；&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Mon, 26 Aug 2013 05:56:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-08-26:bian-cheng-liang-san-shi.html</guid><category>编程</category></item><item><title>如先书记的故事</title><link>http://seekiu.com/ru-xian-shu-ji-de-gu-shi.html</link><description>&lt;p&gt;如先书记是20世纪70年代为数不多的还有真功夫的人，在县里也小有名气。如先书记的出名主要是因为两件事：&lt;/p&gt;
+&lt;p&gt;一次是下乡的时候，一行3人，遇到一群抬花轿的人，当时的政策不允许再用花轿，如先作为书记，便上前与人说理，却不料对方仗着人多，反倒想欺负人，两人制住如先书记的双手，另一个欲给以当面一拳，却不料如先一发力，竟将手中两人一齐甩出，出拳之人亦即惊呆，不再造次。旁人劝道，「您是书记，不能打人啊！」，如先曰，「我不打你们，如果我真要打，怕你们也承不住。」&lt;/p&gt;
+&lt;p&gt;另一次是与外乡人喝酒，席间外乡人道，早闻如先书记功夫了得，何不一起耍耍，如先欣然应允。遂有四外乡人，都是农民出身，自认力气不小，两前两后，如先直立居其中，不执任何器物。前后四人倾尽其力，不可移其分毫。众皆奇之。&lt;/p&gt;
+&lt;p&gt;当然，对如先的子女来说，记得更清楚的是，如果不小心割伤，血流不止，如先只需在伤口周围稍微按摩穴位，流血顷刻可止。可惜，此技已失传矣。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：本文除人名外，故事大概属实。&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 26 Jul 2013 05:55:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-07-26:ru-xian-shu-ji-de-gu-shi.html</guid><category>个人</category></item><item><title>精力——旧观念与新想法</title><link>http://seekiu.com/jing-li-jiu-guan-nian-yu-xin-xiang-fa.html</link><description>&lt;p&gt;本科的时候，接触过一些研究生，最重要的印象是这些老大不小的「学生」都好有精力，对很多东西都跃跃欲试，以至于看起来甚至还不如本科生成熟稳重。几年过去了，现在读起了博士，也在项目中带过本科生，身份互换了一下，想法也变了很多。&lt;/p&gt;
+&lt;p&gt;最直接的变化是，从「老」博士的角度看，相当多「年轻」的本科生都不够有朝气。这当然有一定的客观原因，现在这个年代，晚上十一点前睡觉的都会被当成怪人，理工科大学的课业压力也是相当大，但另一方面，不讲究合理安排时间，拖延症严重（有几个人不是呢，sigh…），导致很多时候显得没精打采。&lt;/p&gt;
+&lt;p&gt;一年前的我，大概也同样是这种情况，甚至经常被GF称为小老头。所幸，有两件重要的事改变了我的观念。&lt;/p&gt;
+&lt;p&gt;其中一个，是同伴的影响。同一工作室的博士同学都相当努力，而且相当能折腾，很少看见他们像本科同学那样扎堆打游戏，却常常见到他们折腾一些稀奇的东西。这对我是很好的影响，不仅因为工作的激情会传染，变成更努力工作的动力，也因为这种「折腾」的态度，让人不知不觉地学会更热爱生活。&lt;/p&gt;
+&lt;p&gt;另一个原因，是学车的经历。学车的地方离学校很远，教练一般都早上天蒙蒙亮就来接，所以不得不每周有一天得起大早，开始的时候觉得简直不可思议，第一次学完回来还小憩了一会，后来就渐渐习惯了，精神上稍微努力一下，白天也就那样过去了。有了这段经历才真正明白很久之前在某博客里看到的：白天如果困了，不要睡，用运动或其他办法让大脑兴奋起来，坚持过去那一阵子就好了。&lt;/p&gt;
+&lt;p&gt;两年前，刚读研究生的时候，看着某些毫无生气的老博士，提醒自己，如果某一天变得对什么事情都indifferent了，那就真的是很可悲了。有趣的是现在回过头去看那时的我，倒觉得现在有激情了许多。这是件好事吧~&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 26 May 2013 05:54:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-05-26:jing-li-jiu-guan-nian-yu-xin-xiang-fa.html</guid></item><item><title>提高效率的工具(I)——Virtuawin</title><link>http://seekiu.com/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html</link><description>&lt;p&gt;准备长期更新一个系列的文章，介绍几个自己觉得不错的效率软件，这次是给windows添加虚拟桌面功能的&lt;a href="http://virtuawin.sourceforge.net/"&gt;Virtuawin&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;Virtuawin（注意不是Virtualwin）是给Windows提供类似Ubuntu的工作空间的软件，可以创建多个虚拟桌面，然后方便地切换。&lt;/p&gt;
+&lt;p&gt;这个软件最适合于整洁控，可以把打开的窗口分到不同的虚拟桌面里，而目前所处的桌面只保留一到两个窗口。比如打开网页听豆瓣fm的时候，由于不能最小化，就干脆把它单独放到某个最后的桌面里，或者在做网络调研的时候，可能会打开一大堆窗口，就可以把它们分类归到不同桌面上。&lt;/p&gt;
+&lt;p&gt;我自己最近觉得很实用的一个方面是，当在工作站上算多个单线程的小程序的时候，就可以开启一堆窗口，每个桌面放几个，就不至于全部缩到任务栏的小图标里了。&lt;/p&gt;
+&lt;p&gt;我自己的设置比较简单，3个虚拟桌面，后台运行的程序如豆瓣fm放第3个桌面，工作桌面为1和2，切换桌面的快捷键为ctrl+win+方向键，桌面间移动窗口的快捷键为alt+win+方向键。&lt;/p&gt;
+&lt;p&gt;功能很简单，也很纯粹，没有不必要的东西。最大的遗憾是没有像Ubuntu那样漂亮的切换动画，可惜。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 26 May 2013 05:51:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-05-26:ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html</guid><category>工具</category></item><item><title>工具软件</title><link>http://seekiu.com/gong-ju-ruan-jian.html</link><description>&lt;p&gt;本科时参与过一个自主程度较高的科研项目，受益不少，指导老师也是现在的博士导师。最近自己又成了这种项目的小导师，与两位同我相差3级的本科同学交流后，有了一些感触。结合最近的一些思考，写下此文。&lt;/p&gt;
+&lt;p&gt;印象中初中政治书上有一句话说，工具是人类身体的延伸。这句话挺精确的，通过延伸我们的身体，可以完成一些正常难以完成的事情，但过多地依赖这种工具，也会削弱我们自身的一些能力。典型的例子如代步工具自不必说，现代的手机也是一个例子，它既方便了远在千里之外的人交流，却又因为在饭桌上占用大部分人的注意力而妨碍了交流。工具的双重效果是其本质属性，以工具带来方便的同时，也应避免为工具所困。道理很浅显，但现代的工具又往往让我们迷失其中。&lt;/p&gt;
+&lt;p&gt;大约一个月前，与两位本科生第一次交流。由于项目书中提到了一些工具软件如现在十分流行的Fluent，同学都表示很有兴趣。但我感觉两位同学对于工具的着迷程度胜过了对物理现象背后作用原理的兴趣，让我产生了一些忧虑。现代的工程仿真软件越做越庞大，功能越做越复杂，操作却越来越简单。在宣传中我们可以看到各种复杂绚丽的效果，不内行的人看得眼花缭乱，内行的人也越发乐此不疲。这本是一件好事，科研人员专心于研究事务，不善于宣传和表达，而这些工具某种程度上降低了他们的宣传门槛。&lt;/p&gt;
+&lt;p&gt;但这学期我自己所研究的一些内容很大程度上改变了我的看法。起源是开始学习Surface Evolver这个相当小众的仿真软件，它是一位数学教授写的小软件，用来最基本的能量最小原理计算液面形状的。由于它基本上算是一个个人项目，所以软件界面、帮助文档什么的都相对还不齐全（也远没有像ANSYS这种商业软件的成熟）。它的网格算法与之前接触的ANSYS和Fluent的有限元或者有限体积法都有所不同，初入门的时候也需要重新学习一些完全不同的概念。刚开始学的时候，觉得它与以前学的基本都不同，原理上就相差好多，由于软件本身的限制，建模、命令操作都相当原始，也逼得人去学一些它（相对）底层的原理。但随着对它渐渐的熟悉，这两天重新开始做一些CFD的模拟，并开始应用一些相对高级的技巧，才发现从基本原理上讲，尽管描述的物理过程千差万别，但基本的思路和原理还是有很大的相似性的。事实上，如果不是之前在学习Surface Evolver的时候积累下了一些基本观念的理解，我是不会有信心和胆量去尝试Fluent中的那些（对我来说）比较高级的功能的。&lt;/p&gt;
+&lt;p&gt;说这么多，只是想表达一个观点：工具软件用好，但别用死。了解它背后的基本数学物理原理更为重要，具体的求解过程和实现方式总能找到相关的方案，不管是商业的还是开源的。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 26 Jan 2013 05:33:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-01-26:gong-ju-ruan-jian.html</guid><category>个人</category></item><item><title>南半球——海岛</title><link>http://seekiu.com/nan-ban-qiu-hai-dao.html</link><description>&lt;p&gt;睡前看潘光旦写的《霭理士传》，讲到他在二十岁左右的青春时期曾独自在澳洲生活过几年，对其人格养成形成了重大影响。突然想起来我自己少年时期虽不曾有相同的幸运，却通过各种探险、传奇，对那个陌生的世界有所了解，并神往已久。&lt;/p&gt;
+&lt;p&gt;多少儿时的梦想到现在都忘记了，突然想到这个，竟激动起来。&lt;/p&gt;
+&lt;p&gt;有生之年，应该努力想办法去南半球，找个不那么喧闹的海岛看看，给儿时的自己还一个心愿。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.seekiu.com/wp-content/uploads/2015/05/island.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 26 Jan 2013 05:25:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2013-01-26:nan-ban-qiu-hai-dao.html</guid><category>个人</category></item></channel></rss>

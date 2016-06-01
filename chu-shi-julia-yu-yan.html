@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>初试 Julia 语言</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./chu-shi-julia-yu-yan.html" rel="bookmark"
+           title="Permalink to 初试 Julia 语言">初试 Julia 语言</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-08-10T12:55:00+08:00">
+                Published: 周一 10 八月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的<strong>通用</strong>编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）</p>
+<p>之所以这样说，有三个方面的理由：</p>
+<ol>
+<li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba 版本相差三个数量级，占用的内存也异常地大。后来发现，最主要的原因是三层嵌套循环中，循环长度我按 Python 的习惯定义为变量，而在 Julia 中不变的全局量最好声明为常量。仅仅这个修改，让速度提升了两个数量级，但还不及 numba 的速度。进一步的测试还可以通过一些细小的地方来进一步提升速度，如<a href="http://www.palladiumconsulting.com/2014/09/little-performance-explorations-julia/">这篇文章</a>做的那样，最终高度优化之后速度也许可以达到接近 Fortran。但是，如果要这样做，为什么不干脆用 Fortran 呢？相比之下，numba 的可用性就要高太多了。不过毕竟它现在的稳定版本还是0.3.10，还需要再给它一点时间发展成熟。</p> </li>
+<li>
+<p>作为一个新兴、小众的语言，相关的工具链还太弱了。没有合格的 IDE，<a href="http://junolab.org/">Juno</a> 在我看来现在连半成品都还算不上。包管理似乎是用的 Git，有时会出一些奇怪的问题，这时候用 <code>Pkg</code> 倒还不如手动去管理。调试程序也比较痛苦，一方面是很多错误信息跟没给差不多，像我这种不熟悉的人基本只能用 <code>print</code> 一半一半地查，另一方面是相关的调试工具也还不够好用。</p>
+</li>
+<li>
+<p>文档、相关信息还太少。已经有不少人开始使用 Julia，但网上公开的信息中，官方的文档还比较简陋，其他用户贴出的博客也很少。这导致在遇到问题的时候，很难快速地难过 Google 直接得到问题的答案，而往往需要在社区中等待圈内人士的解答。</p>
+</li>
+</ol>
+<p>另外一个对 Julia 印象不太好的是，官网给出的 benchmark 没有多少参考价值，至少其结果中 Python 和 Matlab 都很有问题，多半是单纯地逐行翻译出来的程序。这就跟我把 numba 的程序直接翻译成 Julia，然后得出结论它很慢一样，是不公平的比较。</p>
+<p>不管怎么样，Julia 目前看来还是值得持续关注的，但是目前，我还不会考虑把它作为主要的计算语言。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

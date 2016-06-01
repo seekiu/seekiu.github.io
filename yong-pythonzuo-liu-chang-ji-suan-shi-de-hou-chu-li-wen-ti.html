@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>用Python作流场计算时的后处理问题</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html" rel="bookmark"
+           title="Permalink to 用Python作流场计算时的后处理问题">用Python作流场计算时的后处理问题</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-30T20:48:00+08:00">
+                Published: 周三 30 四月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>由于我现在正试图用Numpy来实现 Lattice Boltzmann method 的算法，也会涉及到一些简单的后处理功能。这里的后处理具体的说是输出一些关于流场的图像问题，因为输出单点的信息没有任何难度。而图像输出主要是依靠 Matplotlib 这个强大的库来完成。后续如果要做进一步的后处理的话，应该还是要学一学如何导出数据到专业后处理软件中，但就调试过程而言，能及时输出一些直观的图像是十分必要的。</p>
+<p>我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。</p>
+<p>例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot.contour（后面把matplotlib.pyplot 简写为 plt），也可以更简单地用 plt.imshow。例如在 Palabos 网站上提供的 Python 示例代码就用了下面这样的代码来绘制速度（大小）的云图：</p>
+<pre class="lang:python decode:true " >plt.imshow(sqrt(u[0]**2+u[1]**2).transpose(),cmap=cm.Reds)</pre>
+
+<p>这里特别需要注意的是，在作图前，需要对其中的速度场数组（矩阵）作转置才能得到正确的结果。我自己在独立写代码算的时候，因为陷进这个坑里，浪费了好几个小时。需要转置是因为绘图时的索引顺序与数组的顺序有些不同，有兴趣的同学可以自己写几个测试代码研究一下。在其它几个图形输出函数中，都需要作相同的处理。</p>
+<p>云图弄清楚了，矢量图和流线图都类似了，只要找到合适的函数，看看文档就会了。矢量图用的是 plt.quivier() 函数，而流线图用的是 plt.streamplot() 函数，这两个的用法我目前都没有发现什么很蹊跷的地方，暂时不细讲了。</p>
+<p>如果要画其它类似的图不知道用哪个函数怎么办呢？我个人推荐的是，在用 Google 搜索之前，先看看 matplotlib 的这个示例页面有没有现成的例子，往往都能找到。这里最好的地方在于，直接给了结果图，所以很容易能发现自己想要的图形。</p>
+<p>暂时写这么多，后面有更多再来更新吧。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

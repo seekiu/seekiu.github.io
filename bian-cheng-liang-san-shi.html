@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>编程两三事</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="./category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./bian-cheng-liang-san-shi.html" rel="bookmark"
+           title="Permalink to 编程两三事">编程两三事</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T05:56:00+08:00">
+                Published: 周一 26 八月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->      <p>学期末的时候有一些数据处理的任务，花了很长时间按部就班地以常规办法解决，基本上是在excel、Wolfram Alpha和origin中倒腾数据，在数据量少且源数据不变的时候，可以比较轻松地应付，但偏偏我的问题两个条件都不符合。后来按《你早该这样玩excel》里提的源数据表原则，排成了一个统一并大量冗余的源数据表，全部数据处理用公式完成，效率提高了不少，但依然不够满意。主要还是excel里批量处理的数据不能及时转为图像（不会啊。。。），它的公式处理也不够灵活，也缺少「拟合」这样的高级功能。</p>
+<p>后来其中某个小问题由于需要不停地迭代试算，实在伤脑筋，就干脆请身边的某matlab达人 ^[没错，就是传说中的鸡爷！] 帮忙编写了一个自动解决其中一部分问题的小程序，当时惊为天人。当然，没过多久，又开始对这个小程序不满足了，但这种提前告诉程序需要做什么事，然后具体的任务由它完成的思想给了我很好的启发。这个小程序解决的只是一部分需要迭代的小部分（甚至它都没实现迭代本身，只是自动实现了迭代的过程），而如果能由程序完成尽可能多的问题呢？</p>
+<p>刚好此前在室友的推荐下看过<a href="http://hyry.dip.jp/tech/book/page/scipy/index.html">《用python作科学计算》</a>，知道python的开源包一定程度上可以实现matlab的常用功能，又由于python本身是一个全功能的编程语言，因此就决定在暑假学一学python。</p>
+<p>说一下编程的两大罪状：</p>
+<ol>
+<li>会不断地碰到小问题，不断地通过google、查文档解决，于是如果堆代码的过程比较顺利的话，就是一个不断地产生小成就感的过程。这种小成就感给人一种幻觉，让人觉得似乎完成了很大的成就，而事实的情况是即使整个程序拿出来也只是做了一点点事情而已。</li>
+<li>会不断地碰到小问题，如果是比较冷门的问题，有可能会在原地打转，并且持续很久，这也是相当糟糕的情况。</li>
+</ol>
+<p>学会一门编程语言的三大好处：</p>
+<ol>
+<li>可以批量地完成某些计算任务。以前喜欢在excel中处理数据，然后在origin中作图，中间如果修改了数据，则所有流程都需要重新做一遍，较为繁琐。而如果写成一个程序，只需要对源数据文件作修改，后续所有的数据处理和绘图都自动完成。这在某些情况下是极其便利的。</li>
+<li>对非程序员、数学专业出身的工科生来说，写程序、排除bug的过程非常锻炼逻辑化思维（不完全等于逻辑思维）的能力。我自己在排除自己写的小程序的bug过程中形成的思考方式，在其它方面有非常好的借鉴意义，例如在CFD模拟出现非预期问题时的排错等。</li>
+<li>偶尔也可以做一些小项目，比如很常见的自动抓取网页信息等。</li>
+</ol>
+<p>关于python本身，发表一些个人意见：</p>
+<ul>
+<li>语法简单,相比C家族的语言更适合我这样的新手；</li>
+<li>用缩进标记代码块，最后写出来的代码一般更美观些，适合我这样有「贱症」的人；</li>
+<li>网上资源很多，常见问题在stackexchange基本都能找到答案，文档也比较丰富，基本都有例子，照做就行；</li>
+<li>第三方库很强大，比如科学计算的numpy、scipy，基本上能替代matlab和origin的常用功能了；</li>
+</ul>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
