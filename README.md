@@ -1,1 +1,1 @@
-"This is teh README" 
+"This is the README" 
