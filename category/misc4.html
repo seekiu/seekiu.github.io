@@ -23,6 +23,31 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="../yong-python-jian-hua-shu-ju-chu-li-liu-cheng-de-workflow-ji-jian-dan-shi-fan.html" rel="bookmark"
+                           title="Permalink to 用 Python 简化数据处理流程的 workflow 及简单示范">用 Python 简化数据处理流程的 workflow 及简单示范</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-07T21:12:00+08:00">
+                Published: 周四 07 八月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="../author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="../category/misc.html">misc</a>.</p>
+<p>tags: <a href="../tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。</p>
+<p>如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。</p>
+<p>这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。</p>
+<p>举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件 ...</p>
+                <a class="readmore" href="../yong-python-jian-hua-shu-ju-chu-li-liu-cheng-de-workflow-ji-jian-dan-shi-fan.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="../yong-cythonlai-jia-su-pythonde-ke-xue-ji-suan-cheng-xu.html" rel="bookmark"
                            title="Permalink to 用Cython来加速Python的科学计算程序">用Cython来加速Python的科学计算程序</a></h1>
                 </header>
@@ -152,40 +177,6 @@ a = np.linspace(0.,3.1416,nx*ny).reshape(nx,ny)
 for i in range(100):
     b = np.sin(a+i)**2 + np.cos(a+i)**2 + a**1.5 ...</code></pre>
                 <a class="readmore" href="../yong-numexpr-ku-you-hua-numpy-ji-suan-su-du.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="../guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html" rel="bookmark"
-                           title="Permalink to 关于 Numpy 数组作为函数参数的一个小问题">关于 Numpy 数组作为函数参数的一个小问题</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-05-16T20:56:00+08:00">
-                Published: 周五 16 五月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="../author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="../category/misc.html">misc</a>.</p>
-<p>tags: <a href="../tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <blockquote>
-<p>注：本文的所写的只是我自己想出来的一个办法，很可能不是最优或者最标准的做法，如果有高手看到，欢迎指正！ </p>
-</blockquote>
-<p>在计算过程中遇到这样的一个问题，需要对一个 nx&#42;ny 的网格上每一个节点调用一次函数，然后返回一个 nx&#42;ny 的数组。</p>
-<p>我之前就写过类似的程序，numpy 可以直接调用普通的计算程序，比如：</p>
-<pre class="lang:python decode:true " >def x_square(x):
-    return x*x
-a = np.arange(nx*ny).reshape(nx,ny)
-print x_square(a)</pre>
-
-<p>直接把 ndarray 对象作为参数传入函数，就可以得到一个正确的结果。</p>
-<p>于是，想当然地，也针对上面的需求，写了这样一个程序：</p>
-<pre class="lang:python decode:true " >ff = np.linspace(1.0,2.0 ...</pre>
-                <a class="readmore" href="../guan-yu-numpy-shu-zu-zuo-wei-han-shu-can-shu-de-yi-ge-xiao-wen-ti.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

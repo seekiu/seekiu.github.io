@@ -21,7 +21,31 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="./high-level-gpu-accelerated-program-in-python.html">High-level GPU-accelerated Program in Python</a></h1>
+                    <h1 class="entry-title"><a href="./hello-pelican.html">Hello Pelican!</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-06-01T16:50:00+08:00">
+                Published: 周三 01 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+
+</footer><!-- /.post-info --><p>Hello world from Pelican!</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./high-level-gpu-accelerated-program-in-python.html" rel="bookmark"
+                           title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2015-12-22T09:58:00+08:00">
                 Published: 周二 22 十二月 2015
@@ -32,14 +56,10 @@
         </address>
 <p>In <a href="./category/misc.html">misc</a>.</p>
 <p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info --><p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable, easily crashes when fed with large data. And the acceleration is still far from my expectations.</p>
-<p>According to <a href="http://stackoverflow.com/questions/30833917/how-to-properly-use-anaconda-accelerate-for-gpu">this article from stackoverflow</a> (2015.6), the <a href="https://github.com/lebedov/scikit-cuda">scikit-cuda</a> package can provide some frequently used functions such as matrix multiplication. Although there are some restrictions: (1) Python27 only; (2) No customization ability (???).</p>
-<p><code>numba.cuda</code> is a relatively low-level package. It sounds interesting, but I just don&#8217;t have that time to dig deep into that. The ideal solution is that the guy at Continuum can keep improving the <code>guvectorize</code> in the NumbaPro, and make it really usable.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable ...</p>
+                <a class="readmore" href="./high-level-gpu-accelerated-program-in-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -159,30 +179,6 @@ def bar(x):
 <ol>
 <li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba ...</li></ol>
                 <a class="readmore" href="./chu-shi-julia-yu-yan.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="./tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html" rel="bookmark"
-                           title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-07-02T20:49:00+08:00">
-                Published: 周四 02 七月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="./category/misc.html">misc</a>.</p>
-<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
-<p>推荐的原因，首先得从 Python 科学计算说起。</p>
-<p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 ...</p>
-                <a class="readmore" href="./tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

@@ -23,6 +23,30 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="./tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html" rel="bookmark"
+                           title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-02T20:49:00+08:00">
+                Published: 周四 02 七月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="./category/misc.html">misc</a>.</p>
+<p>tags: <a href="./tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
+<p>推荐的原因，首先得从 Python 科学计算说起。</p>
+<p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 ...</p>
+                <a class="readmore" href="./tui-jian-shi-yong-numbajia-su-pythonke-xue-ji-suan.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="./ru-he-zai-windowsxia-gei-viman-zhuang-youcompleteme.html" rel="bookmark"
                            title="Permalink to 如何在Windows下给Vim安装YouCompleteMe">如何在Windows下给Vim安装YouCompleteMe</a></h1>
                 </header>
@@ -154,29 +178,6 @@
 <p>以下是2015年2月，寒假在家的时候，读大约第十几遍的时候，写的一点感想。<!--more--></p>
 <p>这篇文章有很多论点，粗看起来都很有道理，但对我而言，也仅限于「看起来很有道理」而已。比如文章开头的时候强调的，「Clarity ...</p>
                 <a class="readmore" href="./guan-yu-do-it-now-de-bi-ji.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="./vim-xi-lie-san-jin-ru-comfort-zone.html" rel="bookmark"
-                           title="Permalink to Vim 系列（三） 进入 comfort zone">Vim 系列（三） 进入 comfort zone</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-02-08T21:21:00+08:00">
-                Published: 周日 08 二月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="./author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="./category/misc.html">misc</a>.</p>
-<p>tags: <a href="./tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>尝试从 Sublime 迁移到 Vim 有一些时间了，现在基本适应（算不上熟悉）它的基本操作方式，配置了一些用得上的插件，基本上可以说进入 comfort zone 了。这其中最主要的一点是，一方面适应了 vim 某些方面更便捷的一些操作，另一方面，也基本找到了 sublime 中一些很常用功能的替代品。</p>
-<p>首先是学会了安装插件，我采用的办法是 Pathogen。虽然网上现在现多的声音支持 Vundle，它也似乎相对更接近 sublime 中的 package control 的功能，但对我而言它有一个非常大的不便，就是必须信赖 GIT，而我至少目前为止，还没有想法去折腾它。另一方面，Pathogen 相对简单很多，新建一个 bundle 文件夹，然后把相应的插件从 Github 上下载下来丢到里面即可（感谢 Github 提供了从网页下载 zip ...</p>
-                <a class="readmore" href="./vim-xi-lie-san-jin-ru-comfort-zone.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
