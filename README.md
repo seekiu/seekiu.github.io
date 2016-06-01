@@ -1,1 +1,1 @@
-"This is the README" 
+This is my blog repository. Please visit <seekiu.com>.
