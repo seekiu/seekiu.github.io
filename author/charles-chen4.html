@@ -3,8 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog - Charles Chen</title>
-        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
-        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -13,9 +13,9 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
@@ -23,7 +23,36 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2014/python-workflow-simplify-data-processing.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html" rel="bookmark"
+                           title="Permalink to 一个反直觉数学题的程序验证">一个反直觉数学题的程序验证</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-11-14T21:13:00+08:00">
+                Published: 周五 14 十一月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>很久之前看到的东西了，今天总算抽空把它写完了。</p>
+<p>最开始是在 Quora 上看到一个很有意思的<a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit">答案</a>，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。</p>
+<p>第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。</p>
+<div class="highlight"><pre><span></span>def game1():  
+    # flip twice, the possibility of HH or HT  
+    hh = 0; ht = 0  
+    for i in xrange(100000):  
+        pre = &#39;&#39;; cur ...</pre></div>
+                <a class="readmore" href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2014/python-workflow-simplify-data-processing.html" rel="bookmark"
                            title="Permalink to 用 Python 简化数据处理流程的 workflow 及简单示范">用 Python 简化数据处理流程的 workflow 及简单示范</a></h1>
                 </header>
 
@@ -34,21 +63,21 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。</p>
 <p>如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。</p>
 <p>这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。</p>
 <p>举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件 ...</p>
-                <a class="readmore" href="http://seekiu.github.io/2014/python-workflow-simplify-data-processing.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2014/python-workflow-simplify-data-processing.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2014/use-cython-to-accelerate-python.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2014/use-cython-to-accelerate-python.html" rel="bookmark"
                            title="Permalink to 用Cython来加速Python的科学计算程序">用Cython来加速Python的科学计算程序</a></h1>
                 </header>
 
@@ -59,23 +88,23 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>从网上照抄的一些 LBM 算例基本都是在规整的矩形区域内的计算，用简单的 Numpy 非常适合，但当需要计算一些稍微更复杂的计算域时，纯 Numpy 的计算逻辑就有点复杂了，这时最简单的办法还是循环计算节点，这时候就不得不请出 Cython 了。</p>
 <p>对我这种级别的人来说，Cython 基本上可以理解成用 Python 的语法来写 C，与 Python 的主要区别在于可以定义变量的类型，以及需要编译成 Python 库才能运行。这篇文章简单记录一下使用 Cython 的一些入门知识。</p>
 <p>使用 Cython，先需要建立一个 <code>pyx</code> 格式的源文件，以计算宏观密度的函数为例，建立 <code>rho.pyx</code> 文件，并写入如下的函数：</p>
 <div class="highlight"><pre><span></span>def calc_rho_notype(f):  
     rho = np.empty_like(f[:,:,0])  
     for i ...</pre></div>
-                <a class="readmore" href="http://seekiu.github.io/2014/use-cython-to-accelerate-python.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2014/use-cython-to-accelerate-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2014/use-anaconda.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2014/use-anaconda.html" rel="bookmark"
                            title="Permalink to 把 python 科学计算环境换成了 Anaconda">把 python 科学计算环境换成了 Anaconda</a></h1>
                 </header>
 
@@ -86,22 +115,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>此前尝试过 python(x,y)，但最终还是换回了纯 python 的环境，一方面是因为它太大，另一方面它实在包含了太多不可控的东西，包括潜在的污染系统 python 的危险等。偶然看到 Anaconda 的介绍，似乎是一种较为「绿色」的方案，而且带的科学计算包也比较全，试着装了一下，确实不错。Anaconda 的一个主要优势在于，它集成了绝大部分常用的计算包，并全部放在自己的文件夹中，与系统内已安装的 Python 相对独立，因此安装下来非常干净。如果其它人也想运行在这个环境下写出来的代码，只需要安装 Anaconda 环境即可，而不再需要一个一个把需要的包都下载下来，这一点，在与其它人交流代码时就太方便了。</p>
 <p>从原来配置的环境换到 Anaconda 也非常简单，大概会有这么几个问题：</p>
 <ol>
 <li>
 <p>删除重复的包，如 numpy / scipy / matplotlib 等，用 <code>pip uninstall</code> 即可 ...</p></li></ol>
-                <a class="readmore" href="http://seekiu.github.io/2014/use-anaconda.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2014/use-anaconda.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2014/problems-using-vpn.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2014/problems-using-vpn.html" rel="bookmark"
                            title="Permalink to 用 VPN 时的一些小问题">用 VPN 时的一些小问题</a></h1>
                 </header>
 
@@ -112,23 +141,23 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>从5月35日前两天左右开始，gg开始几乎全系被封，干脆买了个收费的 VPN，想一次性解决问题。当然，事实证明也没有这么简单，还是碰到了大大小小的不少问题，大致罗致如下：</p>
 <ol>
 <li>L2** 比 PP** 的「安全性」更好，一般推荐用前者；</li>
 <li>路由表是个好东西，尤其是 chnroutes，它可以实现让国内流量不走 VPN，大量节约收费资源，并且提高速度；</li>
 <li>在我的情况里，L2** 协议再加载智能路由表时，会导致上不了百度，至今没弄明白怎么回事，现在较好的解决办法是在浏览器里再用一个自动代理，让域名带 baidu.com 的都从一个国内的高速缓存里过，算是一个曲线救国的办法了。</li>
 </ol>
-                <a class="readmore" href="http://seekiu.github.io/2014/problems-using-vpn.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2014/problems-using-vpn.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2014/python-output-vtk-for-paraview.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2014/python-output-vtk-for-paraview.html" rel="bookmark"
                            title="Permalink to Python 输出用于 Paraview 后处理的 vtk 文件">Python 输出用于 Paraview 后处理的 vtk 文件</a></h1>
                 </header>
 
@@ -139,51 +168,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>好拗口的标题。。。</p>
 <p>前面的博客中已经提到，Python 有 Matplotlib 这种强大的包可以「在线」地生成（并保存）漂亮的图形，但对于计算流体力学的后处理来说，很多时候需要更多「事后」的后处理。在线的即时输出，虽然可以快速预览结果，但对于想输出什么结果必须在写程序阶段就全部想明白，而不是先计算完，按一定间隔输出整个流场的信息，然后后期想要什么数据慢慢提取分析就行。</p>
 <p>解决这个问题的方法也很简单，直接照抄开源 LBM 软件 Palabos 的方案，用 vtk 格式保存流场信息，然后用 Paraview 进行后处理。</p>
 <p>这个「十分简单」的技术路线结果却花了我很多天的时间，才基本搞清楚其中的奥秘，从多个 tricky part 中脱身。技术上来说，Python 输出 vtk 有成熟的软件包（我采用的是pyevtk 这个库[1]），实现方法也比较直观。例如官方提供的一个示例是这样的 ...</p>
-                <a class="readmore" href="http://seekiu.github.io/2014/python-output-vtk-for-paraview.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2014/use-numexpr-to-accelerate.html" rel="bookmark"
-                           title="Permalink to 用 numexpr 库优化 numpy 计算速度">用 numexpr 库优化 numpy 计算速度</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-05-22T21:00:00+08:00">
-                Published: 周四 22 五月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>NumPy 虽然通过底层高度优化过的计算库可以实现接近C的高效计算，但在计算复杂且计算量庞大的时候多少还是有些嫌慢。Numexpr 库是最近发现的一个非常简单易用的 Numpy性能提升工具，很大程度上从我的需求上解决了性能的问题。</p>
-<p>先看一个例子：</p>
-<pre><code class="python">import numpy as np
-import numexpr as ne
-nx, ny = 1200, 1500
-a = np.linspace(0.,3.1416,nx*ny).reshape(nx,ny)
-for i in range(100):
-    b = np.sin(a+i)**2 + np.cos(a+i)**2 + a**1.5 ...</code></pre>
-                <a class="readmore" href="http://seekiu.github.io/2014/use-numexpr-to-accelerate.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2014/python-output-vtk-for-paraview.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-        <a href="http://seekiu.github.io/author/charles-chen3.html">&laquo;</a>
+        <a href="http://seekiu.com/author/charles-chen3.html">&laquo;</a>
     Page 4 / 6
-        <a href="http://seekiu.github.io/author/charles-chen5.html">&raquo;</a>
+        <a href="http://seekiu.com/author/charles-chen5.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -198,7 +198,7 @@ for i in range(100):
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

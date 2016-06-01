@@ -3,8 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog</title>
-        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
-        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -13,26 +13,80 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.github.io/2016/hello-world-pelican.html">Hello Pelican!</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2016/creat-pelican-site-github-pages.html">用 pelican 创建静态网站放到 GitHub 上</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-06-01T16:50:00+08:00">
+        <abbr class="published" title="2016-06-01T22:01:00+08:00">
                 Published: 周三 01 六月 2016
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/pelican.html">pelican</a> </p>
+</footer><!-- /.post-info --><p>去年在 GoDaddy 买域名半送的 Linux 空间到期了，最近一直在找替代方案。大致的方向是想用 GitHub 免费的 github pages 作为 host，因为此前已经知道 jekyll 是一个选项。但是考虑到 jekyll 是基于 Ruby 的，而我又不想在电脑里再多装一个我不太可能会用到的编程语言，因此搜索了一下基于 Python 的方案，果然，很轻松就地找到了 <a href="blog.getpelican.com">pelican</a>。</p>
+<p>以下是我用 pelican 创建静态网站并托管到 github pages 的流程，希望能让其他看到的人省点时间。另一点专门写出来的原因是，目前我在网上找到的关于 pelican 的教程绝大部分都是针对 Linux 系统的，像 <code>make</code> 之类的命令在 Windows 下根本就不适用，因此我也花了不少准备的时间才把这个系统搭起来。</p>
+<ol>
+<li>准备工作</li>
+</ol>
+<p>Python 环境，我已经有 Anaconda3，pelican 官网上建议使用 2.7，主要原因是怕用到第三方库不兼容，考虑到我的需求应该很简单，3.5 似乎也是可以用的。</p>
+<p>安装额外的第三方库：<code>pip install pelican markdown</code>。</p>
+<ol>
+<li>[可选]迁移原来 Wordpress 的文章</li>
+</ol>
+<blockquote>
+<p>更新：用 <code>pelican-import</code> 导出文章时中文处理上有问题，会有丢失一部分内容的情况，因为我已经有用 jekyll-exporter 导出的 markdown 文件了，所以也没有深究是什么引起的。</p>
+</blockquote>
+<p>Wordpress 自带了导出 xml 的功能，而 pelican 也有对这种文件的支持（根据<a href="http://docs.getpelican.com/en/3.6.3/importer.html">文档</a>，似乎还依赖pandoc这个神器）。在原博客管理后台下载了备份文件之后，切到文件所在目录，执行</p>
+<p><code>pelican-import wordpress_output_file.xml -o output_dir_name -m markdown</code></p>
+<p>这里我选择的标记语言格式是 markdown，默认是 rst。</p>
+<ol>
+<li>在 github 上建立 repo</li>
+</ol>
+<p>在 github 上建一个名为 <code>username.github.io</code> 的 repo，详细可参考<a href="https://pages.github.com/">这里</a>。</p>
+<p>建好之后不需要添加 README，反正也看不到。</p>
+<ol>
+<li>本地文件的准备</li>
+</ol>
+<p>这里用的是我自己的办法，没有用文档推荐的用 <code>ghp-import</code> 的方法。我喜欢把设置保持为最简，然后慢慢添加自己需要的设置，这样 config 文件里所有的项我都知道它的用途。</p>
+<p>在本地建立 Blog 文件夹，下面新建一个 <code>content</code> 和 <code>output</code> 文件夹，前者用来放 markdown 的源文件，后者放 pelican 生成的 html。然后新建一个 <code>pelicanconf.py</code> 的文件，里放一些相关的设置，我最初的设置是这样的：</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 
-</footer><!-- /.post-info --><p>Hello world from Pelican!</p>                </article>
+<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s1">&#39;Charles Chen&#39;</span>
+<span class="n">SITENAME</span> <span class="o">=</span> <span class="s2">&quot;Charles Chen&#39;s blog&quot;</span>
+<span class="n">SITEURL</span> <span class="o">=</span> <span class="s1">&#39;http://seekiu.github.io&#39;</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="s1">&#39;content&#39;</span>
+
+<span class="n">TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;Asia/Shanghai&#39;</span>
+
+<span class="n">DEFAULT_CATEGORY</span> <span class="o">=</span> <span class="s1">&#39;misc&#39;</span>
+
+<span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;notmyidea&#39;</span>
+
+<span class="n">ARTICLE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
+<span class="n">ARTICLE_URL</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
+</pre></div>
+
+
+<p>最后两行是为了用 <code>slug</code> 定义 URL 的格式，默认的是用标题，如果有中文用的是拼音，我觉得不太好，直接用 <code>slug</code> 自定义更可控。</p>
+<p>然后在 Blog 文件夹下 <code>git clone</code> 相应的 repo 到 output 文件夹，这样以后更新内容之后，只需要在 output 文件夹里 <code>git push</code> 就可以更新了。（这也是我的笨办法和官方方法最大的不同）</p>
+<p>做好这些，然后就可以在 content 文件夹里添内容了。每一次新建内容之后，<code>cd</code> 到 Blog 文件夹下，运行</p>
+<div class="highlight"><pre><span></span>pelican content -s pelicanconf.py
+</pre></div>
+
+
+<p>这样 output 文件夹就更新了。</p>
+<hr />
+<p>关于 pelican 的安装和初始设置就到此为止了，以后想起来再更新更复杂的设置吧。</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
@@ -41,7 +95,29 @@
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2016/hello-world-pelican.html" rel="bookmark"
+                           title="Permalink to Hello Pelican!">Hello Pelican!</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-01T16:50:00+08:00">
+                Published: 周三 01 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+
+</footer><!-- /.post-info -->                <p>Hello world from Pelican!</p>
+                <a class="readmore" href="http://seekiu.com/2016/hello-world-pelican.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
                            title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
                 </header>
 
@@ -52,18 +128,18 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable ...</p>
-                <a class="readmore" href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
                            title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
                 </header>
 
@@ -74,10 +150,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
 <p>首先从下面一段非常简单的程序开始：</p>
 <div class="highlight"><pre><span></span>def main():
@@ -93,13 +169,13 @@ def foo(x):
 
 def bar(x):
     for i in range(len ...</pre></div>
-                <a class="readmore" href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2015/lazy-way-of-latex.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2015/lazy-way-of-latex.html" rel="bookmark"
                            title="Permalink to 用LaTeX写文章的一种懒人写法">用LaTeX写文章的一种懒人写法</a></h1>
                 </header>
 
@@ -110,20 +186,20 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>自从两年前用 LaTeX 写了第一篇论文，后续的几篇都回到了用 Word。主要原因在于学会用 LaTeX 之后，用 Word 的习惯也好了很多，再加上后者还有所见即所得的优势。不过回顾一些以前写的小笔记，发现如果做某个小专题的笔记，页数在十几页范围以内时，其实用 LaTeX 也是不错的选择，尤其是当出现大量公式的时候。正好最近要写一个简单的报告，就尝试着用 LaTeX 来写。由于已经比较长时间没有使用了，不少命令已经记得不熟了，另外也习惯了 markdown 那种接近所见即所得的方便，所以感觉纯 LaTeX 已经显得挺繁琐了。</p>
 <p>基于这样的背景，大概考虑了有几种方案。</p>
 <p>直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制 ...</p>
-                <a class="readmore" href="http://seekiu.github.io/2015/lazy-way-of-latex.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2015/lazy-way-of-latex.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.github.io/2015/photoshop-scan-effect.html" rel="bookmark"
+                    <h1><a href="http://seekiu.com/2015/photoshop-scan-effect.html" rel="bookmark"
                            title="Permalink to 新手向教程：用 Photoshop 将照片处理成扫描的效果">新手向教程：用 Photoshop 将照片处理成扫描的效果</a></h1>
                 </header>
 
@@ -134,10 +210,10 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>最近接到一个简单但十分繁琐的任务，要将几百张用手机、微单拍下来的文档照片，处理成方便打印的效果，也就是类似扫描的效果。本文记录了我用 Photoshop 处理用到的几个小技巧，虽然都是比较初级的办法，但希望能给有需要的人提供借鉴。</p>
 <h1>达到扫描效果</h1>
 <p>相机拍出来的照片与扫描仪扫出来的图片，最显著的区别是照片中，白纸上由于光线的原因，会出现亮度的差异，而扫描仪则会直接把这些部分「还原」成纸原来的纯白色，直接抹掉灰度较低的部分。</p>
@@ -153,38 +229,13 @@ def bar(x):
 <p>至此，在绝大多数情况下，都可以达到基本与扫描的效果一致，少数情况下也会出现效果不佳，这时用类似的方法做一些微调即可。</p>
 <h1>局部加黑</h1>
 <p>有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单 ...</p>
-                <a class="readmore" href="http://seekiu.github.io/2015/photoshop-scan-effect.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2015/try-julia.html" rel="bookmark"
-                           title="Permalink to 初试 Julia 语言">初试 Julia 语言</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-08-10T12:55:00+08:00">
-                Published: 周一 10 八月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的<strong>通用</strong>编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）</p>
-<p>之所以这样说，有三个方面的理由：</p>
-<ol>
-<li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba ...</li></ol>
-                <a class="readmore" href="http://seekiu.github.io/2015/try-julia.html">read more</a>
+                <a class="readmore" href="http://seekiu.com/2015/photoshop-scan-effect.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 6
-        <a href="http://seekiu.github.io/index2.html">&raquo;</a>
+        <a href="http://seekiu.com/index2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -199,7 +250,7 @@ def bar(x):
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

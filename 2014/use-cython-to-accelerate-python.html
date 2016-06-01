@@ -3,8 +3,8 @@
 <head>
         <meta charset="utf-8" />
         <title>用Cython来加速Python的科学计算程序</title>
-        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
-        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -13,16 +13,16 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
+                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://seekiu.github.io/2014/use-cython-to-accelerate-python.html" rel="bookmark"
+        <a href="http://seekiu.com/2014/use-cython-to-accelerate-python.html" rel="bookmark"
            title="Permalink to 用Cython来加速Python的科学计算程序">用Cython来加速Python的科学计算程序</a></h1>
     </header>
 
@@ -33,10 +33,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->      <p>从网上照抄的一些 LBM 算例基本都是在规整的矩形区域内的计算，用简单的 Numpy 非常适合，但当需要计算一些稍微更复杂的计算域时，纯 Numpy 的计算逻辑就有点复杂了，这时最简单的办法还是循环计算节点，这时候就不得不请出 Cython 了。</p>
 <p>对我这种级别的人来说，Cython 基本上可以理解成用 Python 的语法来写 C，与 Python 的主要区别在于可以定义变量的类型，以及需要编译成 Python 库才能运行。这篇文章简单记录一下使用 Cython 的一些入门知识。</p>
 <p>使用 Cython，先需要建立一个 <code>pyx</code> 格式的源文件，以计算宏观密度的函数为例，建立 <code>rho.pyx</code> 文件，并写入如下的函数：</p>
@@ -179,7 +179,7 @@ In [9]: %timeit rho.calc_rho_openmp(f)
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Charles Chen's blog - pelican</title>
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2016/creat-pelican-site-github-pages.html">用 pelican 创建静态网站放到 GitHub 上</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-06-01T22:01:00+08:00">
+                Published: 周三 01 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/pelican.html">pelican</a> </p>
+</footer><!-- /.post-info --><p>去年在 GoDaddy 买域名半送的 Linux 空间到期了，最近一直在找替代方案。大致的方向是想用 GitHub 免费的 github pages 作为 host，因为此前已经知道 jekyll 是一个选项。但是考虑到 jekyll 是基于 Ruby 的，而我又不想在电脑里再多装一个我不太可能会用到的编程语言，因此搜索了一下基于 Python 的方案，果然，很轻松就地找到了 <a href="blog.getpelican.com">pelican</a>。</p>
+<p>以下是我用 pelican 创建静态网站并托管到 github pages 的流程，希望能让其他看到的人省点时间。另一点专门写出来的原因是，目前我在网上找到的关于 pelican 的教程绝大部分都是针对 Linux 系统的，像 <code>make</code> 之类的命令在 Windows 下根本就不适用，因此我也花了不少准备的时间才把这个系统搭起来。</p>
+<ol>
+<li>准备工作</li>
+</ol>
+<p>Python 环境，我已经有 Anaconda3，pelican 官网上建议使用 2.7，主要原因是怕用到第三方库不兼容，考虑到我的需求应该很简单，3.5 似乎也是可以用的。</p>
+<p>安装额外的第三方库：<code>pip install pelican markdown</code>。</p>
+<ol>
+<li>[可选]迁移原来 Wordpress 的文章</li>
+</ol>
+<blockquote>
+<p>更新：用 <code>pelican-import</code> 导出文章时中文处理上有问题，会有丢失一部分内容的情况，因为我已经有用 jekyll-exporter 导出的 markdown 文件了，所以也没有深究是什么引起的。</p>
+</blockquote>
+<p>Wordpress 自带了导出 xml 的功能，而 pelican 也有对这种文件的支持（根据<a href="http://docs.getpelican.com/en/3.6.3/importer.html">文档</a>，似乎还依赖pandoc这个神器）。在原博客管理后台下载了备份文件之后，切到文件所在目录，执行</p>
+<p><code>pelican-import wordpress_output_file.xml -o output_dir_name -m markdown</code></p>
+<p>这里我选择的标记语言格式是 markdown，默认是 rst。</p>
+<ol>
+<li>在 github 上建立 repo</li>
+</ol>
+<p>在 github 上建一个名为 <code>username.github.io</code> 的 repo，详细可参考<a href="https://pages.github.com/">这里</a>。</p>
+<p>建好之后不需要添加 README，反正也看不到。</p>
+<ol>
+<li>本地文件的准备</li>
+</ol>
+<p>这里用的是我自己的办法，没有用文档推荐的用 <code>ghp-import</code> 的方法。我喜欢把设置保持为最简，然后慢慢添加自己需要的设置，这样 config 文件里所有的项我都知道它的用途。</p>
+<p>在本地建立 Blog 文件夹，下面新建一个 <code>content</code> 和 <code>output</code> 文件夹，前者用来放 markdown 的源文件，后者放 pelican 生成的 html。然后新建一个 <code>pelicanconf.py</code> 的文件，里放一些相关的设置，我最初的设置是这样的：</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s1">&#39;Charles Chen&#39;</span>
+<span class="n">SITENAME</span> <span class="o">=</span> <span class="s2">&quot;Charles Chen&#39;s blog&quot;</span>
+<span class="n">SITEURL</span> <span class="o">=</span> <span class="s1">&#39;http://seekiu.github.io&#39;</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="s1">&#39;content&#39;</span>
+
+<span class="n">TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;Asia/Shanghai&#39;</span>
+
+<span class="n">DEFAULT_CATEGORY</span> <span class="o">=</span> <span class="s1">&#39;misc&#39;</span>
+
+<span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;notmyidea&#39;</span>
+
+<span class="n">ARTICLE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
+<span class="n">ARTICLE_URL</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
+</pre></div>
+
+
+<p>最后两行是为了用 <code>slug</code> 定义 URL 的格式，默认的是用标题，如果有中文用的是拼音，我觉得不太好，直接用 <code>slug</code> 自定义更可控。</p>
+<p>然后在 Blog 文件夹下 <code>git clone</code> 相应的 repo 到 output 文件夹，这样以后更新内容之后，只需要在 output 文件夹里 <code>git push</code> 就可以更新了。（这也是我的笨办法和官方方法最大的不同）</p>
+<p>做好这些，然后就可以在 content 文件夹里添内容了。每一次新建内容之后，<code>cd</code> 到 Blog 文件夹下，运行</p>
+<div class="highlight"><pre><span></span>pelican content -s pelicanconf.py
+</pre></div>
+
+
+<p>这样 output 文件夹就更新了。</p>
+<hr />
+<p>关于 pelican 的安装和初始设置就到此为止了，以后想起来再更新更复杂的设置吧。</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
