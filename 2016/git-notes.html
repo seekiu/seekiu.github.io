@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Git 笔记</title>
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.com/2016/git-notes.html" rel="bookmark"
+           title="Permalink to Git 笔记">Git 笔记</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-06T10:52:00+08:00">
+                Published: 周一 06 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/dsji-neng.html">DS技能</a> </p>
+</footer><!-- /.post-info -->      <blockquote>
+<p>声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。</p>
+</blockquote>
+<p>以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。</p>
+<hr />
+<h1>最简版</h1>
+<ul>
+<li><code>git init</code>，新建一个 repo</li>
+<li><code>git clone &lt;some_url&gt; [destination_dir]</code>，从 Github 或其它网站下载 repo 的完整内容</li>
+<li>修改文件，然后 <code>git status</code> 查看有哪些修改</li>
+<li><code>git add .</code> 添加所有的修改到 stage</li>
+<li><code>git status</code>，确认所有修改</li>
+<li><code>git commit -m "Message"</code>，把修改“commit”到数据库中</li>
+<li><code>git push origin master</code>，把本地的修改 push 到远程（比如 github）</li>
+</ul>
+<hr />
+<p>以下为更详细的版本。</p>
+<p><strong>什么是 Git？</strong> Git 是版本管理系统（version control system）的一种，主要的功能本质上也就是它的名字所暗示的——控制版本。大致可以理解为这个系统记录了文件的历史状态，从而使得可以将文件、项目恢复到历史版本等。Git 作为 VCS 的一种，大概也是现在最流行的一种，与以前的 VCS 有一些显著的区别，可以将其理解为一个特殊的文件系统，而这个系统具有记录历史版本和其它一些高级的特殊功能。</p>
+<p>因为 Git 是一种特殊的文件系统，所以它的操作都是本地的，不需要依赖网络，虽然你同样也可以在有网络的时候把这个系统记录的内容同步到托管网站比如 Github 上，但这不是必需的，另外也可以自己搭建自己的 git 服务器。</p>
+<p><strong>三种基本状态</strong></p>
+<ol>
+<li>commited，文件储存在本地数据库中</li>
+<li>modified，有修改但还没有 commit</li>
+<li>staged，标记好了修改并准备 commit</li>
+</ol>
+<p><strong>基本的使用</strong></p>
+<blockquote>
+<p>当对 git 有一定的基本理解之后，强烈建议下载 Github 的 <a href="https://education.github.com/git-cheat-sheet-education.pdf">cheat sheet</a>，包含了绝大多数的常用命令。</p>
+</blockquote>
+<ul>
+<li>安装（Windows）</li>
+</ul>
+<p>Mac 和 Linux 下的安装基本都是一条 <code>apt-get</code> 命令的事，或者干脆就集成了，而 Windows 下则需要手动安装。安装包可以选择 Github 网站提供的版本，或者在 Git 的网站也提供了针对各大系统的安装包<a href="https://www.git-scm.com/downloads">下载</a>。</p>
+<p>安装基本按默认选项即可，注意将 git 的目录添加到系统 PATH 中，方便使用。</p>
+<ul>
+<li>获得帮助</li>
+</ul>
+<p>本文显然只是一个很粗浅的介绍，如果要获得更进一步的帮助，除了 Google 和栈溢出外，还有两个很重要的途径：官方出版的免费电子书 <a href="https://www.git-scm.com/book">Pro Git</a>，以及自带的帮助文件。</p>
+<p>本地帮助的使用方法是 <code>git --help [command_to_search]</code>。</p>
+<ul>
+<li>建立 repository (aka 'repo')</li>
+</ul>
+<p>如果需要到远程比如 Github 上下载一个 repo，执行如下命令：</p>
+<div class="highlight"><pre><span></span>git clone some_url [target_dir_name]
+</pre></div>
+
+
+<p>而如果是需要在本地直接新建一个 repo，则在所需目录下执行：</p>
+<div class="highlight"><pre><span></span>git init
+</pre></div>
+
+
+<p>Git 本地文件管理带来的一个好处是文件非常「干净」，当一个 repo 项目不需要的时候，只需要将该文件夹完整地删除即可，所有的数据库和历史版本等都会随之清除。</p>
+<ul>
+<li>修改项目以及提交修改</li>
+</ul>
+<p>对项目作修改之前，需要先 <code>git status</code> 检查项目的状态，最好是在显示 up-to-date 的状态下作修改。</p>
+<p>修改项目无需多说，用任何方法修改或者添加文件即可。值得一提的是，虽然 git 经常被用作代码的版本控制，理论上它是可以为任意文件格式控制版本的，包括图片、表格、文档等。如果有重要的本地文件需要记录或者备份它的历史版本（比如毕业论文），git 也是一个不错的选择。</p>
+<p>修改结束后，被修改或添加的文件会在 <code>git status</code> 中显示出来，此时需要将它们标记为「stage」，可以用 <code>git add &lt;file_name&gt;</code> 来添加单个文件，或者如果要添加所有的修改，用更简单的<code>git add .</code>。</p>
+<p>添加修改之后，再看一下 status 是一个好习惯，避免误操作得到了不想要的结果。</p>
+<p>把修改正式推进数据库的操作是 <code>git commit -m "Commit message"</code>。如果只在本地做了版本控制，到这里就完成了一次版本修改。</p>
+<p>如果项目托管在网上的，还需执行 <code>git push origin master</code> （假设前面是从远程 clone 下来的）。</p>
+<blockquote>
+<p>关于远程的操作，也是最开始我比较迷惑的地方。如果是 clone 下来的 repo，那么在数据库中就已经记录了其远程地址，所以在 push 的时候也无需再提供地址。我最开始错误地理解成 git 临时缓存了一个远程地址，所以在一次操作没有 push 到远程就退出的时候，或者切换到了另一个 repo 工作，就需要重新提供地址。这种完全本地的存储方式对我来说是一个很重要的加分项，因为管理起来非常的「干净」，只需要关心文件夹在哪里，而不必关心还有什么设置保存在 git 的设置中。</p>
+</blockquote>
+<p>查看本 repo 保存的远程信息用 <code>git remote -v</code>。</p>
+<p>本文关于 git 的内容到此为止，对 git 一无所知的人看完应该大致能够上手使用了。其它未尽部分还是推荐读一读 Pro Git 的前两章，有很多基础性的介绍。这本书虽然看起来很「pro」，但其实行文风格还是像一本简介性质的书，很容易懂。</p>
+<p>还有不少本文没有覆盖的内容，其实还有一些平时有不少几率会遇到的操作，具体不再展开，可以通过 Pro Git 检索或者帮助文件了解更详细的操作方法，建议将 github 的 cheatsheet中所有的命令都了解一遍。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

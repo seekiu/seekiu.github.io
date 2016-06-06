@@ -23,6 +23,32 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2015/ctrl-backspace-not-working.html" rel="bookmark"
+                           title="Permalink to 奇怪的bug，win8里的ctrl-backspace失效了">奇怪的bug，win8里的ctrl-backspace失效了</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-01-21T21:16:00+08:00">
+                Published: 周三 21 一月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->                <p>最近遇到一个十分奇怪的bug，用于删除前一个单词的ctrl-backspace快捷键失效了。甚至在sublime text这种另外定义了这个快捷键行为的软件里也一样，奇怪。</p>
+<p>最开始是在一个机器上出现的，而记忆中唯一记得的近期对它做过的最大改动是把Python升级到了3.4，并删掉了原来的2.7，但暂时还无法确认是这个问题。更奇怪的是，在一台新的机器上，最开始没有这个问题，没过多久也出现了。</p>
+<p>另外自己的一台电脑上是从win7升级上来的，没有出现这个情况。</p>
+<p>Google了一番，似乎没有人出现过类似的情况。</p>
+<p>太奇怪了。</p>
+                <a class="readmore" href="http://seekiu.com/2015/ctrl-backspace-not-working.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html" rel="bookmark"
                            title="Permalink to 一个反直觉数学题的程序验证">一个反直觉数学题的程序验证</a></h1>
                 </header>
@@ -152,31 +178,6 @@
 <li>在我的情况里，L2** 协议再加载智能路由表时，会导致上不了百度，至今没弄明白怎么回事，现在较好的解决办法是在浏览器里再用一个自动代理，让域名带 baidu.com 的都从一个国内的高速缓存里过，算是一个曲线救国的办法了。</li>
 </ol>
                 <a class="readmore" href="http://seekiu.com/2014/problems-using-vpn.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2014/python-output-vtk-for-paraview.html" rel="bookmark"
-                           title="Permalink to Python 输出用于 Paraview 后处理的 vtk 文件">Python 输出用于 Paraview 后处理的 vtk 文件</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-05-23T21:03:00+08:00">
-                Published: 周五 23 五月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>好拗口的标题。。。</p>
-<p>前面的博客中已经提到，Python 有 Matplotlib 这种强大的包可以「在线」地生成（并保存）漂亮的图形，但对于计算流体力学的后处理来说，很多时候需要更多「事后」的后处理。在线的即时输出，虽然可以快速预览结果，但对于想输出什么结果必须在写程序阶段就全部想明白，而不是先计算完，按一定间隔输出整个流场的信息，然后后期想要什么数据慢慢提取分析就行。</p>
-<p>解决这个问题的方法也很简单，直接照抄开源 LBM 软件 Palabos 的方案，用 vtk 格式保存流场信息，然后用 Paraview 进行后处理。</p>
-<p>这个「十分简单」的技术路线结果却花了我很多天的时间，才基本搞清楚其中的奥秘，从多个 tricky part 中脱身。技术上来说，Python 输出 vtk 有成熟的软件包（我采用的是pyevtk 这个库[1]），实现方法也比较直观。例如官方提供的一个示例是这样的 ...</p>
-                <a class="readmore" href="http://seekiu.com/2014/python-output-vtk-for-paraview.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
