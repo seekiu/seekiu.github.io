@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/charles-chen.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2016-06-06T10:52:00+08:00</updated><entry><title>Git 笔记</title><link href="http://seekiu.com/2016/git-notes.html" rel="alternate"></link><published>2016-06-06T10:52:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-06-06:2016/git-notes.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/charles-chen.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2016-06-27T16:29:00+08:00</updated><entry><title>保存网页到本地的两种办法</title><link href="http://seekiu.com/2016/save-web-page-locally.html" rel="alternate"></link><published>2016-06-27T16:29:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-06-27:2016/save-web-page-locally.html</id><summary type="html">&lt;p&gt;自从不太使用 Evernote 之后，如何干净地保存网页信息就成了一个大问题。所谓「干净」，就是只保存网页主体的信息，而不包括其它不相关的部分，也就相当于保存下 Firefox 所提供的阅读模式中显示的内容。&lt;/p&gt;
+&lt;p&gt;本来，Evernote 提供的「阅读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。&lt;/p&gt;
+&lt;p&gt;最开始想的办法是自己写一个 Python 脚本，爬一下网页，然后抓取主体信息，最后保存，看起来似乎每一个环节都不复杂，但尝试写了一下发现还是很麻烦：不同网站网页结构不同，涉及到如何分别处理的问题；有些文章需要翻页；有些网站如知乎专栏为了防转载做了不少障碍，等等。最终发现这个脚本要达到预期的目的，远不是半个下午就能轻松解决的小项目，暂时就打消了这个念头。&lt;/p&gt;
+&lt;p&gt;经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。&lt;/p&gt;
+&lt;p&gt;方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器。Firefox 自带的打印很差，十有八九都会出现各种重叠的问题，而 Edge 的打印，就我自己的测试来看，效果相当好。Chrome 的打印也许也不错，这个没有测试。&lt;/p&gt;
+&lt;p&gt;方法二是用 pandoc 转两次格式，最后得到 html。先用浏览器自带的「阅读模式」或者「悦读」之类的工具抓出主体，然后复制内容到 Word 中，保存成 docx。用 pandoc 将 docx 转成 markdown 格式，再将 markdown 格式转成 html。&lt;/p&gt;
+&lt;p&gt;两种方法各有优劣：&lt;/p&gt;
+&lt;p&gt;法一的好处是文本和图在同一个文件中，保存起来比较清爽。坏处是 PDF 格式固定，而且也不方便检索。&lt;/p&gt;
+&lt;p&gt;法二的好处是最终的 html 是真正「纯净」的主体内容，而且可以在转成 html 时加载自己的 css 调成自己满意的格式，也方便检索。坏处是操作稍微有点麻烦。&lt;/p&gt;</summary><category term="Tips"></category></entry><entry><title>Git 笔记</title><link href="http://seekiu.com/2016/git-notes.html" rel="alternate"></link><published>2016-06-06T10:52:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-06-06:2016/git-notes.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。&lt;/p&gt;

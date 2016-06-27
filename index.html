@@ -22,7 +22,39 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2016/git-notes.html">Git 笔记</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2016/save-web-page-locally.html">保存网页到本地的两种办法</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-06-27T16:29:00+08:00">
+                Published: 周一 27 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/tips.html">Tips</a> </p>
+</footer><!-- /.post-info --><p>自从不太使用 Evernote 之后，如何干净地保存网页信息就成了一个大问题。所谓「干净」，就是只保存网页主体的信息，而不包括其它不相关的部分，也就相当于保存下 Firefox 所提供的阅读模式中显示的内容。</p>
+<p>本来，Evernote 提供的「阅读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。</p>
+<p>最开始想的办法是自己写一个 Python 脚本，爬一下网页，然后抓取主体信息，最后保存，看起来似乎每一个环节都不复杂，但尝试写了一下发现还是很麻烦：不同网站网页结构不同，涉及到如何分别处理的问题；有些文章需要翻页；有些网站如知乎专栏为了防转载做了不少障碍，等等。最终发现这个脚本要达到预期的目的，远不是半个下午就能轻松解决的小项目，暂时就打消了这个念头。</p>
+<p>经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。</p>
+<p>方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器。Firefox 自带的打印很差，十有八九都会出现各种重叠的问题，而 Edge 的打印，就我自己的测试来看，效果相当好。Chrome 的打印也许也不错，这个没有测试。</p>
+<p>方法二是用 pandoc 转两次格式，最后得到 html。先用浏览器自带的「阅读模式」或者「悦读」之类的工具抓出主体，然后复制内容到 Word 中，保存成 docx。用 pandoc 将 docx 转成 markdown 格式，再将 markdown 格式转成 html。</p>
+<p>两种方法各有优劣：</p>
+<p>法一的好处是文本和图在同一个文件中，保存起来比较清爽。坏处是 PDF 格式固定，而且也不方便检索。</p>
+<p>法二的好处是最终的 html 是真正「纯净」的主体内容，而且可以在转成 html 时加载自己的 css 调成自己满意的格式，也方便检索。坏处是操作稍微有点麻烦。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2016/git-notes.html" rel="bookmark"
+                           title="Permalink to Git 笔记">Git 笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-06-06T10:52:00+08:00">
                 Published: 周一 06 六月 2016
@@ -33,7 +65,7 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/dsxiang-guan.html">DS相关</a> </p>
-</footer><!-- /.post-info --><blockquote>
+</footer><!-- /.post-info -->                <blockquote>
 <p>声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。</p>
 </blockquote>
 <p>以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。</p>
@@ -45,67 +77,10 @@
 <li>修改文件，然后 <code>git status</code> 查看有哪些修改</li>
 <li><code>git add .</code> 添加所有的修改到 stage</li>
 <li><code>git status</code>，确认所有修改</li>
-<li><code>git commit -m "Message"</code>，把修改“commit”到数据库中</li>
-<li><code>git push origin master</code>，把本地的修改 push 到远程（比如 github）</li>
-</ul>
-<hr />
-<p>以下为更详细的版本。</p>
-<p><strong>什么是 Git？</strong> Git 是版本管理系统（version control system）的一种，主要的功能本质上也就是它的名字所暗示的——控制版本。大致可以理解为这个系统记录了文件的历史状态，从而使得可以将文件、项目恢复到历史版本等。Git 作为 VCS 的一种，大概也是现在最流行的一种，与以前的 VCS 有一些显著的区别，可以将其理解为一个特殊的文件系统，而这个系统具有记录历史版本和其它一些高级的特殊功能。</p>
-<p>因为 Git 是一种特殊的文件系统，所以它的操作都是本地的，不需要依赖网络，虽然你同样也可以在有网络的时候把这个系统记录的内容同步到托管网站比如 Github 上，但这不是必需的，另外也可以自己搭建自己的 git 服务器。</p>
-<p><strong>三种基本状态</strong></p>
-<ol>
-<li>commited，文件储存在本地数据库中</li>
-<li>modified，有修改但还没有 commit</li>
-<li>staged，标记好了修改并准备 commit</li>
-</ol>
-<p><strong>基本的使用</strong></p>
-<blockquote>
-<p>当对 git 有一定的基本理解之后，强烈建议下载 Github 的 <a href="https://education.github.com/git-cheat-sheet-education.pdf">cheat sheet</a>，包含了绝大多数的常用命令。</p>
-</blockquote>
-<ul>
-<li>安装（Windows）</li>
-</ul>
-<p>Mac 和 Linux 下的安装基本都是一条 <code>apt-get</code> 命令的事，或者干脆就集成了，而 Windows 下则需要手动安装。安装包可以选择 Github 网站提供的版本，或者在 Git 的网站也提供了针对各大系统的安装包<a href="https://www.git-scm.com/downloads">下载</a>。</p>
-<p>安装基本按默认选项即可，注意将 git 的目录添加到系统 PATH 中，方便使用。</p>
-<ul>
-<li>获得帮助</li>
-</ul>
-<p>本文显然只是一个很粗浅的介绍，如果要获得更进一步的帮助，除了 Google 和栈溢出外，还有两个很重要的途径：官方出版的免费电子书 <a href="https://www.git-scm.com/book">Pro Git</a>，以及自带的帮助文件。</p>
-<p>本地帮助的使用方法是 <code>git --help [command_to_search]</code>。</p>
-<ul>
-<li>建立 repository (aka 'repo')</li>
-</ul>
-<p>如果需要到远程比如 Github 上下载一个 repo，执行如下命令：</p>
-<div class="highlight"><pre><span></span>git clone some_url [target_dir_name]
-</pre></div>
-
-
-<p>而如果是需要在本地直接新建一个 repo，则在所需目录下执行：</p>
-<div class="highlight"><pre><span></span>git init
-</pre></div>
-
-
-<p>Git 本地文件管理带来的一个好处是文件非常「干净」，当一个 repo 项目不需要的时候，只需要将该文件夹完整地删除即可，所有的数据库和历史版本等都会随之清除。</p>
-<ul>
-<li>修改项目以及提交修改</li>
-</ul>
-<p>对项目作修改之前，需要先 <code>git status</code> 检查项目的状态，最好是在显示 up-to-date 的状态下作修改。</p>
-<p>修改项目无需多说，用任何方法修改或者添加文件即可。值得一提的是，虽然 git 经常被用作代码的版本控制，理论上它是可以为任意文件格式控制版本的，包括图片、表格、文档等。如果有重要的本地文件需要记录或者备份它的历史版本（比如毕业论文），git 也是一个不错的选择。</p>
-<p>修改结束后，被修改或添加的文件会在 <code>git status</code> 中显示出来，此时需要将它们标记为「stage」，可以用 <code>git add &lt;file_name&gt;</code> 来添加单个文件，或者如果要添加所有的修改，用更简单的<code>git add .</code>。</p>
-<p>添加修改之后，再看一下 status 是一个好习惯，避免误操作得到了不想要的结果。</p>
-<p>把修改正式推进数据库的操作是 <code>git commit -m "Commit message"</code>。如果只在本地做了版本控制，到这里就完成了一次版本修改。</p>
-<p>如果项目托管在网上的，还需执行 <code>git push origin master</code> （假设前面是从远程 clone 下来的）。</p>
-<blockquote>
-<p>关于远程的操作，也是最开始我比较迷惑的地方。如果是 clone 下来的 repo，那么在数据库中就已经记录了其远程地址，所以在 push 的时候也无需再提供地址。我最开始错误地理解成 git 临时缓存了一个远程地址，所以在一次操作没有 push 到远程就退出的时候，或者切换到了另一个 repo 工作，就需要重新提供地址。这种完全本地的存储方式对我来说是一个很重要的加分项，因为管理起来非常的「干净」，只需要关心文件夹在哪里，而不必关心还有什么设置保存在 git 的设置中。</p>
-</blockquote>
-<p>查看本 repo 保存的远程信息用 <code>git remote -v</code>。</p>
-<p>本文关于 git 的内容到此为止，对 git 一无所知的人看完应该大致能够上手使用了。其它未尽部分还是推荐读一读 Pro Git 的前两章，有很多基础性的介绍。这本书虽然看起来很「pro」，但其实行文风格还是像一本简介性质的书，很容易懂。</p>
-<p>还有不少本文没有覆盖的内容，其实还有一些平时有不少几率会遇到的操作，具体不再展开，可以通过 Pro Git 检索或者帮助文件了解更详细的操作方法，建议将 github 的 cheatsheet中所有的命令都了解一遍。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<li><code>git commit ...</code></li></ul>
+                <a class="readmore" href="http://seekiu.com/2016/git-notes.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -213,33 +188,9 @@ def bar(x):
                 <a class="readmore" href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/lazy-way-of-latex.html" rel="bookmark"
-                           title="Permalink to 用LaTeX写文章的一种懒人写法">用LaTeX写文章的一种懒人写法</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-10-08T10:12:00+08:00">
-                Published: 周四 08 十月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>自从两年前用 LaTeX 写了第一篇论文，后续的几篇都回到了用 Word。主要原因在于学会用 LaTeX 之后，用 Word 的习惯也好了很多，再加上后者还有所见即所得的优势。不过回顾一些以前写的小笔记，发现如果做某个小专题的笔记，页数在十几页范围以内时，其实用 LaTeX 也是不错的选择，尤其是当出现大量公式的时候。正好最近要写一个简单的报告，就尝试着用 LaTeX 来写。由于已经比较长时间没有使用了，不少命令已经记得不熟了，另外也习惯了 markdown 那种接近所见即所得的方便，所以感觉纯 LaTeX 已经显得挺繁琐了。</p>
-<p>基于这样的背景，大概考虑了有几种方案。</p>
-<p>直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制 ...</p>
-                <a class="readmore" href="http://seekiu.com/2015/lazy-way-of-latex.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 6
+    Page 1 / 7
         <a href="http://seekiu.com/index2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
