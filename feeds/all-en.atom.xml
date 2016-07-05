@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/all-en.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2016-06-27T16:29:00+08:00</updated><entry><title>保存网页到本地的两种办法</title><link href="http://seekiu.com/2016/save-web-page-locally.html" rel="alternate"></link><published>2016-06-27T16:29:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-06-27:2016/save-web-page-locally.html</id><summary type="html">&lt;p&gt;自从不太使用 Evernote 之后，如何干净地保存网页信息就成了一个大问题。所谓「干净」，就是只保存网页主体的信息，而不包括其它不相关的部分，也就相当于保存下 Firefox 所提供的阅读模式中显示的内容。&lt;/p&gt;
-&lt;p&gt;本来，Evernote 提供的「阅读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。&lt;/p&gt;
+&lt;p&gt;本来，Evernote 提供的「悦读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。&lt;/p&gt;
 &lt;p&gt;最开始想的办法是自己写一个 Python 脚本，爬一下网页，然后抓取主体信息，最后保存，看起来似乎每一个环节都不复杂，但尝试写了一下发现还是很麻烦：不同网站网页结构不同，涉及到如何分别处理的问题；有些文章需要翻页；有些网站如知乎专栏为了防转载做了不少障碍，等等。最终发现这个脚本要达到预期的目的，远不是半个下午就能轻松解决的小项目，暂时就打消了这个念头。&lt;/p&gt;
 &lt;p&gt;经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。&lt;/p&gt;
 &lt;p&gt;方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器。Firefox 自带的打印很差，十有八九都会出现各种重叠的问题，而 Edge 的打印，就我自己的测试来看，效果相当好。Chrome 的打印也许也不错，这个没有测试。&lt;/p&gt;
