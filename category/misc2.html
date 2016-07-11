@@ -24,6 +24,28 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
+                           title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-12-22T09:58:00+08:00">
+                Published: 周二 22 十二月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable ...</p>
+                <a class="readmore" href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
                            title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
                 </header>
@@ -164,40 +186,6 @@ def bar(x):
 <p>推荐的原因，首先得从 Python 科学计算说起。</p>
 <p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 ...</p>
                 <a class="readmore" href="http://seekiu.com/2015/use-numba-to-accelerate-python.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/install-youcompleteme-windows.html" rel="bookmark"
-                           title="Permalink to 如何在Windows下给Vim安装YouCompleteMe">如何在Windows下给Vim安装YouCompleteMe</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-05-30T20:15:00+08:00">
-                Published: 周六 30 五月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> <a href="http://seekiu.com/tag/vim.html">Vim</a> </p>
-</footer><!-- /.post-info -->                <p>更合理的一个标题是「A (far from perfect) guide for installing YouCompleteMe under Windows」，因为虽然我已经成功地安装好了YCM，但确实全程都非常不优雅。此处「优雅」的定义为有良好的可重现能力，换一台机器同样可以比较轻松地重新安装一遍。不管怎样，不优雅的过程还是值得记录一下的。</p>
-<p>由于YCM官方没有提供Windows下的安装指南，我主要参考的是<a href="https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/">Haroogan的方案</a>。</p>
-<p>安装YCM有几个基本的要求：</p>
-<ol>
-<li>包含Python支持的Vim版本。</li>
-<li>LLVM/Clang，具体地说其实是<code>libclang.dll</code>这一个文件。</li>
-<li>Haroogan预编译好的YCM库，主要是指<code>ycm_core.pyd</code>这个文件。</li>
-</ol>
-<p>检查Vim的Python支持的办法是在cmd中运行<code>python --version</code>看看出来的Python前面是否有加号，或者在Vim中执行<code>:echo has('python')</code>。不过相信会看这篇文章的多半是从官网下的gvim74，很不幸地这个版本并不支持Python。</p>
-<p>不过Haroogan同学很贴心地给出了全套解决方案，上面的三个基本要求他都提供了预编译好的版本：</p>
-<ol>
-<li>带Python和其它一大票语言支持的<a href="https://bitbucket.org/Haroogan/vim-for-windows">Vim</a></li>
-<li><a href="https://bitbucket.org/Haroogan/llvm-for-windows">LLVM ...</a></li></ol>
-                <a class="readmore" href="http://seekiu.com/2015/install-youcompleteme-windows.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

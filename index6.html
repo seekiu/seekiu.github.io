@@ -24,6 +24,30 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html" rel="bookmark"
+                           title="Permalink to 用Python作流场计算时的后处理问题">用Python作流场计算时的后处理问题</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-30T20:48:00+08:00">
+                Published: 周三 30 四月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>由于我现在正试图用Numpy来实现 Lattice Boltzmann method 的算法，也会涉及到一些简单的后处理功能。这里的后处理具体的说是输出一些关于流场的图像问题，因为输出单点的信息没有任何难度。而图像输出主要是依靠 Matplotlib 这个强大的库来完成。后续如果要做进一步的后处理的话，应该还是要学一学如何导出数据到专业后处理软件中，但就调试过程而言，能及时输出一些直观的图像是十分必要的。</p>
+<p>我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。</p>
+<p>例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot ...</p>
+                <a class="readmore" href="http://seekiu.com/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2013/shi-jian-guan-li-di-yi-ke.html" rel="bookmark"
                            title="Permalink to 时间管理第一课">时间管理第一课</a></h1>
                 </header>
@@ -152,33 +176,6 @@
 <p>其中一个，是同伴的影响。同一工作室的博士同学都相当努力，而且相当能折腾，很少看见他们像本科同学那样扎堆打游戏，却常常见到他们折腾一些稀奇的东西。这对我是很好的影响，不仅因为工作的激情会传染，变成更努力工作的动力，也因为这种「折腾」的态度，让人不知不觉地学会更热爱生活。</p>
 <p>另一个原因，是学车的经历。学车的地方离学校很远 ...</p>
                 <a class="readmore" href="http://seekiu.com/2013/jing-li-jiu-guan-nian-yu-xin-xiang-fa.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html" rel="bookmark"
-                           title="Permalink to 提高效率的工具(I)——Virtuawin">提高效率的工具(I)——Virtuawin</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-05-26T05:51:00+08:00">
-                Published: 周日 26 五月 2013
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>准备长期更新一个系列的文章，介绍几个自己觉得不错的效率软件，这次是给windows添加虚拟桌面功能的<a href="http://virtuawin.sourceforge.net/">Virtuawin</a>。</p>
-<p>Virtuawin（注意不是Virtualwin）是给Windows提供类似Ubuntu的工作空间的软件，可以创建多个虚拟桌面，然后方便地切换。</p>
-<p>这个软件最适合于整洁控，可以把打开的窗口分到不同的虚拟桌面里，而目前所处的桌面只保留一到两个窗口。比如打开网页听豆瓣fm的时候，由于不能最小化，就干脆把它单独放到某个最后的桌面里，或者在做网络调研的时候，可能会打开一大堆窗口，就可以把它们分类归到不同桌面上。</p>
-<p>我自己最近觉得很实用的一个方面是，当在工作站上算多个单线程的小程序的时候，就可以开启一堆窗口，每个桌面放几个，就不至于全部缩到任务栏的小图标里了。</p>
-<p>我自己的设置比较简单，3个虚拟桌面，后台运行的程序如豆瓣fm放第3个桌面，工作桌面为1和2，切换桌面的快捷键为ctrl+win+方向键，桌面间移动窗口的快捷键为alt+win+方向键。</p>
-<p>功能很简单，也很纯粹，没有不必要的东西。最大的遗憾是没有像Ubuntu那样漂亮的切换动画，可惜。</p>
-                <a class="readmore" href="http://seekiu.com/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

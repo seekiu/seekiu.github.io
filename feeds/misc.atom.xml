@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/misc.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2016-07-07T08:30:00+08:00</updated><entry><title>保存网页到本地的方法（2）</title><link href="http://seekiu.com/2016/save-web-page-more.html" rel="alternate"></link><published>2016-07-07T08:30:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-07-07:2016/save-web-page-more.html</id><summary type="html">&lt;p&gt;前一篇&lt;a href="http://seekiu.com/2016/save-web-page-locally.html"&gt;文章&lt;/a&gt;中讲了我常用的保存网页到本地的办法，最近又有一些新的发现。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/misc.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2016-07-11T18:39:00+08:00</updated><entry><title>检查多维 ndarray 中是否有某元素</title><link href="http://seekiu.com/2016/membership-in-ndarray.html" rel="alternate"></link><published>2016-07-11T18:39:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-07-11:2016/membership-in-ndarray.html</id><summary type="html">&lt;p&gt;最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。&lt;/p&gt;
+&lt;p&gt;通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 &lt;code&gt;in&lt;/code&gt;。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;a = [1, 2, 3]
+print(4 in a)
+b = np.array(a)
+print(4 in b)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;结果是&lt;code&gt;False False&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;a = [[0,0], [0,1]]
+print([0,2] in a)
+b = np.array(a)
+print([0,2] in b)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;结果是&lt;code&gt;False True&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://stackoverflow.com/questions/38303381/check-membership-in-a-2d-ndarray-object-in-python"&gt;SO 上问了一下&lt;/a&gt;，原来已经&lt;a href="http://stackoverflow.com/questions/14766194/testing-whether-a-numpy-array-contains-a-given-row"&gt;有人解释过了&lt;/a&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;in&lt;/code&gt; 关键词检查是否成员，需要对象有 &lt;code&gt;__contains__&lt;/code&gt; 方法，Numpy 所实现的方法，虽然有，但理论上只对标量有效，对向量元素也就是多维数据不成立。具体原理可参考前面的链接，这里不再赘述。&lt;/p&gt;
+&lt;p&gt;解决的办法也在原贴中有，如果不在乎速度，一般用 &lt;code&gt;[0, 2] in b.tolist()&lt;/code&gt; 就可以，也就是转回 list 再运算。对于非常大的数组或者非常在意速度，就需要另想办法了。&lt;/p&gt;</summary><category term="Python"></category></entry><entry><title>保存网页到本地的方法（2）</title><link href="http://seekiu.com/2016/save-web-page-more.html" rel="alternate"></link><published>2016-07-07T08:30:00+08:00</published><author><name>Charles Chen</name></author><id>tag:seekiu.com,2016-07-07:2016/save-web-page-more.html</id><summary type="html">&lt;p&gt;前一篇&lt;a href="http://seekiu.com/2016/save-web-page-locally.html"&gt;文章&lt;/a&gt;中讲了我常用的保存网页到本地的办法，最近又有一些新的发现。&lt;/p&gt;
 &lt;p&gt;首先是 pandoc 转 docx 到 markdown 对 pandoc 的版本是有要求的，目前版本是1.17.1，可以正确处理带中文的文件。但如果用的是更旧的版本（似乎是1.15以前），会提示无法解码 UTF-8，因此推荐先把 pandoc 版本更新。&lt;/p&gt;
 &lt;p&gt;本文最主要想更新的是一个新的发现，我找到了一个叫 &lt;a href="http://www.typora.io/"&gt;Typora&lt;/a&gt; 的软件，它本身是一个支持所见即所得的 markdown 编辑器（从知乎上的讨论来说，实现这样的东西似乎难度还很大），但它居然还支持了粘贴网页直接转换成 markdown 的功能。也就是说，不再需要手动保存成 docx，只需要把网页直接粘到里面就已经是 markdown 了。&lt;/p&gt;
 &lt;p&gt;还有一点很重要的特性，就是由于它本身所见即所得的特性，相当于每次打开 md 文件都会自动渲染成网页格式，所以甚至省掉了再重新转换成 html 方便查看的步骤了。&lt;/p&gt;
