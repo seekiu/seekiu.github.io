@@ -101,7 +101,7 @@
 </td></tr></table>
 
 <p>效果如下图所示：</p>
-<p><img alt="" src="images\mpl-demo.svg" /></p>
+<p><img alt="" src="http://seekiu.com/images/mpl-demo.svg" /></p>
 <p>看起来在 MPL 中为了画图需要写很多行代码，在这里连空行一共是 27 行。但其实画图相关的代码是中间的 10 行左右，其它的都是导入模块和产生演示用的数据的。这些画图的代码做了这么几件事情：</p>
 <ol>
 <li>定义 fig 和 axes。我喜欢直接用 <code>plt.subplots</code> 一次性定义两者，并且限制 fig 的尺寸。在一开始就定义好 fig 的尺寸，而不是用默认的，主要的好处是线宽、文字大小等都很统一，后期不需要缩放大小就可以直接插到论文中。注意在定义尺寸时用的是英制单位，我是用厘米的数值再除以 2.54 的转换系数。</li>
@@ -188,7 +188,7 @@
 </td></tr></table>
 
 <p>效果如下图所示：</p>
-<p><img alt="" src="images\two-axes-demo.svg" /></p>
+<p><img alt="" src="http://seekiu.com/images/two-axes-demo.svg" /></p>
 <p>相比相同 XY 坐标轴的情况，这里其实也非常类似，主要区别有两点：</p>
 <ol>
 <li>设置格式需要分别在不同的 axes 中。</li>
