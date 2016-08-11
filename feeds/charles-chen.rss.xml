@@ -67,7 +67,7 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;效果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://seekiu.com/images/mpl-demo.svg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://www.seekiu.com/images/mpl-demo.svg" /&gt;&lt;/p&gt;
 &lt;p&gt;看起来在 MPL 中为了画图需要写很多行代码，在这里连空行一共是 27 行。但其实画图相关的代码是中间的 10 行左右，其它的都是导入模块和产生演示用的数据的。这些画图的代码做了这么几件事情：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;定义 fig 和 axes。我喜欢直接用 &lt;code&gt;plt.subplots&lt;/code&gt; 一次性定义两者，并且限制 fig 的尺寸。在一开始就定义好 fig 的尺寸，而不是用默认的，主要的好处是线宽、文字大小等都很统一，后期不需要缩放大小就可以直接插到论文中。注意在定义尺寸时用的是英制单位，我是用厘米的数值再除以 2.54 的转换系数。&lt;/li&gt;
@@ -154,7 +154,7 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;效果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://seekiu.com/images/two-axes-demo.svg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://www.seekiu.com/images/two-axes-demo.svg" /&gt;&lt;/p&gt;
 &lt;p&gt;相比相同 XY 坐标轴的情况，这里其实也非常类似，主要区别有两点：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;设置格式需要分别在不同的 axes 中。&lt;/li&gt;
@@ -173,10 +173,29 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
-&lt;p&gt;这个设置仅供参考，如果对 LaTeX 字体设置熟悉的话，应该可以设置出更复杂的更美观的效果。启用外部 LaTeX 可能会遇到一个问题，我用的是 MikTeX，虽然设置了自动安装本机没有的包，但第一次启用时，仍然提示我没有找到 &lt;code&gt;type1cm&lt;/code&gt; 这个包，手动下载的时候提示 404 了，所以自己去网上找了一下，&lt;a href="files\type1cm.zip"&gt;这里&lt;/a&gt;可以下载到我手动从 CTAN 下载的版本，解压到 latex 文字夹就可以用了。&lt;/p&gt;
+&lt;p&gt;这个设置仅供参考，如果对 LaTeX 字体设置熟悉的话，应该可以设置出更复杂的更美观的效果。例如用 LaTeX 实现所有字体都用非衬线字体（当然我觉得数学公式还是得用衬线字体来排）：&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;1
+2
+3
+4
+5
+6
+7
+8&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text.usetex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text.latex.preamble&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+       &lt;span class="s1"&gt;r&amp;#39;\usepackage{siunitx}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="s1"&gt;r&amp;#39;\sisetup{detect-all}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="s1"&gt;r&amp;#39;\usepackage{helvet}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="s1"&gt;r&amp;#39;\usepackage{sansmath}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="s1"&gt;r&amp;#39;\sansmath&amp;#39;&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;启用外部 LaTeX 可能会遇到一个问题，我用的是 MikTeX，虽然设置了自动安装本机没有的包，但第一次启用时，仍然提示我没有找到 &lt;code&gt;type1cm&lt;/code&gt; 这个包，手动下载的时候提示 404 了，所以自己去网上找了一下，&lt;a href="http://www.seekiu.com/files/type1cm.zip"&gt;这里&lt;/a&gt;可以下载到我手动从 CTAN 下载的版本，解压到 latex 文字夹就可以用了。&lt;/p&gt;
 &lt;p&gt;当然，我自己的观点是，在绝大多数情况下，画个小图没有必要请出 LaTeX 这个牛刀，而且用 LaTeX 时编译需要的时间也会长很多（十几秒到一分钟不等）。因此我更喜欢另一种开箱即用效果也不差的方案，也就是第一个 demo 中用的方案，把所有的字体都设为 STIX 字体（类似 Times 字体）。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;基本上把这次想讲的点都写了一遍了，这次挖的坑大致写到这里，以后如果有补充的再写新的吧。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 05 Aug 2016 15:08:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2016-08-05:2016/mpl-for-publish.html</guid><category>matplotlib</category></item><item><title>检查多维 ndarray 中是否有某元素</title><link>http://seekiu.com/2016/membership-in-ndarray.html</link><description>&lt;p&gt;最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。&lt;/p&gt;
+&lt;p&gt;基本上把这次想讲的点都写了一遍了，这次挖的坑大致写到这里，以后如果有补充的再写新的吧。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 05 Aug 2016 15:08:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2016-08-05:2016/mpl-for-publish.html</guid><category>matplotlib</category><category>DS相关</category></item><item><title>检查多维 ndarray 中是否有某元素</title><link>http://seekiu.com/2016/membership-in-ndarray.html</link><description>&lt;p&gt;最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。&lt;/p&gt;
 &lt;p&gt;通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 &lt;code&gt;in&lt;/code&gt;。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;a = [1, 2, 3]
 print(4 in a)
