@@ -24,6 +24,35 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html" rel="bookmark"
+                           title="Permalink to 一个反直觉数学题的程序验证">一个反直觉数学题的程序验证</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-11-14T21:13:00+08:00">
+                Published: 周五 14 十一月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>很久之前看到的东西了，今天总算抽空把它写完了。</p>
+<p>最开始是在 Quora 上看到一个很有意思的<a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit">答案</a>，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。</p>
+<p>第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。</p>
+<div class="highlight"><pre><span></span>def game1():  
+    # flip twice, the possibility of HH or HT  
+    hh = 0; ht = 0  
+    for i in xrange(100000):  
+        pre = &#39;&#39;; cur ...</pre></div>
+                <a class="readmore" href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2014/python-workflow-simplify-data-processing.html" rel="bookmark"
                            title="Permalink to 用 Python 简化数据处理流程的 workflow 及简单示范">用 Python 简化数据处理流程的 workflow 及简单示范</a></h1>
                 </header>
@@ -149,35 +178,6 @@
 <p>解决这个问题的方法也很简单，直接照抄开源 LBM 软件 Palabos 的方案，用 vtk 格式保存流场信息，然后用 Paraview 进行后处理。</p>
 <p>这个「十分简单」的技术路线结果却花了我很多天的时间，才基本搞清楚其中的奥秘，从多个 tricky part 中脱身。技术上来说，Python 输出 vtk 有成熟的软件包（我采用的是pyevtk 这个库[1]），实现方法也比较直观。例如官方提供的一个示例是这样的 ...</p>
                 <a class="readmore" href="http://seekiu.com/2014/python-output-vtk-for-paraview.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2014/use-numexpr-to-accelerate.html" rel="bookmark"
-                           title="Permalink to 用 numexpr 库优化 numpy 计算速度">用 numexpr 库优化 numpy 计算速度</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-05-22T21:00:00+08:00">
-                Published: 周四 22 五月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>NumPy 虽然通过底层高度优化过的计算库可以实现接近C的高效计算，但在计算复杂且计算量庞大的时候多少还是有些嫌慢。Numexpr 库是最近发现的一个非常简单易用的 Numpy性能提升工具，很大程度上从我的需求上解决了性能的问题。</p>
-<p>先看一个例子：</p>
-<pre><code class="python">import numpy as np
-import numexpr as ne
-nx, ny = 1200, 1500
-a = np.linspace(0.,3.1416,nx*ny).reshape(nx,ny)
-for i in range(100):
-    b = np.sin(a+i)**2 + np.cos(a+i)**2 + a**1.5 ...</code></pre>
-                <a class="readmore" href="http://seekiu.com/2014/use-numexpr-to-accelerate.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
