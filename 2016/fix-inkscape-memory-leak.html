@@ -40,7 +40,7 @@
 <p>tags: <a href="http://seekiu.com/tag/matplotlib.html">matplotlib</a> </p>
 </footer><!-- /.post-info -->      <p>以前的文章中提到，在 matplotlib 中做标注相比 Origin 来说比较麻烦，但可以输出 SVG 格式，然后用 Inkscape 来做标注，不管是标注文字还是箭头一类，都比较简单。而且 SVG 由于它是一种很标准的通用格式，可以很容易转成 PDF、EMF 或者其它格式。然而最近发现了一个问题，较新版本的 matplotlib 导出的 SVG 在用 Inkscape 编辑时，存在内存泄漏的问题。任何一个几十 kB 的文件，打开后 Inkscape 也会占用几个 G 甚至更大的内存，操作也会变得非常卡顿，十分不正常。</p>
 <p>在<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1299222">这个帖子</a>中较为详细地分析了问题的成因，主要原因是 miterlimit 默认被设置成了 100000。恰好由于 Inkscape 渲染 SVG 文件的一个 bug，导致在这种情况下发生了内存泄漏。</p>
-<p>一个解决办法是下载 0.91.1 及以后的版本，在新版本中修改了这个 bug，对 Windows 来说，目前官方提供的稳定版还仪在 0.91，所以需要手动下载，<a href="http://download.tuxfamily.org/inkscape/win64/">这里</a>可以下载到更新的版本。这种办法是一劳永逸的。</p>
+<p>一个解决办法是下载 0.91.1 及以后的版本，在新版本中修正了这个 bug，对 Windows 来说，目前官方提供的稳定版还停留在 0.91，所以需要手动下载，<a href="http://download.tuxfamily.org/inkscape/win64/">这里</a>可以下载到更新的版本。这种办法是一劳永逸的。</p>
 <p>另一个办法更简单，用文本编辑器打开导出的 SVG 文件，把大约在第 7 行的 miterlimit 改成 100 或更小的数值，保存后再用 Inkscape 打开，内存使用就正常了。</p>
     </div><!-- /.entry-content -->
 
