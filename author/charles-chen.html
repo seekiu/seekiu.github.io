@@ -22,7 +22,37 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2016/fix-inkscape-memory-leak.html">修正 Inkscape 编辑 matplotlib 导出的文件时内存泄漏的问题</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2016/close-auto-update-win10.html">关闭 Win10 的自动更新（和重启！）</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-11-11T13:24:00+08:00">
+                Published: 周五 11 十一月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/pc-tips.html">PC-tips</a> </p>
+</footer><!-- /.post-info --><p>Win10在默认情况下是打开自动更新的，这本身对多数人来说应该是好事，但有一个非常非常恶心人的设定是同时也会自动重启。重启前甚至还无视其它程序的状态，不管有没有正在修改的文件没有保存，说重启就重启，这是非常糟糕的设计。</p>
+<p>所幸的是在专业版的 Win10 中还可以把这个选项给关闭（据说家庭版是没法修改的，未确认），但不是通过系统带的那个「设置」，而是需要用组策略编辑器来修改，步骤如下：</p>
+<ol>
+<li>按 Win+R 打开运行窗口，输入 <code>gpedit.msc</code>，回车，打开组策略编辑器。</li>
+<li>在左侧栏中依次找到「计算机配置」-「管理模板」-「Windows组件」-「Windows更新」，点击后在右侧双击打开「配置自动更新」，改为「已启用」，左下改为「2-通知下载并通知安装」。</li>
+</ol>
+<p>这样设置后，每次有更新的时候会提示，点击了下载之后才会安装，虽然略微更麻烦一点点，但把那种不知道什么时候会重启的不确定性完全消除了。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2016/fix-inkscape-memory-leak.html" rel="bookmark"
+                           title="Permalink to 修正 Inkscape 编辑 matplotlib 导出的文件时内存泄漏的问题">修正 Inkscape 编辑 matplotlib 导出的文件时内存泄漏的问题</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-09-29T14:50:00+08:00">
                 Published: 周四 29 九月 2016
@@ -33,15 +63,11 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/matplotlib.html">matplotlib</a> </p>
-</footer><!-- /.post-info --><p>以前的文章中提到，在 matplotlib 中做标注相比 Origin 来说比较麻烦，但可以输出 SVG 格式，然后用 Inkscape 来做标注，不管是标注文字还是箭头一类，都比较简单。而且 SVG 由于它是一种很标准的通用格式，可以很容易转成 PDF、EMF 或者其它格式。然而最近发现了一个问题，较新版本的 matplotlib 导出的 SVG 在用 Inkscape 编辑时，存在内存泄漏的问题。任何一个几十 kB 的文件，打开后 Inkscape 也会占用几个 G 甚至更大的内存，操作也会变得非常卡顿，十分不正常。</p>
-<p>在<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1299222">这个帖子</a>中较为详细地分析了问题的成因，主要原因是 miterlimit 默认被设置成了 100000。恰好由于 Inkscape 渲染 SVG 文件的一个 bug，导致在这种情况下发生了内存泄漏。</p>
-<p>一个解决办法是下载 0.91.1 及以后的版本，在新版本中修正了这个 bug，对 Windows 来说，目前官方提供的稳定版还停留在 0.91，所以需要手动下载，<a href="http://download.tuxfamily.org/inkscape/win64/">这里</a>可以下载到更新的版本。这种办法是一劳永逸的。</p>
-<p>另一个办法更简单，用文本编辑器打开导出的 SVG 文件，把大约在第 7 行的 miterlimit 改成 100 或更小的数值，保存后再用 Inkscape 打开，内存使用就正常了。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>以前的文章中提到，在 matplotlib 中做标注相比 Origin 来说比较麻烦，但可以输出 SVG 格式，然后用 Inkscape 来做标注，不管是标注文字还是箭头一类，都比较简单。而且 SVG 由于它是一种很标准的通用格式，可以很容易转成 PDF、EMF 或者其它格式。然而最近发现了一个问题，较新版本的 matplotlib 导出的 SVG 在用 Inkscape 编辑时，存在内存泄漏的问题。任何一个几十 kB 的文件，打开后 Inkscape 也会占用几个 G 甚至更大的内存，操作也会变得非常卡顿，十分不正常。</p>
+<p>在<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1299222">这个帖子</a>中较为详细地分析了问题的成因，主要原因是 miterlimit 默认被设置成了 100000。恰好由于 Inkscape 渲染 ...</p>
+                <a class="readmore" href="http://seekiu.com/2016/fix-inkscape-memory-leak.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -167,40 +193,6 @@ print([0,2] in a ...</pre></div>
 <p>经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。</p>
 <p>方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器 ...</p>
                 <a class="readmore" href="http://seekiu.com/2016/save-web-page-locally.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2016/git-notes.html" rel="bookmark"
-                           title="Permalink to Git 笔记">Git 笔记</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-06-06T10:52:00+08:00">
-                Published: 周一 06 六月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/dsxiang-guan.html">DS相关</a> </p>
-</footer><!-- /.post-info -->                <blockquote>
-<p>声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。</p>
-</blockquote>
-<p>以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。</p>
-<hr />
-<h1>最简版</h1>
-<ul>
-<li><code>git init</code>，新建一个 repo</li>
-<li><code>git clone &lt;some_url&gt; [destination_dir]</code>，从 Github 或其它网站下载 repo 的完整内容</li>
-<li>修改文件，然后 <code>git status</code> 查看有哪些修改</li>
-<li><code>git add .</code> 添加所有的修改到 stage</li>
-<li><code>git status</code>，确认所有修改</li>
-<li><code>git commit ...</code></li></ul>
-                <a class="readmore" href="http://seekiu.com/2016/git-notes.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

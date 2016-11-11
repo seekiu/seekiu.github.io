@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Charles Chen's blog - Authors</title>
+        <title>Charles Chen's blog - PC-tips</title>
         <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
         <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 
@@ -20,13 +20,27 @@
                 </ul></nav>
         </header><!-- /#banner -->
 
-<section id="content" class="body">
-    <h1>Authors on Charles Chen's blog</h1>
-    <ul>
-        <li><a href="http://seekiu.com/author/charles-chen.html">Charles Chen</a> (42)</li>
-    </ul>
-</section>
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2016/close-auto-update-win10.html">关闭 Win10 的自动更新（和重启！）</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-11-11T13:24:00+08:00">
+                Published: 周五 11 十一月 2016
+        </abbr>
 
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/pc-tips.html">PC-tips</a> </p>
+</footer><!-- /.post-info --><p>Win10在默认情况下是打开自动更新的，这本身对多数人来说应该是好事，但有一个非常非常恶心人的设定是同时也会自动重启。重启前甚至还无视其它程序的状态，不管有没有正在修改的文件没有保存，说重启就重启，这是非常糟糕的设计。</p>
+<p>所幸的是在专业版的 Win10 中还可以把这个选项给关闭（据说家庭版是没法修改的，未确认），但不是通过系统带的那个「设置」，而是需要用组策略编辑器来修改，步骤如下：</p>
+<ol>
+<li>按 Win+R 打开运行窗口，输入 <code>gpedit.msc</code>，回车，打开组策略编辑器。</li>
+<li>在左侧栏中依次找到「计算机配置」-「管理模板」-「Windows组件」-「Windows更新」，点击后在右侧双击打开「配置自动更新」，改为「已启用」，左下改为「2-通知下载并通知安装」。</li>
+</ol>
+<p>这样设置后，每次有更新的时候会提示，点击了下载之后才会安装，虽然略微更麻烦一点点，但把那种不知道什么时候会重启的不确定性完全消除了。</p>                </article>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
