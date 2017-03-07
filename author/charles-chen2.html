@@ -24,6 +24,33 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2016/save-web-page-locally.html" rel="bookmark"
+                           title="Permalink to 保存网页到本地的两种办法">保存网页到本地的两种办法</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-27T16:29:00+08:00">
+                Published: 周一 27 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/tips.html">Tips</a> </p>
+</footer><!-- /.post-info -->                <p>Edit: <a href="http://seekiu.com/2016/save-web-page-more.html">后续更新</a></p>
+<p>自从不太使用 Evernote 之后，如何干净地保存网页信息就成了一个大问题。所谓「干净」，就是只保存网页主体的信息，而不包括其它不相关的部分，也就相当于保存下 Firefox 所提供的阅读模式中显示的内容。</p>
+<p>本来，Evernote 提供的「悦读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。</p>
+<p>最开始想的办法是自己写一个 Python 脚本，爬一下网页，然后抓取主体信息，最后保存，看起来似乎每一个环节都不复杂，但尝试写了一下发现还是很麻烦：不同网站网页结构不同，涉及到如何分别处理的问题；有些文章需要翻页；有些网站如知乎专栏为了防转载做了不少障碍，等等。最终发现这个脚本要达到预期的目的，远不是半个下午就能轻松解决的小项目，暂时就打消了这个念头。</p>
+<p>经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。</p>
+<p>方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器 …</p>
+                <a class="readmore" href="http://seekiu.com/2016/save-web-page-locally.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2016/git-notes.html" rel="bookmark"
                            title="Permalink to Git 笔记">Git 笔记</a></h1>
                 </header>
@@ -43,7 +70,7 @@
 <p>声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。</p>
 </blockquote>
 <p>以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。</p>
-<hr />
+<hr>
 <h1>最简版</h1>
 <ul>
 <li><code>git init</code>，新建一个 repo</li>
@@ -51,7 +78,7 @@
 <li>修改文件，然后 <code>git status</code> 查看有哪些修改</li>
 <li><code>git add .</code> 添加所有的修改到 stage</li>
 <li><code>git status</code>，确认所有修改</li>
-<li><code>git commit ...</code></li></ul>
+<li><code>git commit …</code></li></ul>
                 <a class="readmore" href="http://seekiu.com/2016/git-notes.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -78,7 +105,7 @@
 <ol>
 <li>准备工作</li>
 </ol>
-<p>Python 环境 ...</p>
+<p>Python 环境 …</p>
                 <a class="readmore" href="http://seekiu.com/2016/creat-pelican-site-github-pages.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -122,7 +149,7 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable ...</p>
+</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable …</p>
                 <a class="readmore" href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -158,44 +185,20 @@ def foo(x):
         x[i] = x[i]**2
 
 def bar(x):
-    for i in range(len ...</pre></div>
+    for i in range(len …</pre></div>
                 <a class="readmore" href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/lazy-way-of-latex.html" rel="bookmark"
-                           title="Permalink to 用LaTeX写文章的一种懒人写法">用LaTeX写文章的一种懒人写法</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-10-08T10:12:00+08:00">
-                Published: 周四 08 十月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>自从两年前用 LaTeX 写了第一篇论文，后续的几篇都回到了用 Word。主要原因在于学会用 LaTeX 之后，用 Word 的习惯也好了很多，再加上后者还有所见即所得的优势。不过回顾一些以前写的小笔记，发现如果做某个小专题的笔记，页数在十几页范围以内时，其实用 LaTeX 也是不错的选择，尤其是当出现大量公式的时候。正好最近要写一个简单的报告，就尝试着用 LaTeX 来写。由于已经比较长时间没有使用了，不少命令已经记得不熟了，另外也习惯了 markdown 那种接近所见即所得的方便，所以感觉纯 LaTeX 已经显得挺繁琐了。</p>
-<p>基于这样的背景，大概考虑了有几种方案。</p>
-<p>直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制 ...</p>
-                <a class="readmore" href="http://seekiu.com/2015/lazy-way-of-latex.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
         <a href="http://seekiu.com/author/charles-chen.html">&laquo;</a>
-    Page 2 / 7
+    Page 2 / 8
         <a href="http://seekiu.com/author/charles-chen3.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://python.org/">Python.org</a></li>

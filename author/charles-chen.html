@@ -22,7 +22,32 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2016/close-auto-update-win10.html">关闭 Win10 的自动更新（和重启！）</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2017/monte-carlo-betting.html">蒙特卡洛方法模拟赌博策略</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-03-07T15:27:00+08:00">
+                Published: 周二 07 三月 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info --><p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
+nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2016/close-auto-update-win10.html" rel="bookmark"
+                           title="Permalink to 关闭 Win10 的自动更新（和重启！）">关闭 Win10 的自动更新（和重启！）</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2016-11-11T13:24:00+08:00">
                 Published: 周五 11 十一月 2016
@@ -33,18 +58,16 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/pc-tips.html">PC-tips</a> </p>
-</footer><!-- /.post-info --><p>Win10在默认情况下是打开自动更新的，这本身对多数人来说应该是好事，但有一个非常非常恶心人的设定是同时也会自动重启。重启前甚至还无视其它程序的状态，不管有没有正在修改的文件没有保存，说重启就重启，这是非常糟糕的设计。</p>
+</footer><!-- /.post-info -->                <p>Win10在默认情况下是打开自动更新的，这本身对多数人来说应该是好事，但有一个非常非常恶心人的设定是同时也会自动重启。重启前甚至还无视其它程序的状态，不管有没有正在修改的文件没有保存，说重启就重启，这是非常糟糕的设计。</p>
 <p>所幸的是在专业版的 Win10 中还可以把这个选项给关闭（据说家庭版是没法修改的，未确认），但不是通过系统带的那个「设置」，而是需要用组策略编辑器来修改，步骤如下：</p>
 <ol>
 <li>按 Win+R 打开运行窗口，输入 <code>gpedit.msc</code>，回车，打开组策略编辑器。</li>
 <li>在左侧栏中依次找到「计算机配置」-「管理模板」-「Windows组件」-「Windows更新」，点击后在右侧双击打开「配置自动更新」，改为「已启用」，左下改为「2-通知下载并通知安装」。</li>
 </ol>
-<p>这样设置后，每次有更新的时候会提示，点击了下载之后才会安装，虽然略微更麻烦一点点，但把那种不知道什么时候会重启的不确定性完全消除了。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>这样设置后，每次有更新的时候会提示，点击了下载之后才会安装，虽然略微更麻烦一点点，但把那种不知道什么时候会重启的不确定性完全消除了。</p>
+                <a class="readmore" href="http://seekiu.com/2016/close-auto-update-win10.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -64,7 +87,7 @@
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/matplotlib.html">matplotlib</a> </p>
 </footer><!-- /.post-info -->                <p>以前的文章中提到，在 matplotlib 中做标注相比 Origin 来说比较麻烦，但可以输出 SVG 格式，然后用 Inkscape 来做标注，不管是标注文字还是箭头一类，都比较简单。而且 SVG 由于它是一种很标准的通用格式，可以很容易转成 PDF、EMF 或者其它格式。然而最近发现了一个问题，较新版本的 matplotlib 导出的 SVG 在用 Inkscape 编辑时，存在内存泄漏的问题。任何一个几十 kB 的文件，打开后 Inkscape 也会占用几个 G 甚至更大的内存，操作也会变得非常卡顿，十分不正常。</p>
-<p>在<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1299222">这个帖子</a>中较为详细地分析了问题的成因，主要原因是 miterlimit 默认被设置成了 100000。恰好由于 Inkscape 渲染 ...</p>
+<p>在<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1299222">这个帖子</a>中较为详细地分析了问题的成因，主要原因是 miterlimit 默认被设置成了 100000。恰好由于 Inkscape 渲染 …</p>
                 <a class="readmore" href="http://seekiu.com/2016/fix-inkscape-memory-leak.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -105,7 +128,7 @@
  6
  7
  8
- 9 ...</pre></div></td></tr></table>
+ 9 …</pre></div></td></tr></table>
                 <a class="readmore" href="http://seekiu.com/2016/mpl-for-publish.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -139,7 +162,7 @@ print(4 in b)
 <p>结果是<code>False False</code></p>
 <p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
 <div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
-print([0,2] in a ...</pre></div>
+print([0,2] in a …</pre></div>
                 <a class="readmore" href="http://seekiu.com/2016/membership-in-ndarray.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -164,46 +187,19 @@ print([0,2] in a ...</pre></div>
 </footer><!-- /.post-info -->                <p>前一篇<a href="http://seekiu.com/2016/save-web-page-locally.html">文章</a>中讲了我常用的保存网页到本地的办法，最近又有一些新的发现。</p>
 <p>首先是 pandoc 转 docx 到 markdown 对 pandoc 的版本是有要求的，目前版本是1.17.1，可以正确处理带中文的文件。但如果用的是更旧的版本（似乎是1.15以前），会提示无法解码 UTF-8，因此推荐先把 pandoc 版本更新。</p>
 <p>本文最主要想更新的是一个新的发现，我找到了一个叫 <a href="http://www.typora.io/">Typora</a> 的软件，它本身是一个支持所见即所得的 markdown 编辑器（从知乎上的讨论来说，实现这样的东西似乎难度还很大），但它居然还支持了粘贴网页直接转换成 markdown 的功能。也就是说，不再需要手动保存成 docx，只需要把网页直接粘到里面就已经是 markdown 了。</p>
-<p>还有一点很重要的特性，就是由于它本身所见即所得的特性，相当于每次打开 md 文件都会自动渲染成网页格式，所以甚至省掉了再重新转换成 html ...</p>
+<p>还有一点很重要的特性，就是由于它本身所见即所得的特性，相当于每次打开 md 文件都会自动渲染成网页格式，所以甚至省掉了再重新转换成 html …</p>
                 <a class="readmore" href="http://seekiu.com/2016/save-web-page-more.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2016/save-web-page-locally.html" rel="bookmark"
-                           title="Permalink to 保存网页到本地的两种办法">保存网页到本地的两种办法</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-06-27T16:29:00+08:00">
-                Published: 周一 27 六月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/tips.html">Tips</a> </p>
-</footer><!-- /.post-info -->                <p>Edit: <a href="http://seekiu.com/2016/save-web-page-more.html">后续更新</a></p>
-<p>自从不太使用 Evernote 之后，如何干净地保存网页信息就成了一个大问题。所谓「干净」，就是只保存网页主体的信息，而不包括其它不相关的部分，也就相当于保存下 Firefox 所提供的阅读模式中显示的内容。</p>
-<p>本来，Evernote 提供的「悦读」是一个很好的方案，它首先提供了一个阅读模式，可以很好地对绝大多数网页实现抓取，然后它可以直接保存到 Evernote，可以说基本解决了我的需求。但由于各种原因，我现在基本不用 Evernote，使得这个需求还不太好自己解决了。</p>
-<p>最开始想的办法是自己写一个 Python 脚本，爬一下网页，然后抓取主体信息，最后保存，看起来似乎每一个环节都不复杂，但尝试写了一下发现还是很麻烦：不同网站网页结构不同，涉及到如何分别处理的问题；有些文章需要翻页；有些网站如知乎专栏为了防转载做了不少障碍，等等。最终发现这个脚本要达到预期的目的，远不是半个下午就能轻松解决的小项目，暂时就打消了这个念头。</p>
-<p>经过一些有意搜索和偶然的发现，现在有两种对我而言比较合适的方法。</p>
-<p>方法一是打印到 PDF。这个需要用到微软的 Edge 浏览器 ...</p>
-                <a class="readmore" href="http://seekiu.com/2016/save-web-page-locally.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 7
+    Page 1 / 8
         <a href="http://seekiu.com/author/charles-chen2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://python.org/">Python.org</a></li>

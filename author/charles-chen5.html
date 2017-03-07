@@ -24,6 +24,31 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2015/vim1.html" rel="bookmark"
+                           title="Permalink to Vim 系列（一） Vim tutor 要点小结">Vim 系列（一） Vim tutor 要点小结</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-01-27T21:17:00+08:00">
+                Published: 周二 27 一月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+</footer><!-- /.post-info -->                <p>因为各种原因，准备慢慢把主要的编辑器从 Sublime Text 3 迁移至古老的 Vim。今天开始，不定期地更新一系列的学习笔记。这篇是第一篇，大致整理了一下自带的教程（vim tutor）中的主要内容。</p>
+<p>启动 Vim。把 vim 的目录添加到 PATH 中，则输入 <code>vim</code> 可直接在命令行中启动 Vim，而 <code>gvim</code> 则启动带界面的版本。</p>
+<p>Vim 有多种模式，其中最基本的是「普通模式」，启动 Vim 后默认打开的就是普通模式，普通模式中光标是覆盖在字符上的方块，而如果在「插入模式」中，光标是字符之间的一条闪烁的线（绝大多数程序中也如此）。如果处在其它模式中，多按几次 ESC 就可以回到普通模式。</p>
+<p>普通模式下的光标移动。最基本的是用 <code>hjkl</code> 来实现上下左右，这一点刚上手 …</p>
+                <a class="readmore" href="http://seekiu.com/2015/vim1.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2015/ctrl-backspace-not-working.html" rel="bookmark"
                            title="Permalink to 奇怪的bug，win8里的ctrl-backspace失效了">奇怪的bug，win8里的ctrl-backspace失效了</a></h1>
                 </header>
@@ -72,7 +97,7 @@
     # flip twice, the possibility of HH or HT  
     hh = 0; ht = 0  
     for i in xrange(100000):  
-        pre = &#39;&#39;; cur ...</pre></div>
+        pre = &#39;&#39;; cur …</pre></div>
                 <a class="readmore" href="http://seekiu.com/2014/program-to-verify-counterintuitive-math-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -97,7 +122,7 @@
 </footer><!-- /.post-info -->                <p>注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。</p>
 <p>如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。</p>
 <p>这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。</p>
-<p>举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件 ...</p>
+<p>举例来说，比如按不同的参数，跑了10组结果，分别存在 param1~param10的文件夹中，每个文件夹中都有 result.txt 的文件 …</p>
                 <a class="readmore" href="http://seekiu.com/2014/python-workflow-simplify-data-processing.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -124,7 +149,7 @@
 <p>使用 Cython，先需要建立一个 <code>pyx</code> 格式的源文件，以计算宏观密度的函数为例，建立 <code>rho.pyx</code> 文件，并写入如下的函数：</p>
 <div class="highlight"><pre><span></span>def calc_rho_notype(f):  
     rho = np.empty_like(f[:,:,0])  
-    for i ...</pre></div>
+    for i …</pre></div>
                 <a class="readmore" href="http://seekiu.com/2014/use-cython-to-accelerate-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -150,47 +175,20 @@
 <p>从原来配置的环境换到 Anaconda 也非常简单，大概会有这么几个问题：</p>
 <ol>
 <li>
-<p>删除重复的包，如 numpy / scipy / matplotlib 等，用 <code>pip uninstall</code> 即可 ...</p></li></ol>
+<p>删除重复的包，如 numpy / scipy / matplotlib 等，用 <code>pip uninstall</code> 即可 …</p></li></ol>
                 <a class="readmore" href="http://seekiu.com/2014/use-anaconda.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2014/problems-using-vpn.html" rel="bookmark"
-                           title="Permalink to 用 VPN 时的一些小问题">用 VPN 时的一些小问题</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-06-24T21:06:00+08:00">
-                Published: 周二 24 六月 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>从5月35日前两天左右开始，gg开始几乎全系被封，干脆买了个收费的 VPN，想一次性解决问题。当然，事实证明也没有这么简单，还是碰到了大大小小的不少问题，大致罗致如下：</p>
-<ol>
-<li>L2** 比 PP** 的「安全性」更好，一般推荐用前者；</li>
-<li>路由表是个好东西，尤其是 chnroutes，它可以实现让国内流量不走 VPN，大量节约收费资源，并且提高速度；</li>
-<li>在我的情况里，L2** 协议再加载智能路由表时，会导致上不了百度，至今没弄明白怎么回事，现在较好的解决办法是在浏览器里再用一个自动代理，让域名带 baidu.com 的都从一个国内的高速缓存里过，算是一个曲线救国的办法了。</li>
-</ol>
-                <a class="readmore" href="http://seekiu.com/2014/problems-using-vpn.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
         <a href="http://seekiu.com/author/charles-chen4.html">&laquo;</a>
-    Page 5 / 7
+    Page 5 / 8
         <a href="http://seekiu.com/author/charles-chen6.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://python.org/">Python.org</a></li>

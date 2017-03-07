@@ -96,7 +96,7 @@ w.save()</pre>
 <p>实在是莫名其妙的问题，更莫名其妙的解决方案。</p>
 <p>倒过头来看，这个问题肯定是由于存储数据的顺序决定的（后面是一段不太靠谱的分析）。u、t 等多维数组，虽然本身是多维的，但在存储的时候，肯定还是展开成一维的形式存储的。而多维数据的存储，有C和Fortran两种不同的顺序（注意 pyevtk 给出的示例中用的是 <code>order='F'</code>）。Pyevtk 库可能内置了什么判断，可以知道输入的数组是什么类型的排序方式，但如果输入的是切片，就扰乱了这个判断，从而导致写入的顺序错误。</p>
 <p>PS. 补充一下，之前用的复制多个z数据，强行输出伪3维结果的方法中，如果只输出两层结果，在 Paraview 中，可以正常显示标量云图和矢量图，但无法显示流线图，必须复制多份（我自己的测试是4份就行了）。</p>
-<hr />
+<hr>
 <p>[1] Python 似乎还有专门的库用于处理 vtk 格式，如 tvtk 等。</p>
     </div><!-- /.entry-content -->
 
@@ -104,7 +104,7 @@ w.save()</pre>
 </section>
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://python.org/">Python.org</a></li>
