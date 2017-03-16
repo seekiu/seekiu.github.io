@@ -2,7 +2,7 @@
 /*   return "DIRECT; PROXY 127.0.0.1:1080"; */ 
 /* } */ 
 
-var Shadow_Proxy = "SOCKS5 127.0.0.1:1080";
+var Shadow_Proxy = "127.0.0.1:1080";
 
 function FindProxyForURL(url, host) {
    if (0
