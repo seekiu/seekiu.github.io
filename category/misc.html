@@ -22,7 +22,76 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2017/monte-carlo-betting.html">蒙特卡洛方法模拟赌博策略</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2017/convenient-cmd-tool.html">方便的个人命令行小助理</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-03-26T12:10:00+08:00">
+                Published: 周日 26 三月 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info --><p>最近发现有一些经常重复性做的工作，包括：</p>
+<ul>
+<li>打开命令行查看本机在局域网的 IP</li>
+<li>用 Inkscape 命令行转换矢量图格式</li>
+<li>调用已写好的某脚本快速查看关注股票的价格</li>
+</ul>
+<p>等等。这些工作往往都有确切的实现办法，但往往用起来相对没那么简便，而且输出也不一定足够精简，比如输出局域网IP功能就只输出一个IP，而且最好命令就是一条非常简单的<code>ip</code>。</p>
+<p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
+<p>需求想明白了，实现就简单了。</p>
+<p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ip&#39;</span><span class="p">:</span>
+            <span class="n">get_ip</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">get_ip</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">socket</span>
+    <span class="n">ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>这里实现了在命令行中输入 <code>python tools.py ip</code> 就输出本机IP的功能，没有额外输出，也没有额外的功能（暂时）。</p>
+<p>第二步，让这个程序可以在任意位置的命令行简便地执行。办法之一是把它做成命令行程序，这个有不少现成的 Python 库可以做到。我选择的是另一种 Windows 内置的一种方法，把它放到一个 <code>alias.cmd</code> 文件中，里面给上述命令起一个别名，然后让 cmd 每次启动时都先读一下上面的 alias（如果是*nix系统就更简单地可以直接用alias的功能）。</p>
+<p>首先 alias.cmd 文件中加入下面一行：</p>
+<div class="highlight"><pre><span></span>DOSKEY tools=python &quot;path_to_tools.py&quot; $*
+</pre></div>
+
+
+<p>这样可以把 tools 命令连同后面的任意参数转换为后面那一段再加参数的格式。</p>
+<p>然后在 regedit 中，定位到</p>
+<div class="highlight"><pre><span></span>HKEY_CURRENT_USER -&gt; Software -&gt; Microsoft -&gt; Command Processor
+</pre></div>
+
+
+<p>添加一个字符串值，名称为 <code>AutoRun</code>，值为上面 <code>alias.cmd</code> 的完整路径。</p>
+<hr>
+<p>到此为止，任意时候按下 win+R 键，输入cmd，回车，再键入 <code>tools ip</code> 就可以方便地查看本机 IP 了。相应地，其它功能也可以在 tools.py 中实现。积累得多了，这个工具就变成了一个个人专属的小工具箱，越用越顺手。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2017/monte-carlo-betting.html" rel="bookmark"
+                           title="Permalink to 蒙特卡洛方法模拟赌博策略">蒙特卡洛方法模拟赌博策略</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-03-07T15:27:00+08:00">
                 Published: 周二 07 三月 2017
@@ -33,13 +102,11 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info --><p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
-nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
+nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>
+                <a class="readmore" href="http://seekiu.com/2017/monte-carlo-betting.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -164,31 +231,6 @@ print(4 in b)
 <div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
 print([0,2] in a …</pre></div>
                 <a class="readmore" href="http://seekiu.com/2016/membership-in-ndarray.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2016/save-web-page-more.html" rel="bookmark"
-                           title="Permalink to 保存网页到本地的方法（2）">保存网页到本地的方法（2）</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-07-07T08:30:00+08:00">
-                Published: 周四 07 七月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/tips.html">Tips</a> </p>
-</footer><!-- /.post-info -->                <p>前一篇<a href="http://seekiu.com/2016/save-web-page-locally.html">文章</a>中讲了我常用的保存网页到本地的办法，最近又有一些新的发现。</p>
-<p>首先是 pandoc 转 docx 到 markdown 对 pandoc 的版本是有要求的，目前版本是1.17.1，可以正确处理带中文的文件。但如果用的是更旧的版本（似乎是1.15以前），会提示无法解码 UTF-8，因此推荐先把 pandoc 版本更新。</p>
-<p>本文最主要想更新的是一个新的发现，我找到了一个叫 <a href="http://www.typora.io/">Typora</a> 的软件，它本身是一个支持所见即所得的 markdown 编辑器（从知乎上的讨论来说，实现这样的东西似乎难度还很大），但它居然还支持了粘贴网页直接转换成 markdown 的功能。也就是说，不再需要手动保存成 docx，只需要把网页直接粘到里面就已经是 markdown 了。</p>
-<p>还有一点很重要的特性，就是由于它本身所见即所得的特性，相当于每次打开 md 文件都会自动渲染成网页格式，所以甚至省掉了再重新转换成 html …</p>
-                <a class="readmore" href="http://seekiu.com/2016/save-web-page-more.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

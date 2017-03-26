@@ -22,7 +22,76 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2017/monte-carlo-betting.html">蒙特卡洛方法模拟赌博策略</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.com/2017/convenient-cmd-tool.html">方便的个人命令行小助理</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-03-26T12:10:00+08:00">
+                Published: 周日 26 三月 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info --><p>最近发现有一些经常重复性做的工作，包括：</p>
+<ul>
+<li>打开命令行查看本机在局域网的 IP</li>
+<li>用 Inkscape 命令行转换矢量图格式</li>
+<li>调用已写好的某脚本快速查看关注股票的价格</li>
+</ul>
+<p>等等。这些工作往往都有确切的实现办法，但往往用起来相对没那么简便，而且输出也不一定足够精简，比如输出局域网IP功能就只输出一个IP，而且最好命令就是一条非常简单的<code>ip</code>。</p>
+<p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
+<p>需求想明白了，实现就简单了。</p>
+<p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ip&#39;</span><span class="p">:</span>
+            <span class="n">get_ip</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">get_ip</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">socket</span>
+    <span class="n">ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>这里实现了在命令行中输入 <code>python tools.py ip</code> 就输出本机IP的功能，没有额外输出，也没有额外的功能（暂时）。</p>
+<p>第二步，让这个程序可以在任意位置的命令行简便地执行。办法之一是把它做成命令行程序，这个有不少现成的 Python 库可以做到。我选择的是另一种 Windows 内置的一种方法，把它放到一个 <code>alias.cmd</code> 文件中，里面给上述命令起一个别名，然后让 cmd 每次启动时都先读一下上面的 alias（如果是*nix系统就更简单地可以直接用alias的功能）。</p>
+<p>首先 alias.cmd 文件中加入下面一行：</p>
+<div class="highlight"><pre><span></span>DOSKEY tools=python &quot;path_to_tools.py&quot; $*
+</pre></div>
+
+
+<p>这样可以把 tools 命令连同后面的任意参数转换为后面那一段再加参数的格式。</p>
+<p>然后在 regedit 中，定位到</p>
+<div class="highlight"><pre><span></span>HKEY_CURRENT_USER -&gt; Software -&gt; Microsoft -&gt; Command Processor
+</pre></div>
+
+
+<p>添加一个字符串值，名称为 <code>AutoRun</code>，值为上面 <code>alias.cmd</code> 的完整路径。</p>
+<hr>
+<p>到此为止，任意时候按下 win+R 键，输入cmd，回车，再键入 <code>tools ip</code> 就可以方便地查看本机 IP 了。相应地，其它功能也可以在 tools.py 中实现。积累得多了，这个工具就变成了一个个人专属的小工具箱，越用越顺手。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.com/2017/monte-carlo-betting.html" rel="bookmark"
+                           title="Permalink to 蒙特卡洛方法模拟赌博策略">蒙特卡洛方法模拟赌博策略</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-03-07T15:27:00+08:00">
                 Published: 周二 07 三月 2017
@@ -33,13 +102,11 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info --><p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
-nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
+nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>
+                <a class="readmore" href="http://seekiu.com/2017/monte-carlo-betting.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -143,31 +210,6 @@ nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyte
 <p>当然，对如先的子女来说，记得更清楚的是，如果不小心割伤，血流不止，如先只需在伤口周围稍微按摩穴位，流血顷刻可止。可惜，此技已失传矣。</p>
 <p><em>注：本文除人名外，故事大概属实 …</em></p>
                 <a class="readmore" href="http://seekiu.com/2013/ru-xian-shu-ji-de-gu-shi.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2013/tool-software.html" rel="bookmark"
-                           title="Permalink to 工具软件">工具软件</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-01-26T05:33:00+08:00">
-                Published: 周六 26 一月 2013
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>本科时参与过一个自主程度较高的科研项目，受益不少，指导老师也是现在的博士导师。最近自己又成了这种项目的小导师，与两位同我相差3级的本科同学交流后，有了一些感触。结合最近的一些思考，写下此文。</p>
-<p>印象中初中政治书上有一句话说，工具是人类身体的延伸。这句话挺精确的，通过延伸我们的身体，可以完成一些正常难以完成的事情，但过多地依赖这种工具，也会削弱我们自身的一些能力。典型的例子如代步工具自不必说，现代的手机也是一个例子，它既方便了远在千里之外的人交流，却又因为在饭桌上占用大部分人的注意力而妨碍了交流。工具的双重效果是其本质属性，以工具带来方便的同时，也应避免为工具所困。道理很浅显，但现代的工具又往往让我们迷失其中。</p>
-<p>大约一个月前，与两位本科生第一次交流。由于项目书中提到了一些工具软件如现在十分流行的Fluent，同学都表示很有兴趣。但我感觉两位同学对于工具的着迷程度胜过了对物理现象背后作用原理的兴趣，让我产生了一些忧虑。现代的工程仿真软件越做越庞大，功能越做越复杂，操作却越来越简单。在宣传中我们可以看到各种复杂绚丽的效果，不内行的人看得眼花缭乱，内行的人也越发乐此不疲。这本是一件好事，科研人员专心于研究事务，不善于宣传和表达，而这些工具某种程度上降低了他们的宣传门槛。</p>
-<p>但这学期我自己所研究的一些内容很大程度上改变了我的看法。起源是开始学习Surface Evolver这个相当小众的仿真软件，它是一位数学教授写的小软件，用来最基本的能量最小原理计算液面形状的。由于它基本上算是一个个人项目，所以软件界面、帮助文档什么的都相对还不齐全（也远没有像ANSYS这种商业软件的成熟）。它的网格算法与之前接触的ANSYS和Fluent的有限元或者有限体积法都有所不同 …</p>
-                <a class="readmore" href="http://seekiu.com/2013/tool-software.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

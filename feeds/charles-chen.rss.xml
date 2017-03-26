@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Tue, 07 Mar 2017 15:27:00 +0800</lastBuildDate><item><title>蒙特卡洛方法模拟赌博策略</title><link>http://seekiu.com/2017/monte-carlo-betting.html</link><description>&lt;p&gt;最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 26 Mar 2017 12:10:00 +0800</lastBuildDate><item><title>方便的个人命令行小助理</title><link>http://seekiu.com/2017/convenient-cmd-tool.html</link><description>&lt;p&gt;最近发现有一些经常重复性做的工作，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打开命令行查看本机在局域网的 IP&lt;/li&gt;
+&lt;li&gt;用 Inkscape 命令行转换矢量图格式&lt;/li&gt;
+&lt;li&gt;调用已写好的某脚本快速查看关注股票的价格&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;等等。这些工作往往都有确切的实现办法，但往往用起来相对没那么简便，而且输出也不一定足够精简，比如输出局域网IP功能就只输出一个IP，而且最好命令就是一条非常简单的&lt;code&gt;ip&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。&lt;/p&gt;
+&lt;p&gt;需求想明白了，实现就简单了。&lt;/p&gt;
+&lt;p&gt;第一步，先编写 &lt;code&gt;tools.py&lt;/code&gt;，以输出 IP 为例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;get_ip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;pass&lt;/span&gt;
+
+&lt;span class="k"&gt;def …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 26 Mar 2017 12:10:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2017-03-26:/2017/convenient-cmd-tool.html</guid><category>个人</category></item><item><title>蒙特卡洛方法模拟赌博策略</title><link>http://seekiu.com/2017/monte-carlo-betting.html</link><description>&lt;p&gt;最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
 nbviewer 上了，有兴趣的可以看一下：&lt;a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/"&gt;链接&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Tue, 07 Mar 2017 15:27:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2017-03-07:/2017/monte-carlo-betting.html</guid><category>个人</category></item><item><title>关闭 Win10 的自动更新（和重启！）</title><link>http://seekiu.com/2016/close-auto-update-win10.html</link><description>&lt;p&gt;Win10在默认情况下是打开自动更新的，这本身对多数人来说应该是好事，但有一个非常非常恶心人的设定是同时也会自动重启。重启前甚至还无视其它程序的状态，不管有没有正在修改的文件没有保存，说重启就重启，这是非常糟糕的设计。&lt;/p&gt;
 &lt;p&gt;所幸的是在专业版的 Win10 中还可以把这个选项给关闭（据说家庭版是没法修改的，未确认），但不是通过系统带的那个「设置」，而是需要用组策略编辑器来修改，步骤如下：&lt;/p&gt;
 &lt;ol&gt;

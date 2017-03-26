@@ -24,6 +24,31 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2016/save-web-page-more.html" rel="bookmark"
+                           title="Permalink to 保存网页到本地的方法（2）">保存网页到本地的方法（2）</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-07-07T08:30:00+08:00">
+                Published: 周四 07 七月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/tips.html">Tips</a> </p>
+</footer><!-- /.post-info -->                <p>前一篇<a href="http://seekiu.com/2016/save-web-page-locally.html">文章</a>中讲了我常用的保存网页到本地的办法，最近又有一些新的发现。</p>
+<p>首先是 pandoc 转 docx 到 markdown 对 pandoc 的版本是有要求的，目前版本是1.17.1，可以正确处理带中文的文件。但如果用的是更旧的版本（似乎是1.15以前），会提示无法解码 UTF-8，因此推荐先把 pandoc 版本更新。</p>
+<p>本文最主要想更新的是一个新的发现，我找到了一个叫 <a href="http://www.typora.io/">Typora</a> 的软件，它本身是一个支持所见即所得的 markdown 编辑器（从知乎上的讨论来说，实现这样的东西似乎难度还很大），但它居然还支持了粘贴网页直接转换成 markdown 的功能。也就是说，不再需要手动保存成 docx，只需要把网页直接粘到里面就已经是 markdown 了。</p>
+<p>还有一点很重要的特性，就是由于它本身所见即所得的特性，相当于每次打开 md 文件都会自动渲染成网页格式，所以甚至省掉了再重新转换成 html …</p>
+                <a class="readmore" href="http://seekiu.com/2016/save-web-page-more.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2016/save-web-page-locally.html" rel="bookmark"
                            title="Permalink to 保存网页到本地的两种办法">保存网页到本地的两种办法</a></h1>
                 </header>
@@ -151,42 +176,6 @@
 <p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable …</p>
                 <a class="readmore" href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
-                           title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-11-18T19:25:00+08:00">
-                Published: 周三 18 十一月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
-<p>首先从下面一段非常简单的程序开始：</p>
-<div class="highlight"><pre><span></span>def main():
-    x = [1, 2, 3, 4, 5]
-    foo(x)
-    print(x)
-
-def foo(x):
-    bar(x)
-    # x = bar2(x)
-    for i in range(len(x)):
-        x[i] = x[i]**2
-
-def bar(x):
-    for i in range(len …</pre></div>
-                <a class="readmore" href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

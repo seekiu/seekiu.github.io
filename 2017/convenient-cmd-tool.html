@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>方便的个人命令行小助理</title>
+        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
+        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <nav><ul>
+                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
+                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.com/2017/convenient-cmd-tool.html" rel="bookmark"
+           title="Permalink to 方便的个人命令行小助理">方便的个人命令行小助理</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-03-26T12:10:00+08:00">
+                Published: 周日 26 三月 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info -->      <p>最近发现有一些经常重复性做的工作，包括：</p>
+<ul>
+<li>打开命令行查看本机在局域网的 IP</li>
+<li>用 Inkscape 命令行转换矢量图格式</li>
+<li>调用已写好的某脚本快速查看关注股票的价格</li>
+</ul>
+<p>等等。这些工作往往都有确切的实现办法，但往往用起来相对没那么简便，而且输出也不一定足够精简，比如输出局域网IP功能就只输出一个IP，而且最好命令就是一条非常简单的<code>ip</code>。</p>
+<p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
+<p>需求想明白了，实现就简单了。</p>
+<p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ip&#39;</span><span class="p">:</span>
+            <span class="n">get_ip</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">get_ip</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">socket</span>
+    <span class="n">ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>这里实现了在命令行中输入 <code>python tools.py ip</code> 就输出本机IP的功能，没有额外输出，也没有额外的功能（暂时）。</p>
+<p>第二步，让这个程序可以在任意位置的命令行简便地执行。办法之一是把它做成命令行程序，这个有不少现成的 Python 库可以做到。我选择的是另一种 Windows 内置的一种方法，把它放到一个 <code>alias.cmd</code> 文件中，里面给上述命令起一个别名，然后让 cmd 每次启动时都先读一下上面的 alias（如果是*nix系统就更简单地可以直接用alias的功能）。</p>
+<p>首先 alias.cmd 文件中加入下面一行：</p>
+<div class="highlight"><pre><span></span>DOSKEY tools=python &quot;path_to_tools.py&quot; $*
+</pre></div>
+
+
+<p>这样可以把 tools 命令连同后面的任意参数转换为后面那一段再加参数的格式。</p>
+<p>然后在 regedit 中，定位到</p>
+<div class="highlight"><pre><span></span>HKEY_CURRENT_USER -&gt; Software -&gt; Microsoft -&gt; Command Processor
+</pre></div>
+
+
+<p>添加一个字符串值，名称为 <code>AutoRun</code>，值为上面 <code>alias.cmd</code> 的完整路径。</p>
+<hr>
+<p>到此为止，任意时候按下 win+R 键，输入cmd，回车，再键入 <code>tools ip</code> 就可以方便地查看本机 IP 了。相应地，其它功能也可以在 tools.py 中实现。积累得多了，这个工具就变成了一个个人专属的小工具箱，越用越顺手。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="http://twitter.com/seekiu">Twitter</a></li>
+                            <li><a href="http://instagram.com/seekiu">Instagram</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
