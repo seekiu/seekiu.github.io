@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 26 Mar 2017 12:10:00 +0800</lastBuildDate><item><title>方便的个人命令行小助理</title><link>http://seekiu.com/2017/convenient-cmd-tool.html</link><description>&lt;p&gt;最近发现有一些经常重复性做的工作，包括：&lt;/p&gt;
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sat, 07 Oct 2017 16:51:00 +0800</lastBuildDate><item><title>用 LaTeX 写大论文的一些经验</title><link>http://seekiu.com/2017/latex-paper-tips.html</link><description>&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
+户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
+加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;论文中存在大量公式，Word 虽然自 2007 版本起就引入了更好的公式支持，允许按部
+   分 LaTeX 的语法输入，并且有不错的显示效果。但比较遗憾的是，即使是目前最新版
+   本的 Word 2016，在存在行内公式时，段落内的行间距都会受到影响。这一点，如果一
+   直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
+   可以克服时，就会觉得这个缺点难以忍受了。&lt;/li&gt;
+&lt;li&gt;论文各个章节以及章节内部存在大量的交叉引用，图片、公式 …&lt;/li&gt;&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 07 Oct 2017 16:51:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2017-10-07:/2017/latex-paper-tips.html</guid><category>个人</category></item><item><title>方便的个人命令行小助理</title><link>http://seekiu.com/2017/convenient-cmd-tool.html</link><description>&lt;p&gt;最近发现有一些经常重复性做的工作，包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;打开命令行查看本机在局域网的 IP&lt;/li&gt;
 &lt;li&gt;用 Inkscape 命令行转换矢量图格式&lt;/li&gt;

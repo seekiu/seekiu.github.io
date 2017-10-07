@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog - Charles Chen</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/charles-chen.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2017-03-26T12:10:00+08:00</updated><entry><title>方便的个人命令行小助理</title><link href="http://seekiu.com/2017/convenient-cmd-tool.html" rel="alternate"></link><published>2017-03-26T12:10:00+08:00</published><updated>2017-03-26T12:10:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-03-26:/2017/convenient-cmd-tool.html</id><summary type="html">&lt;p&gt;最近发现有一些经常重复性做的工作，包括：&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog - Charles Chen</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/charles-chen.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2017-10-07T16:51:00+08:00</updated><entry><title>用 LaTeX 写大论文的一些经验</title><link href="http://seekiu.com/2017/latex-paper-tips.html" rel="alternate"></link><published>2017-10-07T16:51:00+08:00</published><updated>2017-10-07T16:51:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-10-07:/2017/latex-paper-tips.html</id><summary type="html">&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
+户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
+加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;论文中存在大量公式，Word 虽然自 2007 版本起就引入了更好的公式支持，允许按部
+   分 LaTeX 的语法输入，并且有不错的显示效果。但比较遗憾的是，即使是目前最新版
+   本的 Word 2016，在存在行内公式时，段落内的行间距都会受到影响。这一点，如果一
+   直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
+   可以克服时，就会觉得这个缺点难以忍受了。&lt;/li&gt;
+&lt;li&gt;论文各个章节以及章节内部存在大量的交叉引用，图片、公式 …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
+户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
+加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;论文中存在大量公式，Word 虽然自 2007 版本起就引入了更好的公式支持，允许按部
+   分 LaTeX 的语法输入，并且有不错的显示效果。但比较遗憾的是，即使是目前最新版
+   本的 Word 2016，在存在行内公式时，段落内的行间距都会受到影响。这一点，如果一
+   直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
+   可以克服时，就会觉得这个缺点难以忍受了。&lt;/li&gt;
+&lt;li&gt;论文各个章节以及章节内部存在大量的交叉引用，图片、公式、表格、文献等等都需要
+   自动编号以及更新引用序号。这个功能虽然 Word 也有，但我一直没有掌握其要领。相
+   比之下，在 LaTeX 中这是最基础的部分。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当然，决定转向 LaTeX 有一个重要的前提，就是已经有人把学校的格式要求做成了相应的
+模板，而我需要改的地方是很少的。&lt;/p&gt;
+&lt;p&gt;不再多说，大致有以下几点经验，作为自己的一个备忘：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;从其它格式转 LaTeX&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我开始的格式是 docx，因此首先有一个需求是把 Word 文档转成 TeX 文档。这一步有现
+成的工具：&lt;a href="https://pandoc.org/"&gt;pandoc&lt;/a&gt;，它提供了在常见文本文档中几乎一键转换的
+功能，可谓神器。&lt;/p&gt;
+&lt;p&gt;这里有一个小技巧就是，不要直接把 Word 文档转成 TeX 文档，因为转换过程并不是完美
+的，存在一些小问题，建议先转成 markdown 格式，因为清理 md 文件中的垃圾相比清理
+TeX 容易太多了。需要清理的有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;莫名插入的 OLE 字段&lt;/li&gt;
+&lt;li&gt;在Word中的行间公式我一般放到表格中（容易排版和编号），转换后需要删除表格&lt;/li&gt;
+&lt;li&gt;中文引号替换成正确的引号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;再转成 TeX 之后，仍然有一些小问题，主要是两点：一是自动生成的 label 过于冗长而
+且没有意义，二是公式默认不是用美元符号而是用 &lt;code&gt;\( \)&lt;/code&gt; 包围的。这两点同样需要简单
+处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;图片的处理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我在 LaTeX 中使用的图片大部分为 PDF （矢量图）和 JPG （点阵图）两种。对于矢量图
+，很多时候我是用 Matplotlib 生成的，有时候为了方便标注，我会选择用 Inkscape 来
+做标注，而不是用 Matplotlib 那不直观的方法来标（这也是 Origin 最大的优点之一）
+。因此我养成了习惯，大部分图我都优先输出成 SVG 格式，然后用 Inkscape 转格式，如
+果要插入到 Word 中，就转成 EMF 格式，这样兼容性最好，如果在 LaTeX 中就转成 PDF
+。&lt;/p&gt;
+&lt;p&gt;遇到一个问题是，有个别在以前 Word 文档中插入的 EMF 矢量图，找不到原始文件，只能
+从 Word 里抠。这时有个技巧就是，可以用解压软件（如7z）打开 docx 文件，里面可以
+找到插入的各种图片的原始版本。&lt;/p&gt;
+&lt;p&gt;另外 Inkscape 对 EMF 的支持并不很好，有时候转换之后会有问题，这时可以用 MS 自家
+的 Visio 中转一下，再输出 PDF 效果很好。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文献编号&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最后有一个小 tip，图片中尽量避免出现文献编号，因为没法自动更新。这在小论文中一
+般问题不大，因为文献数一般不会太多，图片也不会太多，手动改一下也可以，大论文中
+显然手动改不是一个好办法。绕过的一个办法是，在图中只标注作者名，然后在图题中写
+序号。&lt;/p&gt;</content><category term="个人"></category></entry><entry><title>方便的个人命令行小助理</title><link href="http://seekiu.com/2017/convenient-cmd-tool.html" rel="alternate"></link><published>2017-03-26T12:10:00+08:00</published><updated>2017-03-26T12:10:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-03-26:/2017/convenient-cmd-tool.html</id><summary type="html">&lt;p&gt;最近发现有一些经常重复性做的工作，包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;打开命令行查看本机在局域网的 IP&lt;/li&gt;
 &lt;li&gt;用 Inkscape 命令行转换矢量图格式&lt;/li&gt;
