@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/all-en.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2017-10-07T16:51:00+08:00</updated><entry><title>用 LaTeX 写大论文的一些经验</title><link href="http://seekiu.com/2017/latex-paper-tips.html" rel="alternate"></link><published>2017-10-07T16:51:00+08:00</published><updated>2017-10-07T16:51:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-10-07:/2017/latex-paper-tips.html</id><summary type="html">&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Charles Chen's blog</title><link href="http://seekiu.com/" rel="alternate"></link><link href="http://seekiu.com/feeds/all-en.atom.xml" rel="self"></link><id>http://seekiu.com/</id><updated>2017-10-08T20:40:00+08:00</updated><entry><title>合并多个 pd.DataFrame 的常规方法</title><link href="http://seekiu.com/2017/effciently-combine-dataframes.html" rel="alternate"></link><published>2017-10-08T20:40:00+08:00</published><updated>2017-10-08T20:40:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-10-08:/2017/effciently-combine-dataframes.html</id><summary type="html">&lt;p&gt;在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
+pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
+的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。&lt;/p&gt;
+&lt;p&gt;按最通常的想法，是直接写一个循环：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for df_i in dfs:
+    pd.concat(df, df_i)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。&lt;/p&gt;
+&lt;p&gt;在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
+的 df 放到一个列表中，然后用 concat 函数一次性合并：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df = pd.concat(dfs)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样避免了产生中间临时 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
+pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
+的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。&lt;/p&gt;
+&lt;p&gt;按最通常的想法，是直接写一个循环：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for df_i in dfs:
+    pd.concat(df, df_i)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。&lt;/p&gt;
+&lt;p&gt;在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
+的 df 放到一个列表中，然后用 concat 函数一次性合并：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df = pd.concat(dfs)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样避免了产生中间临时 df。&lt;/p&gt;
+&lt;p&gt;在 pandas 开发者 Wes McKinney 最近的&lt;a href="http://wesmckinney.com/blog/apache-arrow-pandas-internals/"&gt;博客&lt;/a&gt; 中提到，pandas 不能很好地处理 append 这一点也一直困扰着他，而这个问题，有希望在 arrow 中得到解决。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/38246166/efficient-way-to-combine-pandas-data-frames-row-wise"&gt;参考&lt;/a&gt;.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>用 LaTeX 写大论文的一些经验</title><link href="http://seekiu.com/2017/latex-paper-tips.html" rel="alternate"></link><published>2017-10-07T16:51:00+08:00</published><updated>2017-10-07T16:51:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-10-07:/2017/latex-paper-tips.html</id><summary type="html">&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
 户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
 加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：&lt;/p&gt;
 &lt;ol&gt;
@@ -100,7 +135,7 @@ TeX 容易太多了。需要清理的有：&lt;/p&gt;
     &lt;span class="n"&gt;ip&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;socket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gethostbyname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;socket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gethostname&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
     &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -341,11 +376,11 @@ nbviewer 上了，有兴趣的可以看一下：&lt;a href="https://nbviewer.jup
 7
 8&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text.usetex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;text.latex.preamble&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-       &lt;span class="s1"&gt;r&amp;#39;\usepackage{siunitx}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;r&amp;#39;\sisetup{detect-all}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;r&amp;#39;\usepackage{helvet}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;r&amp;#39;\usepackage{sansmath}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;r&amp;#39;\sansmath&amp;#39;&lt;/span&gt;
+       &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\usepackage{siunitx}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\sisetup{detect-all}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\usepackage{helvet}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\usepackage{sansmath}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\sansmath&amp;#39;&lt;/span&gt;
 &lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;

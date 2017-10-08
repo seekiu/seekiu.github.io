@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sat, 07 Oct 2017 16:51:00 +0800</lastBuildDate><item><title>用 LaTeX 写大论文的一些经验</title><link>http://seekiu.com/2017/latex-paper-tips.html</link><description>&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 08 Oct 2017 20:40:00 +0800</lastBuildDate><item><title>合并多个 pd.DataFrame 的常规方法</title><link>http://seekiu.com/2017/effciently-combine-dataframes.html</link><description>&lt;p&gt;在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
+pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
+的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。&lt;/p&gt;
+&lt;p&gt;按最通常的想法，是直接写一个循环：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for df_i in dfs:
+    pd.concat(df, df_i)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。&lt;/p&gt;
+&lt;p&gt;在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
+的 df 放到一个列表中，然后用 concat 函数一次性合并：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df = pd.concat(dfs)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样避免了产生中间临时 …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 08 Oct 2017 20:40:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2017-10-08:/2017/effciently-combine-dataframes.html</guid><category>python</category></item><item><title>用 LaTeX 写大论文的一些经验</title><link>http://seekiu.com/2017/latex-paper-tips.html</link><description>&lt;p&gt;几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
 户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
 加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：&lt;/p&gt;
 &lt;ol&gt;

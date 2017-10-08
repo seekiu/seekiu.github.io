@@ -24,6 +24,28 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2016/hello-world-pelican.html" rel="bookmark"
+                           title="Permalink to Hello Pelican!">Hello Pelican!</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-01T16:50:00+08:00">
+                Published: 周三 01 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+
+</footer><!-- /.post-info -->                <p>Hello world from Pelican!</p>
+                <a class="readmore" href="http://seekiu.com/2016/hello-world-pelican.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
                            title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
                 </header>
@@ -162,30 +184,6 @@ def bar(x):
 <ol>
 <li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba …</li></ol>
                 <a class="readmore" href="http://seekiu.com/2015/try-julia.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/use-numba-to-accelerate-python.html" rel="bookmark"
-                           title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-07-02T20:49:00+08:00">
-                Published: 周四 02 七月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
-<p>推荐的原因，首先得从 Python 科学计算说起。</p>
-<p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/use-numba-to-accelerate-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
