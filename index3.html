@@ -24,6 +24,33 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2016/creat-pelican-site-github-pages.html" rel="bookmark"
+                           title="Permalink to 用 pelican 创建静态网站放到 GitHub 上">用 pelican 创建静态网站放到 GitHub 上</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-01T22:01:00+08:00">
+                Published: 周三 01 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/pelican.html">pelican</a> </p>
+</footer><!-- /.post-info -->                <p>去年在 GoDaddy 买域名半送的 Linux 空间到期了，最近一直在找替代方案。大致的方向是想用 GitHub 免费的 github pages 作为 host，因为此前已经知道 jekyll 是一个选项。但是考虑到 jekyll 是基于 Ruby 的，而我又不想在电脑里再多装一个我不太可能会用到的编程语言，因此搜索了一下基于 Python 的方案，果然，很轻松就地找到了 <a href="blog.getpelican.com">pelican</a>。</p>
+<p>以下是我用 pelican 创建静态网站并托管到 github pages 的流程，希望能让其他看到的人省点时间。另一点专门写出来的原因是，目前我在网上找到的关于 pelican 的教程绝大部分都是针对 Linux 系统的，像 <code>make</code> 之类的命令在 Windows 下根本就不适用，因此我也花了不少准备的时间才把这个系统搭起来。</p>
+<ol>
+<li>准备工作</li>
+</ol>
+<p>Python 环境 …</p>
+                <a class="readmore" href="http://seekiu.com/2016/creat-pelican-site-github-pages.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2016/hello-world-pelican.html" rel="bookmark"
                            title="Permalink to Hello Pelican!">Hello Pelican!</a></h1>
                 </header>
@@ -159,31 +186,6 @@ def bar(x):
 <h1>局部加黑</h1>
 <p>有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单 …</p>
                 <a class="readmore" href="http://seekiu.com/2015/photoshop-scan-effect.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/try-julia.html" rel="bookmark"
-                           title="Permalink to 初试 Julia 语言">初试 Julia 语言</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-08-10T12:55:00+08:00">
-                Published: 周一 10 八月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的<strong>通用</strong>编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）</p>
-<p>之所以这样说，有三个方面的理由：</p>
-<ol>
-<li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba …</li></ol>
-                <a class="readmore" href="http://seekiu.com/2015/try-julia.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
