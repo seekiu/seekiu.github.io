@@ -24,6 +24,40 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2016/git-notes.html" rel="bookmark"
+                           title="Permalink to Git 笔记">Git 笔记</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-06-06T10:52:00+08:00">
+                Published: 周一 06 六月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/dsxiang-guan.html">DS相关</a> </p>
+</footer><!-- /.post-info -->                <blockquote>
+<p>声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。</p>
+</blockquote>
+<p>以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github 结合的一个简单笔记，适合零基础的人入门，也作为我自己的一个参考手册。</p>
+<hr>
+<h1>最简版</h1>
+<ul>
+<li><code>git init</code>，新建一个 repo</li>
+<li><code>git clone &lt;some_url&gt; [destination_dir]</code>，从 Github 或其它网站下载 repo 的完整内容</li>
+<li>修改文件，然后 <code>git status</code> 查看有哪些修改</li>
+<li><code>git add .</code> 添加所有的修改到 stage</li>
+<li><code>git status</code>，确认所有修改</li>
+<li><code>git commit …</code></li></ul>
+                <a class="readmore" href="http://seekiu.com/2016/git-notes.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2016/creat-pelican-site-github-pages.html" rel="bookmark"
                            title="Permalink to 用 pelican 创建静态网站放到 GitHub 上">用 pelican 创建静态网站放到 GitHub 上</a></h1>
                 </header>
@@ -150,42 +184,6 @@ def bar(x):
 <p>基于这样的背景，大概考虑了有几种方案。</p>
 <p>直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制 …</p>
                 <a class="readmore" href="http://seekiu.com/2015/lazy-way-of-latex.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2015/photoshop-scan-effect.html" rel="bookmark"
-                           title="Permalink to 新手向教程：用 Photoshop 将照片处理成扫描的效果">新手向教程：用 Photoshop 将照片处理成扫描的效果</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-08-29T10:06:00+08:00">
-                Published: 周六 29 八月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
-</footer><!-- /.post-info -->                <p>最近接到一个简单但十分繁琐的任务，要将几百张用手机、微单拍下来的文档照片，处理成方便打印的效果，也就是类似扫描的效果。本文记录了我用 Photoshop 处理用到的几个小技巧，虽然都是比较初级的办法，但希望能给有需要的人提供借鉴。</p>
-<h1>达到扫描效果</h1>
-<p>相机拍出来的照片与扫描仪扫出来的图片，最显著的区别是照片中，白纸上由于光线的原因，会出现亮度的差异，而扫描仪则会直接把这些部分「还原」成纸原来的纯白色，直接抹掉灰度较低的部分。</p>
-<p>要做到这一步，其实比较简单，可参考<a href="http://blog.csdn.net/pleasecallmewhy/article/details/8776998">这篇文章</a>的做法，大致有以下几个步骤：</p>
-<ol>
-<li>导入所拍的照片，复制背景图层。</li>
-<li>对背景副本图层使用滤镜-模糊-高斯模糊，半径为100像素。</li>
-<li>将背景副本图层的混合模式改为「划分」（图层）。</li>
-<li>添加曲线调整层（调整-曲线），把曲线中部拉低一些，使得文字更清楚。</li>
-<li>合并可见图层。</li>
-<li>用柔画笔擦掉多余的噪点和边缘的背景等。</li>
-</ol>
-<p>至此，在绝大多数情况下，都可以达到基本与扫描的效果一致，少数情况下也会出现效果不佳，这时用类似的方法做一些微调即可。</p>
-<h1>局部加黑</h1>
-<p>有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/photoshop-scan-effect.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Wed, 06 Dec 2017 22:19:00 +0800</lastBuildDate><item><title>NCM: 理想的 vim 补全插件</title><link>http://seekiu.com/2017/vim.html</link><description>&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 25 Mar 2018 10:59:00 +0800</lastBuildDate><item><title>Test ipynb format</title><link>http://seekiu.com/2018/ipynb-test.html</link><description>
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h1 id="Test-using-ipynb-format-for-Pelican"&gt;Test using ipynb format for Pelican&lt;a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican"&gt;¶&lt;/a&gt;&lt;/h1&gt;&lt;h2 id="Basic-formats"&gt;Basic formats&lt;a class="anchor-link" href="#Basic-formats"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;This is normal, &lt;em&gt;italic&lt;/em&gt; text and &lt;strong&gt;bold&lt;/strong&gt; text.&lt;/p&gt;
+&lt;p&gt;Some list:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;item1&lt;/li&gt;
+&lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;What about math? Inline equation $a=\sin b$, and standalone equation:&lt;/p&gt;
+&lt;p&gt;$$
+y=\int_1^2 \frac{1}{1+e^x}\mathrm{d}x
+$$&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Figures"&gt;Figures&lt;a class="anchor-link" href="#Figures"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 25 Mar 2018 10:59:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2018-03-25:/2018/ipynb-test.html</guid><category>个人</category></item><item><title>NCM: 理想的 vim 补全插件</title><link>http://seekiu.com/2017/vim.html</link><description>&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
 能够基于上下文做一点自动补全就可以了，所以 &lt;a href="https://github.com/ervandew/supertab"&gt;supertab&lt;/a&gt; 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。&lt;/p&gt;
 &lt;p&gt;再往后用得最久的一个选择是 &lt;a href="https://github.com/Shougo/neocomplete.vim"&gt;neocomplete&lt;/a&gt;，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。&lt;/p&gt;
 &lt;p&gt;由此引出本文的主角，也就是我目前的选择：nvim-completion-manager。这是一个中国开
