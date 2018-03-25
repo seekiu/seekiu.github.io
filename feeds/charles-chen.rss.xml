@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 25 Mar 2018 10:59:00 +0800</lastBuildDate><item><title>Test ipynb format</title><link>http://seekiu.com/2018/ipynb-test.html</link><description>
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 25 Mar 2018 20:23:00 +0800</lastBuildDate><item><title>基于树的回归模型的不光滑性</title><link>http://seekiu.com/2018/regression-tree-model-unsmooth.html</link><description>
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;最近在做一些多元回归的工作，用到了一些传统工科领域不太常见的基于树的回归模型。随机森林回归以及 LightGBM 都是典型的例子。相比传统的回归方法，基于树的模型更容易得到交叉验证下更良好的结果，但它也有一个很明显的问题，其拟合面是不光滑的。这在很多情况下是无所谓的，只要训练集足够大，拟合面可以非常接近实际的曲面。但在一些应用中，比如需要计算拟合模型的导数时，就会存在问题了。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;这里举一个实际的例子来看一下，用支持向量机 SVR 以及随机森林做回归分别有什么特点。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sun, 25 Mar 2018 20:23:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2018-03-25:/2018/regression-tree-model-unsmooth.html</guid><category>DS相关</category></item><item><title>Test ipynb format</title><link>http://seekiu.com/2018/ipynb-test.html</link><description>
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;

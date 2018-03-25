@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Charles Chen's blog - misc</title>
+        <title>基于树的回归模型的不光滑性</title>
         <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
         <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 
@@ -19,10 +19,15 @@
                     <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://seekiu.com/2018/regression-tree-model-unsmooth.html" rel="bookmark"
+           title="Permalink to 基于树的回归模型的不光滑性">基于树的回归模型的不光滑性</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2018/regression-tree-model-unsmooth.html">基于树的回归模型的不光滑性</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-03-25T20:23:00+08:00">
                 Published: 周日 25 三月 2018
@@ -33,7 +38,7 @@
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/dsxiang-guan.html">DS相关</a> </p>
-</footer><!-- /.post-info --><style type="text/css">/*!
+</footer><!-- /.post-info -->      <style type="text/css">/*!
 *
 * IPython notebook
 *
@@ -3185,213 +3190,11 @@ z
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2018/ipynb-test.html" rel="bookmark"
-                           title="Permalink to Test ipynb format">Test ipynb format</a></h1>
-                </header>
+    </div><!-- /.entry-content -->
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2018-03-25T10:59:00+08:00">
-                Published: 周日 25 三月 2018
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Test-using-ipynb-format-for-Pelican">Test using ipynb format for Pelican<a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican">¶</a></h1><h2 id="Basic-formats">Basic formats<a class="anchor-link" href="#Basic-formats">¶</a></h2><p>This is normal, <em>italic</em> text and <strong>bold</strong> text.</p>
-<p>Some list:</p>
-<ul>
-<li>item1</li>
-<li>item2</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>What about math? Inline equation $a=\sin b$, and standalone equation:</p>
-<p>$$
-y=\int_1^2 \frac{1}{1+e^x}\mathrm{d}x
-$$</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Figures">Figures<a class="anchor-link" href="#Figures">¶</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-                <a class="readmore" href="http://seekiu.com/2018/ipynb-test.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2017/vim.html" rel="bookmark"
-                           title="Permalink to NCM: 理想的 vim 补全插件">NCM: 理想的 vim 补全插件</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-12-06T22:19:00+08:00">
-                Published: 周三 06 十二月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
-能够基于上下文做一点自动补全就可以了，所以 <a href="https://github.com/ervandew/supertab">supertab</a> 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。</p>
-<p>再往后用得最久的一个选择是 <a href="https://github.com/Shougo/neocomplete.vim">neocomplete</a>，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。</p>
-<p>由此引出本文的主角，也就是我目前的选择：nvim-completion-manager。这是一个中国开
-发者根据自己需求做的插件。从插件名可以看出，它是为 neovim 设计的，不过还好，可
-以很容易地在 Vim8 以上版本中安装使用。从我目前大约两周左右时间的试用来看，它实
-现了我在 neocomplete 上使用到的几乎所有功能，而且附带了一些新的功能，比如函数参 …</p>
-                <a class="readmore" href="http://seekiu.com/2017/vim.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2017/effciently-combine-dataframes.html" rel="bookmark"
-                           title="Permalink to 合并多个 pd.DataFrame 的常规方法">合并多个 pd.DataFrame 的常规方法</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-10-08T20:40:00+08:00">
-                Published: 周日 08 十月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->                <p>在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
-pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
-的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。</p>
-<p>按最通常的想法，是直接写一个循环：</p>
-<div class="highlight"><pre><span></span>for df_i in dfs:
-    pd.concat(df, df_i)
-</pre></div>
-
-
-<p>显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。</p>
-<p>在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
-的 df 放到一个列表中，然后用 concat 函数一次性合并：</p>
-<div class="highlight"><pre><span></span>df = pd.concat(dfs)
-</pre></div>
-
-
-<p>这样避免了产生中间临时 …</p>
-                <a class="readmore" href="http://seekiu.com/2017/effciently-combine-dataframes.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2017/latex-paper-tips.html" rel="bookmark"
-                           title="Permalink to 用 LaTeX 写大论文的一些经验">用 LaTeX 写大论文的一些经验</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-10-07T16:51:00+08:00">
-                Published: 周六 07 十月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
-户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
-加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：</p>
-<ol>
-<li>论文中存在大量公式，Word 虽然自 2007 版本起就引入了更好的公式支持，允许按部
-   分 LaTeX 的语法输入，并且有不错的显示效果。但比较遗憾的是，即使是目前最新版
-   本的 Word 2016，在存在行内公式时，段落内的行间距都会受到影响。这一点，如果一
-   直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
-   可以克服时，就会觉得这个缺点难以忍受了。</li>
-<li>论文各个章节以及章节内部存在大量的交叉引用，图片、公式 …</li></ol>
-                <a class="readmore" href="http://seekiu.com/2017/latex-paper-tips.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2017/convenient-cmd-tool.html" rel="bookmark"
-                           title="Permalink to 方便的个人命令行小助理">方便的个人命令行小助理</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-26T12:10:00+08:00">
-                Published: 周日 26 三月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>最近发现有一些经常重复性做的工作，包括：</p>
-<ul>
-<li>打开命令行查看本机在局域网的 IP</li>
-<li>用 Inkscape 命令行转换矢量图格式</li>
-<li>调用已写好的某脚本快速查看关注股票的价格</li>
-</ul>
-<p>等等。这些工作往往都有确切的实现办法，但往往用起来相对没那么简便，而且输出也不一定足够精简，比如输出局域网IP功能就只输出一个IP，而且最好命令就是一条非常简单的<code>ip</code>。</p>
-<p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
-<p>需求想明白了，实现就简单了。</p>
-<p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ip&#39;</span><span class="p">:</span>
-            <span class="n">get_ip</span><span class="p">()</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-<span class="k">def …</span></pre></div>
-                <a class="readmore" href="http://seekiu.com/2017/convenient-cmd-tool.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 9
-        <a href="http://seekiu.com/category/misc2.html">&raquo;</a>
-</p>
-                </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
