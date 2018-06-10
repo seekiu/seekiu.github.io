@@ -3265,13 +3265,13 @@ $$</p>
         </address>
 <p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
+</footer><!-- /.post-info -->                <blockquote>
+<p>Update: NCM已停止更新。不过在它停更之前，我发现它在有些时候会造成 Vim crash 或卡死，已经将其卸载。本来 deoplete 可能是最好选项了，但总没有找到能让我满意的配置。目前的办法是 Vim 退居二线，只用来做简单快速的编辑，主力转到更现代的 VSCode。</p>
+</blockquote>
+<p>在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
 能够基于上下文做一点自动补全就可以了，所以 <a href="https://github.com/ervandew/supertab">supertab</a> 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。</p>
 <p>再往后用得最久的一个选择是 <a href="https://github.com/Shougo/neocomplete.vim">neocomplete</a>，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。</p>
-<p>由此引出本文的主角，也就是我目前的选择：nvim-completion-manager。这是一个中国开
-发者根据自己需求做的插件。从插件名可以看出，它是为 neovim 设计的，不过还好，可
-以很容易地在 Vim8 以上版本中安装使用。从我目前大约两周左右时间的试用来看，它实
-现了我在 neocomplete 上使用到的几乎所有功能，而且附带了一些新的功能，比如函数参 …</p>
+<p>由此引出本文的主角，也就是我目前的选择：nvim-completion-manager …</p>
                 <a class="readmore" href="http://seekiu.com/2017/vim.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

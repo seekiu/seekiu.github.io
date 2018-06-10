@@ -5427,13 +5427,16 @@ L 287.251333 10.787229
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="个人"></category></entry><entry><title>NCM: 理想的 vim 补全插件</title><link href="http://seekiu.com/2017/vim.html" rel="alternate"></link><published>2017-12-06T22:19:00+08:00</published><updated>2017-12-06T22:19:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-12-06:/2017/vim.html</id><summary type="html">&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
+</content><category term="个人"></category></entry><entry><title>NCM: 理想的 vim 补全插件</title><link href="http://seekiu.com/2017/vim.html" rel="alternate"></link><published>2017-12-06T22:19:00+08:00</published><updated>2017-12-06T22:19:00+08:00</updated><author><name>Charles Chen</name></author><id>tag:seekiu.com,2017-12-06:/2017/vim.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Update: NCM已停止更新。不过在它停更之前，我发现它在有些时候会造成 Vim crash 或卡死，已经将其卸载。本来 deoplete 可能是最好选项了，但总没有找到能让我满意的配置。目前的办法是 Vim 退居二线，只用来做简单快速的编辑，主力转到更现代的 VSCode。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
 能够基于上下文做一点自动补全就可以了，所以 &lt;a href="https://github.com/ervandew/supertab"&gt;supertab&lt;/a&gt; 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。&lt;/p&gt;
 &lt;p&gt;再往后用得最久的一个选择是 &lt;a href="https://github.com/Shougo/neocomplete.vim"&gt;neocomplete&lt;/a&gt;，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。&lt;/p&gt;
-&lt;p&gt;由此引出本文的主角，也就是我目前的选择：nvim-completion-manager。这是一个中国开
-发者根据自己需求做的插件。从插件名可以看出，它是为 neovim 设计的，不过还好，可
-以很容易地在 Vim8 以上版本中安装使用。从我目前大约两周左右时间的试用来看，它实
-现了我在 neocomplete 上使用到的几乎所有功能，而且附带了一些新的功能，比如函数参 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
+&lt;p&gt;由此引出本文的主角，也就是我目前的选择：nvim-completion-manager …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;Update: NCM已停止更新。不过在它停更之前，我发现它在有些时候会造成 Vim crash 或卡死，已经将其卸载。本来 deoplete 可能是最好选项了，但总没有找到能让我满意的配置。目前的办法是 Vim 退居二线，只用来做简单快速的编辑，主力转到更现代的 VSCode。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 Vim 上一直以来都没有找到一个相对理想的自动补全插件。最开始的需求不高，只要求
 能够基于上下文做一点自动补全就可以了，所以 &lt;a href="https://github.com/ervandew/supertab"&gt;supertab&lt;/a&gt; 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。&lt;/p&gt;
 &lt;p&gt;再往后用得最久的一个选择是 &lt;a href="https://github.com/Shougo/neocomplete.vim"&gt;neocomplete&lt;/a&gt;，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。&lt;/p&gt;
 &lt;p&gt;由此引出本文的主角，也就是我目前的选择：nvim-completion-manager。这是一个中国开
@@ -5705,7 +5708,7 @@ nbviewer 上了，有兴趣的可以看一下：&lt;a href="https://nbviewer.jup
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;效果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://www.seekiu.com/images/mpl-demo.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="single" src="http://seekiu.com/images/mpl-demo.svg"&gt;&lt;/p&gt;
 &lt;p&gt;看起来在 MPL 中为了画图需要写很多行代码，在这里连空行一共是 27 行。但其实画图相关的代码是中间的 10 行左右，其它的都是导入模块和产生演示用的数据的。这些画图的代码做了这么几件事情：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;定义 fig 和 axes。我喜欢直接用 &lt;code&gt;plt.subplots&lt;/code&gt; 一次性定义两者，并且限制 fig 的尺寸。在一开始就定义好 fig 的尺寸，而不是用默认的，主要的好处是线宽、文字大小等都很统一，后期不需要缩放大小就可以直接插到论文中。注意在定义尺寸时用的是英制单位，我是用厘米的数值再除以 2.54 的转换系数。&lt;/li&gt;
@@ -5792,7 +5795,7 @@ nbviewer 上了，有兴趣的可以看一下：&lt;a href="https://nbviewer.jup
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;效果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://www.seekiu.com/images/two-axes-demo.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="double" src="http://seekiu.com/images/two-axes-demo.svg"&gt;&lt;/p&gt;
 &lt;p&gt;相比相同 XY 坐标轴的情况，这里其实也非常类似，主要区别有两点：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;设置格式需要分别在不同的 axes 中。&lt;/li&gt;
