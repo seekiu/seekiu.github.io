@@ -24,6 +24,32 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
+                    <h1><a href="http://seekiu.com/2014/use-anaconda.html" rel="bookmark"
+                           title="Permalink to 把 python 科学计算环境换成了 Anaconda">把 python 科学计算环境换成了 Anaconda</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-07-08T21:07:00+08:00">
+                Published: 周二 08 七月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>此前尝试过 python(x,y)，但最终还是换回了纯 python 的环境，一方面是因为它太大，另一方面它实在包含了太多不可控的东西，包括潜在的污染系统 python 的危险等。偶然看到 Anaconda 的介绍，似乎是一种较为「绿色」的方案，而且带的科学计算包也比较全，试着装了一下，确实不错。Anaconda 的一个主要优势在于，它集成了绝大部分常用的计算包，并全部放在自己的文件夹中，与系统内已安装的 Python 相对独立，因此安装下来非常干净。如果其它人也想运行在这个环境下写出来的代码，只需要安装 Anaconda 环境即可，而不再需要一个一个把需要的包都下载下来，这一点，在与其它人交流代码时就太方便了。</p>
+<p>从原来配置的环境换到 Anaconda 也非常简单，大概会有这么几个问题：</p>
+<ol>
+<li>
+<p>删除重复的包，如 numpy / scipy / matplotlib 等，用 <code>pip uninstall</code> 即可 …</p></li></ol>
+                <a class="readmore" href="http://seekiu.com/2014/use-anaconda.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="http://seekiu.com/2014/problems-using-vpn.html" rel="bookmark"
                            title="Permalink to 用 VPN 时的一些小问题">用 VPN 时的一些小问题</a></h1>
                 </header>
@@ -158,32 +184,6 @@ print x_square(a)</pre>
 <p>我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。</p>
 <p>例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot …</p>
                 <a class="readmore" href="http://seekiu.com/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.com/2013/shi-jian-guan-li-di-yi-ke.html" rel="bookmark"
-                           title="Permalink to 时间管理第一课">时间管理第一课</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-09-26T06:01:00+08:00">
-                Published: 周四 26 九月 2013
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>对我自己来说，如果要向别人讲时间管理，第一课也是传递「技巧」方面最重要的一课是一句话：快速推进，各个击破。</p>
-<p>类似的概念最开始是我自己在高中时候开始提出的，那时候课繁多，采用这样的办法很适合当时的状态。后来上大学似乎就渐渐忘了这样的风格，而是更自由更散漫了。</p>
-<p>重新想起这个概念是因为一句被我长期曲解的Facebook箴言：Move fast and break things。后半句被我理解成了分解任务，于是乎就产生了「快速推进，各个击破」的说法。</p>
-<p>其实实践下来，恰恰是这个原则最有用，尤其是在针对大块任务或者批量处理的时候。隐含的思路是，如果针对大块任务，把它分解成多个小任务，然后各个击破，而不是对着一个大块头发怵。</p>
-<p>简单实用的原则，值得写在记事本的第一页。</p>
-                <a class="readmore" href="http://seekiu.com/2013/shi-jian-guan-li-di-yi-ke.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->

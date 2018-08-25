@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sun, 25 Mar 2018 20:23:00 +0800</lastBuildDate><item><title>基于树的回归模型的不光滑性</title><link>http://seekiu.com/2018/regression-tree-model-unsmooth.html</link><description>
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.com/</link><description></description><lastBuildDate>Sat, 25 Aug 2018 18:18:00 +0800</lastBuildDate><item><title>最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</title><link>http://seekiu.com/2018/DS%E7%9B%B8%E5%85%B3.html</link><description>&lt;p&gt;最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
+然是最基础的形式），但在某些问题上效果也好得出奇。缺点当然也非常明显，至少速度
+在数据量稍微大一点的时候就变得很慢了。所幸的是在做prediction的时候，sklearn的实
+现中是可以允许通过&lt;code&gt;n_jobs&lt;/code&gt;参数来实现并行的。不过在最近使用一个KNN的案例中遇到了
+一个问题，当使用自定义的距离函数时，并行似乎没有任何效果。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;其实似乎sklearn中类似的小坑还是比较多的，尽管很多并不一定是sklearn本身的问题
+。比如用RandomizedCV时，如果&lt;code&gt;n_jobs=1&lt;/code&gt;，此时定义&lt;code&gt;verbose&lt;/code&gt;参数就是无效的，会在
+jupyter中输出一堆中间结果。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;考虑到当KNN采用暴力遍历距离矩阵时，其实预测每一个点的任务是独立的，那么其实自己
+很容易就可以写一个wrapper来让predict函数用多进程实现并行：&lt;/p&gt;
+&lt;p&gt;先写一个函数可以把job拆分：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;split_chunks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;chunk_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ceil&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Sat, 25 Aug 2018 18:18:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.com,2018-08-25:/2018/DS相关.html</guid><category>个人</category></item><item><title>基于树的回归模型的不光滑性</title><link>http://seekiu.com/2018/regression-tree-model-unsmooth.html</link><description>
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;最近在做一些多元回归的工作，用到了一些传统工科领域不太常见的基于树的回归模型。随机森林回归以及 LightGBM 都是典型的例子。相比传统的回归方法，基于树的模型更容易得到交叉验证下更良好的结果，但它也有一个很明显的问题，其拟合面是不光滑的。这在很多情况下是无所谓的，只要训练集足够大，拟合面可以非常接近实际的曲面。但在一些应用中，比如需要计算拟合模型的导数时，就会存在问题了。&lt;/p&gt;
+
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -13,6 +29,7 @@
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;这里举一个实际的例子来看一下，用支持向量机 SVR 以及随机森林做回归分别有什么特点。&lt;/p&gt;
+
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -22,12 +39,13 @@
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h1 id="Test-using-ipynb-format-for-Pelican"&gt;Test using ipynb format for Pelican&lt;a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican"&gt;¶&lt;/a&gt;&lt;/h1&gt;&lt;h2 id="Basic-formats"&gt;Basic formats&lt;a class="anchor-link" href="#Basic-formats"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;This is normal, &lt;em&gt;italic&lt;/em&gt; text and &lt;strong&gt;bold&lt;/strong&gt; text.&lt;/p&gt;
+&lt;h1 id="Test-using-ipynb-format-for-Pelican"&gt;Test using ipynb format for Pelican&lt;a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;&lt;h2 id="Basic-formats"&gt;Basic formats&lt;a class="anchor-link" href="#Basic-formats"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;This is normal, &lt;em&gt;italic&lt;/em&gt; text and &lt;strong&gt;bold&lt;/strong&gt; text.&lt;/p&gt;
 &lt;p&gt;Some list:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;item1&lt;/li&gt;
 &lt;li&gt;item2&lt;/li&gt;
 &lt;/ul&gt;
+
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -39,6 +57,7 @@
 &lt;p&gt;$$
 y=\int_1^2 \frac{1}{1+e^x}\mathrm{d}x
 $$&lt;/p&gt;
+
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -46,7 +65,7 @@ $$&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Figures"&gt;Figures&lt;a class="anchor-link" href="#Figures"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="Figures"&gt;Figures&lt;a class="anchor-link" href="#Figures"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
