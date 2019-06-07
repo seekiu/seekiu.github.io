@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.github.io/</link><description></description><lastBuildDate>Sat, 25 Aug 2018 18:18:00 +0800</lastBuildDate><item><title>最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</title><link>http://seekiu.github.io/2018/DS%E7%9B%B8%E5%85%B3.html</link><description>&lt;p&gt;最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
+<rss version="2.0"><channel><title>Charles Chen's blog - Charles Chen</title><link>http://seekiu.github.io/</link><description></description><lastBuildDate>Fri, 07 Jun 2019 15:16:00 +0800</lastBuildDate><item><title>更新网站域名</title><link>http://seekiu.github.io/2019/geng-xin-wang-zhan-yu-ming.html</link><description>&lt;p&gt;最新放弃了原来注册的 .com 域名，改为直接用 github 提供的二级域名，以前的一些链
+接可能会受影响，以后再慢慢改回来。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Charles Chen</dc:creator><pubDate>Fri, 07 Jun 2019 15:16:00 +0800</pubDate><guid isPermaLink="false">tag:seekiu.github.io,2019-06-07:/2019/geng-xin-wang-zhan-yu-ming.html</guid><category>个人</category></item><item><title>最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</title><link>http://seekiu.github.io/2018/DS%E7%9B%B8%E5%85%B3.html</link><description>&lt;p&gt;最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
 然是最基础的形式），但在某些问题上效果也好得出奇。缺点当然也非常明显，至少速度
 在数据量稍微大一点的时候就变得很慢了。所幸的是在做prediction的时候，sklearn的实
 现中是可以允许通过&lt;code&gt;n_jobs&lt;/code&gt;参数来实现并行的。不过在最近使用一个KNN的案例中遇到了

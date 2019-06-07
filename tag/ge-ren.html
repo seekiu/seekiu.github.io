@@ -18,7 +18,32 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.github.io/2018/DS相关.html">最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.github.io/2019/geng-xin-wang-zhan-yu-ming.html">更新网站域名</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2019-06-07T15:16:00+08:00">
+                Published: 周五 07 六月 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
+</footer><!-- /.post-info --><p>最新放弃了原来注册的 .com 域名，改为直接用 github 提供的二级域名，以前的一些链
+接可能会受影响，以后再慢慢改回来。</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2018/DS相关.html" rel="bookmark"
+                           title="Permalink to 最近的更新：KNN算法自定义距离时的并行化，时间序列的分类">最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-08-25T18:18:00+08:00">
                 Published: 周六 25 八月 2018
@@ -29,7 +54,7 @@
         </address>
 <p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
 <p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info --><p>最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
+</footer><!-- /.post-info -->                <p>最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
 然是最基础的形式），但在某些问题上效果也好得出奇。缺点当然也非常明显，至少速度
 在数据量稍微大一点的时候就变得很慢了。所幸的是在做prediction的时候，sklearn的实
 现中是可以允许通过<code>n_jobs</code>参数来实现并行的。不过在最近使用一个KNN的案例中遇到了
@@ -44,40 +69,10 @@ jupyter中输出一堆中间结果。</p>
 <p>先写一个函数可以把job拆分：</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_chunks</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="n">chunk_size</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">):</span>
-        <span class="k">yield</span> <span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">]</span>
-</pre></div>
-
-
-<p>然后其实只要再写一个简单的函数就可以了：</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parallel_predict</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">n_procs</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="n">job_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">split_chunks</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">))</span>
-    <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">n_procs</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span> <span class="n">job_list</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</pre></div>
-
-
-<p>从我自己的数据集来看，并行的overhead还是比较小的，加速效果明显。</p>
-<p>标题里还提到了关于时间序列的分类问题，这个其实是与上面问题的应用背景有关的。对
-于时间序列相关的机器学习问题，传统上有一种方法是从时间序列里面提取特征（比如各
-种统计特征、频谱特征等），然后再将特征输入给机器学习模型。这种特征提取的工具已
-经有一些开源的产品，典型的代表是Matlab的HCTSA和Python的tsfresh，我自己也实现了
-一个类似于tsfresh但在特征描述能力和计算速度上都有大幅度提升的库。</p>
-<p>之所以会想起来这些，是因为最近知道了有同事用一种复杂的算子做了一些时间序列的工
-作，其中一个实例就是用UCI的human activity数据集来验证其效果。从展示的结果来看，
-似乎还有提高的空间，因此出于好奇，想试试看自己写的库提出特征效果如何。不试不知
-道，一试之后结果大失所望，效果非常的差。回过头又试了一下tsfresh，不出意料，比我
-的结果还要更差。可惜手上并没有HCTSA，不然也很有兴趣试一下它的效果如何，我的预期
-是不会好太多。</p>
-<p>后来想到其实这类问题应该可以用其它方法做，比如用类似于dynamic time warping的方
-法来定义时间序列的距离，然后直接用KNN来做分类。随便定义了一些参数，然后解决了上
-面的速度问题，发现果然效果好了很多。</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">l …</span></pre></div>
+                <a class="readmore" href="http://seekiu.github.io/2018/DS相关.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -235,32 +230,9 @@ $$</p>
                 <a class="readmore" href="http://seekiu.github.io/2017/convenient-cmd-tool.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2017/monte-carlo-betting.html" rel="bookmark"
-                           title="Permalink to 蒙特卡洛方法模拟赌博策略">蒙特卡洛方法模拟赌博策略</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-07T15:27:00+08:00">
-                Published: 周二 07 三月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>最近玩了一些关于用蒙特卡洛方法模拟赌博策略的测试，一些结果托管在 Jupyter 
-nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyter.org/github/seekiu/iPythonNotebooks/tree/master/Monte%20Carlo%20simulation%20of%20betting%20strategies/">链接</a></p>
-                <a class="readmore" href="http://seekiu.github.io/2017/monte-carlo-betting.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 2
+    Page 1 / 3
         <a href="http://seekiu.github.io/tag/ge-ren2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
