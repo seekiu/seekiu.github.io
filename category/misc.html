@@ -3,36 +3,32 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog - misc</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2018/DS相关.html">最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.github.io/2018/DS相关.html">最近的更新：KNN算法自定义距离时的并行化，时间序列的分类</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2018-08-25T18:18:00+08:00">
                 Published: 周六 25 八月 2018
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
 </footer><!-- /.post-info --><p>最近在好几个地方用到了KNN这个最简单的分类算法。KNN虽然原理和实现都相当简单（当
 然是最基础的形式），但在某些问题上效果也好得出奇。缺点当然也非常明显，至少速度
 在数据量稍微大一点的时候就变得很慢了。所幸的是在做prediction的时候，sklearn的实
@@ -85,7 +81,7 @@ jupyter中输出一堆中间结果。</p>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2018/regression-tree-model-unsmooth.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2018/regression-tree-model-unsmooth.html" rel="bookmark"
                            title="Permalink to 基于树的回归模型的不光滑性">基于树的回归模型的不光滑性</a></h1>
                 </header>
 
@@ -96,17 +92,16 @@ jupyter中输出一堆中间结果。</p>
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/dsxiang-guan.html">DS相关</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/dsxiang-guan.html">DS相关</a> </p>
 </footer><!-- /.post-info -->                
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>最近在做一些多元回归的工作，用到了一些传统工科领域不太常见的基于树的回归模型。随机森林回归以及 LightGBM 都是典型的例子。相比传统的回归方法，基于树的模型更容易得到交叉验证下更良好的结果，但它也有一个很明显的问题，其拟合面是不光滑的。这在很多情况下是无所谓的，只要训练集足够大，拟合面可以非常接近实际的曲面。但在一些应用中，比如需要计算拟合模型的导数时，就会存在问题了。</p>
-
 </div>
 </div>
 </div>
@@ -115,19 +110,18 @@ jupyter中输出一堆中间结果。</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>这里举一个实际的例子来看一下，用支持向量机 SVR 以及随机森林做回归分别有什么特点。</p>
-
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-                <a class="readmore" href="http://seekiu.com/2018/regression-tree-model-unsmooth.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2018/regression-tree-model-unsmooth.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2018/ipynb-test.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2018/ipynb-test.html" rel="bookmark"
                            title="Permalink to Test ipynb format">Test ipynb format</a></h1>
                 </header>
 
@@ -138,22 +132,21 @@ jupyter中输出一堆中间结果。</p>
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
 </footer><!-- /.post-info -->                
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Test-using-ipynb-format-for-Pelican">Test using ipynb format for Pelican<a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican">&#182;</a></h1><h2 id="Basic-formats">Basic formats<a class="anchor-link" href="#Basic-formats">&#182;</a></h2><p>This is normal, <em>italic</em> text and <strong>bold</strong> text.</p>
+<h1 id="Test-using-ipynb-format-for-Pelican">Test using ipynb format for Pelican<a class="anchor-link" href="#Test-using-ipynb-format-for-Pelican">¶</a></h1><h2 id="Basic-formats">Basic formats<a class="anchor-link" href="#Basic-formats">¶</a></h2><p>This is normal, <em>italic</em> text and <strong>bold</strong> text.</p>
 <p>Some list:</p>
 <ul>
 <li>item1</li>
 <li>item2</li>
 </ul>
-
 </div>
 </div>
 </div>
@@ -165,7 +158,6 @@ jupyter中输出一堆中间结果。</p>
 <p>$$
 y=\int_1^2 \frac{1}{1+e^x}\mathrm{d}x
 $$</p>
-
 </div>
 </div>
 </div>
@@ -173,19 +165,19 @@ $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Figures">Figures<a class="anchor-link" href="#Figures">&#182;</a></h2>
+<h2 id="Figures">Figures<a class="anchor-link" href="#Figures">¶</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-                <a class="readmore" href="http://seekiu.com/2018/ipynb-test.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2018/ipynb-test.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2017/vim.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2017/vim.html" rel="bookmark"
                            title="Permalink to NCM: 理想的 vim 补全插件">NCM: 理想的 vim 补全插件</a></h1>
                 </header>
 
@@ -196,10 +188,10 @@ $$</p>
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
 </footer><!-- /.post-info -->                <blockquote>
 <p>Update: NCM已停止更新。不过在它停更之前，我发现它在有些时候会造成 Vim crash 或卡死，已经将其卸载。本来 deoplete 可能是最好选项了，但总没有找到能让我满意的配置。目前的办法是 Vim 退居二线，只用来做简单快速的编辑，主力转到更现代的 VSCode。</p>
 </blockquote>
@@ -207,13 +199,13 @@ $$</p>
 能够基于上下文做一点自动补全就可以了，所以 <a href="https://github.com/ervandew/supertab">supertab</a> 就已经足够满足了。后来尝试用 you-complete-me，繁琐的安装让我还是放弃了这个选择。</p>
 <p>再往后用得最久的一个选择是 <a href="https://github.com/Shougo/neocomplete.vim">neocomplete</a>，它带有一些类似于 IDE 的功能，比如补全某个导入的包的函数名。大多数时候这个插件还比较符合我的心意，但一直有一个比较不满意的地方是，如果导入了某个相对大一点的库，比如 numpy，那么在第一次输入任何小数点的时候程序会卡顿一小段时间。尽管作者说已经实现了异步，但至少在我的配置下，没有能够实现异步地生成补全库。另外最新的消息是这个插件已经基本停止更新，作者已经把主要精力放在了新的替代品上了。</p>
 <p>由此引出本文的主角，也就是我目前的选择：nvim-completion-manager …</p>
-                <a class="readmore" href="http://seekiu.com/2017/vim.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2017/vim.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2017/effciently-combine-dataframes.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2017/effciently-combine-dataframes.html" rel="bookmark"
                            title="Permalink to 合并多个 pd.DataFrame 的常规方法">合并多个 pd.DataFrame 的常规方法</a></h1>
                 </header>
 
@@ -224,10 +216,10 @@ $$</p>
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/python.html">python</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/python.html">python</a> </p>
 </footer><!-- /.post-info -->                <p>在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
 pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
 的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。</p>
@@ -245,13 +237,13 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
 
 
 <p>这样避免了产生中间临时 …</p>
-                <a class="readmore" href="http://seekiu.com/2017/effciently-combine-dataframes.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2017/effciently-combine-dataframes.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2017/latex-paper-tips.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2017/latex-paper-tips.html" rel="bookmark"
                            title="Permalink to 用 LaTeX 写大论文的一些经验">用 LaTeX 写大论文的一些经验</a></h1>
                 </header>
 
@@ -262,10 +254,10 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/ge-ren.html">个人</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
 </footer><!-- /.post-info -->                <p>几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
 户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
 加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：</p>
@@ -276,13 +268,13 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
    直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
    可以克服时，就会觉得这个缺点难以忍受了。</li>
 <li>论文各个章节以及章节内部存在大量的交叉引用，图片、公式 …</li></ol>
-                <a class="readmore" href="http://seekiu.com/2017/latex-paper-tips.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2017/latex-paper-tips.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 9
-        <a href="http://seekiu.com/category/misc2.html">&raquo;</a>
+        <a href="http://seekiu.github.io/category/misc2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -297,7 +289,7 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

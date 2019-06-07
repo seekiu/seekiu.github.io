@@ -3,20 +3,16 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog - Charles Chen</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
@@ -24,7 +20,7 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
                            title="Permalink to Python中指针式传递的函数遇到的问题">Python中指针式传递的函数遇到的问题</a></h1>
                 </header>
 
@@ -35,10 +31,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
 <p>首先从下面一段非常简单的程序开始：</p>
 <div class="highlight"><pre><span></span>def main():
@@ -54,13 +50,13 @@ def foo(x):
 
 def bar(x):
     for i in range(len …</pre></div>
-                <a class="readmore" href="http://seekiu.com/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/lazy-way-of-latex.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/lazy-way-of-latex.html" rel="bookmark"
                            title="Permalink to 用LaTeX写文章的一种懒人写法">用LaTeX写文章的一种懒人写法</a></h1>
                 </header>
 
@@ -71,20 +67,20 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>自从两年前用 LaTeX 写了第一篇论文，后续的几篇都回到了用 Word。主要原因在于学会用 LaTeX 之后，用 Word 的习惯也好了很多，再加上后者还有所见即所得的优势。不过回顾一些以前写的小笔记，发现如果做某个小专题的笔记，页数在十几页范围以内时，其实用 LaTeX 也是不错的选择，尤其是当出现大量公式的时候。正好最近要写一个简单的报告，就尝试着用 LaTeX 来写。由于已经比较长时间没有使用了，不少命令已经记得不熟了，另外也习惯了 markdown 那种接近所见即所得的方便，所以感觉纯 LaTeX 已经显得挺繁琐了。</p>
 <p>基于这样的背景，大概考虑了有几种方案。</p>
 <p>直接用 iPython notebook 其实是个不错的办法，尤其是要写的东西里出现大量公式的时候。用它最大的好处在于可以一个单元一个单元地敲，然后几乎实时地看到公式的样子，而不是对着一堆很难用人眼「编译」的代码来看。但它的问题也比较明显，输出效果最好的是 HTML 文件，虽然也可以得到 PDF，但样式几乎没办法控制 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/lazy-way-of-latex.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/lazy-way-of-latex.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/photoshop-scan-effect.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/photoshop-scan-effect.html" rel="bookmark"
                            title="Permalink to 新手向教程：用 Photoshop 将照片处理成扫描的效果">新手向教程：用 Photoshop 将照片处理成扫描的效果</a></h1>
                 </header>
 
@@ -95,10 +91,10 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>最近接到一个简单但十分繁琐的任务，要将几百张用手机、微单拍下来的文档照片，处理成方便打印的效果，也就是类似扫描的效果。本文记录了我用 Photoshop 处理用到的几个小技巧，虽然都是比较初级的办法，但希望能给有需要的人提供借鉴。</p>
 <h1>达到扫描效果</h1>
 <p>相机拍出来的照片与扫描仪扫出来的图片，最显著的区别是照片中，白纸上由于光线的原因，会出现亮度的差异，而扫描仪则会直接把这些部分「还原」成纸原来的纯白色，直接抹掉灰度较低的部分。</p>
@@ -114,13 +110,13 @@ def bar(x):
 <p>至此，在绝大多数情况下，都可以达到基本与扫描的效果一致，少数情况下也会出现效果不佳，这时用类似的方法做一些微调即可。</p>
 <h1>局部加黑</h1>
 <p>有一个常见的问题是，某些地方可能由于各种原因，文字显得非常淡，在墨不太足的打印机上打印出来可能根本看不见，这时就需要对局部进行加黑了，也很简单 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/photoshop-scan-effect.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/photoshop-scan-effect.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/try-julia.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/try-julia.html" rel="bookmark"
                            title="Permalink to 初试 Julia 语言">初试 Julia 语言</a></h1>
                 </header>
 
@@ -131,21 +127,21 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>上一篇博文中推荐了 Python 的 JIT 编译器 numba，这两天又用空余的时间尝试了一下最近的一个新兴语言 Julia。Julia 的目标设定得很高，未来是要成为一个速度上接近甚至超过 Fortran/C 这样的传统语言的<strong>通用</strong>编程语言。然而就我这两天很初步的尝试结果看来，它也许有这个能力，但至少目前，对工程计算的人来说，还没有达到 production-ready 的程度。（当然，这只是基于我个人的编程经验和需求的结论，很可能不适用于其他人。而且Julia本身是一门相对年轻的语言，很值得持续关注。）</p>
 <p>之所以这样说，有三个方面的理由：</p>
 <ol>
 <li>作为一个<strong>动态语言</strong>，它的 JIT 编译器（在很多情况下）还没有智能到，让我可以同时享受动态语言的便利和它的速度优势。例如最近我在试用 Julia 时最先尝试的就是把原来用 Numba 写的函数重写一遍，然而发现结果非常不好。Julia 版本的函数执行速度相当于纯 Python 的速度，与 Numba …</li></ol>
-                <a class="readmore" href="http://seekiu.com/2015/try-julia.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/try-julia.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/use-numba-to-accelerate-python.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/use-numba-to-accelerate-python.html" rel="bookmark"
                            title="Permalink to 推荐使用Numba加速Python科学计算">推荐使用Numba加速Python科学计算</a></h1>
                 </header>
 
@@ -156,20 +152,20 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>因为正在用 Python 写 <a href="https://en.wikipedia.org/wiki/Lattice_Boltzmann_method">lattice Boltzmann</a> 的原因，我时不时也会研究 Python 科学计算程序的加速方法。现在为止，陆续尝试过了几个方案，包括 numexpr、Cython 等等，也写了一些博文（<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">1</a>、<a href="http://www.seekiu.com/2014/%E7%94%A8-numexpr-%E5%BA%93%E4%BC%98%E5%8C%96-numpy-%E8%AE%A1%E7%AE%97%E9%80%9F%E5%BA%A6">2</a>）。而这篇文章，则是要作一个推荐，建议所有在使用 Python 做科学计算的人尝试一下 Numba。</p>
 <p>推荐的原因，首先得从 Python 科学计算说起。</p>
 <p>Python 本身由于其动态语言的本质，并不适合于计算量很大的科学计算。然而 Numpy 提供的带类型的数据结构，以及预编译好的基于 C 或 Fortran 的高速计算库，很大程度上解决了这个问题。绝大部分基于 Python 的科学计算程序，都是将其数据储存在 ndarray 里的。按我自己目前的认识，Numpy _至少_带来了两个方面的好处，一是存储的数据带有类型 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/use-numba-to-accelerate-python.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/use-numba-to-accelerate-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/install-youcompleteme-windows.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/install-youcompleteme-windows.html" rel="bookmark"
                            title="Permalink to 如何在Windows下给Vim安装YouCompleteMe">如何在Windows下给Vim安装YouCompleteMe</a></h1>
                 </header>
 
@@ -180,10 +176,10 @@ def bar(x):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> <a href="http://seekiu.com/tag/vim.html">Vim</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> <a href="http://seekiu.github.io/tag/vim.html">Vim</a> </p>
 </footer><!-- /.post-info -->                <p>更合理的一个标题是「A (far from perfect) guide for installing YouCompleteMe under Windows」，因为虽然我已经成功地安装好了YCM，但确实全程都非常不优雅。此处「优雅」的定义为有良好的可重现能力，换一台机器同样可以比较轻松地重新安装一遍。不管怎样，不优雅的过程还是值得记录一下的。</p>
 <p>由于YCM官方没有提供Windows下的安装指南，我主要参考的是<a href="https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/">Haroogan的方案</a>。</p>
 <p>安装YCM有几个基本的要求：</p>
@@ -197,14 +193,14 @@ def bar(x):
 <ol>
 <li>带Python和其它一大票语言支持的<a href="https://bitbucket.org/Haroogan/vim-for-windows">Vim</a></li>
 <li><a href="https://bitbucket.org/Haroogan/llvm-for-windows">LLVM …</a></li></ol>
-                <a class="readmore" href="http://seekiu.com/2015/install-youcompleteme-windows.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/install-youcompleteme-windows.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-        <a href="http://seekiu.com/author/charles-chen3.html">&laquo;</a>
+        <a href="http://seekiu.github.io/author/charles-chen3.html">&laquo;</a>
     Page 4 / 9
-        <a href="http://seekiu.com/author/charles-chen5.html">&raquo;</a>
+        <a href="http://seekiu.github.io/author/charles-chen5.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -219,7 +215,7 @@ def bar(x):
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

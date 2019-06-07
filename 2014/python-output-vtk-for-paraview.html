@@ -3,27 +3,23 @@
 <head>
         <meta charset="utf-8" />
         <title>Python 输出用于 Paraview 后处理的 vtk 文件</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://seekiu.com/2014/python-output-vtk-for-paraview.html" rel="bookmark"
+        <a href="http://seekiu.github.io/2014/python-output-vtk-for-paraview.html" rel="bookmark"
            title="Permalink to Python 输出用于 Paraview 后处理的 vtk 文件">Python 输出用于 Paraview 后处理的 vtk 文件</a></h1>
     </header>
 
@@ -34,10 +30,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->      <p>好拗口的标题。。。</p>
 <p>前面的博客中已经提到，Python 有 Matplotlib 这种强大的包可以「在线」地生成（并保存）漂亮的图形，但对于计算流体力学的后处理来说，很多时候需要更多「事后」的后处理。在线的即时输出，虽然可以快速预览结果，但对于想输出什么结果必须在写程序阶段就全部想明白，而不是先计算完，按一定间隔输出整个流场的信息，然后后期想要什么数据慢慢提取分析就行。</p>
 <p>解决这个问题的方法也很简单，直接照抄开源 LBM 软件 Palabos 的方案，用 vtk 格式保存流场信息，然后用 Paraview 进行后处理。</p>
@@ -114,7 +110,7 @@ w.save()</pre>
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

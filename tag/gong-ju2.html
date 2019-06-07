@@ -3,20 +3,16 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog - 工具</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
@@ -24,7 +20,7 @@
                     <ol id="posts-list" class="hfeed" start="5">
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/vim1.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/vim1.html" rel="bookmark"
                            title="Permalink to Vim 系列（一） Vim tutor 要点小结">Vim 系列（一） Vim tutor 要点小结</a></h1>
                 </header>
 
@@ -35,21 +31,21 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>因为各种原因，准备慢慢把主要的编辑器从 Sublime Text 3 迁移至古老的 Vim。今天开始，不定期地更新一系列的学习笔记。这篇是第一篇，大致整理了一下自带的教程（vim tutor）中的主要内容。</p>
 <p>启动 Vim。把 vim 的目录添加到 PATH 中，则输入 <code>vim</code> 可直接在命令行中启动 Vim，而 <code>gvim</code> 则启动带界面的版本。</p>
 <p>Vim 有多种模式，其中最基本的是「普通模式」，启动 Vim 后默认打开的就是普通模式，普通模式中光标是覆盖在字符上的方块，而如果在「插入模式」中，光标是字符之间的一条闪烁的线（绝大多数程序中也如此）。如果处在其它模式中，多按几次 ESC 就可以回到普通模式。</p>
 <p>普通模式下的光标移动。最基本的是用 <code>hjkl</code> 来实现上下左右，这一点刚上手 …</p>
-                <a class="readmore" href="http://seekiu.com/2015/vim1.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/vim1.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2015/ctrl-backspace-not-working.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2015/ctrl-backspace-not-working.html" rel="bookmark"
                            title="Permalink to 奇怪的bug，win8里的ctrl-backspace失效了">奇怪的bug，win8里的ctrl-backspace失效了</a></h1>
                 </header>
 
@@ -60,22 +56,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>最近遇到一个十分奇怪的bug，用于删除前一个单词的ctrl-backspace快捷键失效了。甚至在sublime text这种另外定义了这个快捷键行为的软件里也一样，奇怪。</p>
 <p>最开始是在一个机器上出现的，而记忆中唯一记得的近期对它做过的最大改动是把Python升级到了3.4，并删掉了原来的2.7，但暂时还无法确认是这个问题。更奇怪的是，在一台新的机器上，最开始没有这个问题，没过多久也出现了。</p>
 <p>另外自己的一台电脑上是从win7升级上来的，没有出现这个情况。</p>
 <p>Google了一番，似乎没有人出现过类似的情况。</p>
 <p>太奇怪了。</p>
-                <a class="readmore" href="http://seekiu.com/2015/ctrl-backspace-not-working.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2015/ctrl-backspace-not-working.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2014/problems-using-vpn.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2014/problems-using-vpn.html" rel="bookmark"
                            title="Permalink to 用 VPN 时的一些小问题">用 VPN 时的一些小问题</a></h1>
                 </header>
 
@@ -86,23 +82,23 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>从5月35日前两天左右开始，gg开始几乎全系被封，干脆买了个收费的 VPN，想一次性解决问题。当然，事实证明也没有这么简单，还是碰到了大大小小的不少问题，大致罗致如下：</p>
 <ol>
 <li>L2** 比 PP** 的「安全性」更好，一般推荐用前者；</li>
 <li>路由表是个好东西，尤其是 chnroutes，它可以实现让国内流量不走 VPN，大量节约收费资源，并且提高速度；</li>
 <li>在我的情况里，L2** 协议再加载智能路由表时，会导致上不了百度，至今没弄明白怎么回事，现在较好的解决办法是在浏览器里再用一个自动代理，让域名带 baidu.com 的都从一个国内的高速缓存里过，算是一个曲线救国的办法了。</li>
 </ol>
-                <a class="readmore" href="http://seekiu.com/2014/problems-using-vpn.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2014/problems-using-vpn.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html" rel="bookmark"
                            title="Permalink to 用Sublime Text写作和记笔记">用Sublime Text写作和记笔记</a></h1>
                 </header>
 
@@ -113,10 +109,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>上个学期的时候，发现了一个软件<a href="https://www.literatureandlatte.com/scrivener.php">Scrivener</a>，它本身号称是一个给作家使用的软件，当时觉得很适合，但可惜价格昂贵，而且对数学公式的支持很差（windows版），所以一直在寻找类似的替代品。找来找去，最后发现一直在使用的文本编辑器sublime text 2其实就已经可以很好地完成这个功能了。</p>
 <p><a href="http://www.sublimetext.com/">Sublime text</a>是过去一段时间相当火的一个面向程序员的文本编辑器，有多个颇有新意有实用功能。虽然它几十刀的价格对穷学生来说相当没有亲和力，比Scrivener还贵一点，但作者也很厚道地允许无限试用，只是在使用时以相当低的频率弹出窗口提示买证书（似乎是按保存的次数来算的），也算是个准免费软件吧。</p>
 <p>废话不多说，简单说一下我怎么用ST2实现接近Scrivener的功能的。</p>
@@ -124,13 +120,13 @@
 <li>准备工作：安装sublime text，建立存放文件的文件夹，如「research | journal | misc」；</li>
 <li>首先安装必要的插件，Sidebarenhancements，可以通过package control完成。</li>
 <li>新建一个Project。菜单栏Project&#8211;Add folder to project&#8230;，把上面这些文件夹依次添加进去，然后Project&#8211;Save project as&#8230;将其保存。如果没有清除记录的话 …</li></ol>
-                <a class="readmore" href="http://seekiu.com/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2013/yong-sublime-textxie-zuo-he-ji-bi-ji.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html" rel="bookmark"
                            title="Permalink to 提高效率的工具(I)——Virtuawin">提高效率的工具(I)——Virtuawin</a></h1>
                 </header>
 
@@ -141,22 +137,22 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/gong-ju.html">工具</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> </p>
 </footer><!-- /.post-info -->                <p>准备长期更新一个系列的文章，介绍几个自己觉得不错的效率软件，这次是给windows添加虚拟桌面功能的<a href="http://virtuawin.sourceforge.net/">Virtuawin</a>。</p>
 <p>Virtuawin（注意不是Virtualwin）是给Windows提供类似Ubuntu的工作空间的软件，可以创建多个虚拟桌面，然后方便地切换。</p>
 <p>这个软件最适合于整洁控，可以把打开的窗口分到不同的虚拟桌面里，而目前所处的桌面只保留一到两个窗口。比如打开网页听豆瓣fm的时候，由于不能最小化，就干脆把它单独放到某个最后的桌面里，或者在做网络调研的时候，可能会打开一大堆窗口，就可以把它们分类归到不同桌面上。</p>
 <p>我自己最近觉得很实用的一个方面是，当在工作站上算多个单线程的小程序的时候，就可以开启一堆窗口，每个桌面放几个，就不至于全部缩到任务栏的小图标里了。</p>
 <p>我自己的设置比较简单，3个虚拟桌面，后台运行的程序如豆瓣fm放第3个桌面，工作桌面为1和2，切换桌面的快捷键为ctrl+win+方向键，桌面间移动窗口的快捷键为alt+win+方向键。</p>
 <p>功能很简单，也很纯粹，没有不必要的东西。最大的遗憾是没有像Ubuntu那样漂亮的切换动画，可惜。</p>
-                <a class="readmore" href="http://seekiu.com/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2013/ti-gao-xiao-lu-de-gong-ju-i-virtuawin.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-        <a href="http://seekiu.com/tag/gong-ju.html">&laquo;</a>
+        <a href="http://seekiu.github.io/tag/gong-ju.html">&laquo;</a>
     Page 2 / 2
 </p>
                 </section><!-- /#content -->
@@ -172,7 +168,7 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

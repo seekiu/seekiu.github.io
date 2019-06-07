@@ -3,27 +3,23 @@
 <head>
         <meta charset="utf-8" />
         <title>用 Python 简化数据处理流程的 workflow 及简单示范</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://seekiu.com/2014/python-workflow-simplify-data-processing.html" rel="bookmark"
+        <a href="http://seekiu.github.io/2014/python-workflow-simplify-data-processing.html" rel="bookmark"
            title="Permalink to 用 Python 简化数据处理流程的 workflow 及简单示范">用 Python 简化数据处理流程的 workflow 及简单示范</a></h1>
     </header>
 
@@ -34,10 +30,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->      <p>注：本文所述方法肯定不是最简单的，但对我这非编程相关专业的人来说已经提高很多效率了。如果你有更好的办法，欢迎留言。</p>
 <p>如果同样的一个程序，改变一系列参数，分别计算结果，我一般选择把这个程序复制很多份，放在不同的文件夹里，然后写几个批处理文件（写几个是为了能同时几个一起算），按一定的次序分别执行它们，并把结果保存的相应的目录。保存的结果有很多时候是逗号分隔的csv文件，这时候如果想作图的话，就需要从每个文件中拷出数据来，然后复制到 Origin 中进行绘图。</p>
 <p>这样的 workflow 在对付我之前面对的多数问题都 ok，但如果保存的数据量大了，尤其是每一个 csv 文件中的列数多了（比如10列以上），或者 copy 出来的数据需要进行修改、筛选等复杂操作时，就显得有些繁琐和吃力了。相比之下，用 Python 来读取数据，并进行后续的处理和绘图就会简单一些，并且有更好的一致性。</p>
@@ -66,7 +62,7 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

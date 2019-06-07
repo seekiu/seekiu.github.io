@@ -3,27 +3,23 @@
 <head>
         <meta charset="utf-8" />
         <title>用Python作流场计算时的后处理问题</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li class="active"><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://seekiu.com/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html" rel="bookmark"
+        <a href="http://seekiu.github.io/2014/yong-pythonzuo-liu-chang-ji-suan-shi-de-hou-chu-li-wen-ti.html" rel="bookmark"
            title="Permalink to 用Python作流场计算时的后处理问题">用Python作流场计算时的后处理问题</a></h1>
     </header>
 
@@ -34,10 +30,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/bian-cheng.html">编程</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->      <p>由于我现在正试图用Numpy来实现 Lattice Boltzmann method 的算法，也会涉及到一些简单的后处理功能。这里的后处理具体的说是输出一些关于流场的图像问题，因为输出单点的信息没有任何难度。而图像输出主要是依靠 Matplotlib 这个强大的库来完成。后续如果要做进一步的后处理的话，应该还是要学一学如何导出数据到专业后处理软件中，但就调试过程而言，能及时输出一些直观的图像是十分必要的。</p>
 <p>我现在采用的办法是把关于流场的属性存储于数组中（rho[nx_ny]、u[nx_ny*2] 等），用 node 编号来索引具体的数值。这种情况，因为还不涉及格子单位和物理单位的转换，后处理的逻辑还是比较简单的。一般地说来，会用到的图像可分为两类，一类是标量场，主要是云图，另一类是矢量场，主要是矢量图（vector graph）和流线图。这两类图形的绘制方法都很接近，掌握一种的话，通过查询官方在线文档，基本都可以很快找到另外几种的用法。</p>
 <p>例如，对于标量场，如密度场 rho[nx*ny]，可以用 matplotlib.pyplot.contour（后面把matplotlib.pyplot 简写为 plt），也可以更简单地用 plt.imshow。例如在 Palabos 网站上提供的 Python 示例代码就用了下面这样的代码来绘制速度（大小）的云图：</p>
@@ -63,7 +59,7 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>

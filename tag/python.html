@@ -3,36 +3,32 @@
 <head>
         <meta charset="utf-8" />
         <title>Charles Chen's blog - python</title>
-        <link rel="stylesheet" href="http://seekiu.com/theme/css/main.css" />
-        <link href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
-
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
+        <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.com/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://seekiu.com/pages/about-me.html">about</a></li>
-                    <li><a href="http://seekiu.com/category/misc.html">misc</a></li>
+                    <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
+                    <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://seekiu.com/2017/effciently-combine-dataframes.html">合并多个 pd.DataFrame 的常规方法</a></h1>
+                    <h1 class="entry-title"><a href="http://seekiu.github.io/2017/effciently-combine-dataframes.html">合并多个 pd.DataFrame 的常规方法</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2017-10-08T20:40:00+08:00">
                 Published: 周日 08 十月 2017
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/python.html">python</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/python.html">python</a> </p>
 </footer><!-- /.post-info --><p>在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在
 pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
 的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。</p>
@@ -61,7 +57,7 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="http://seekiu.com/2016/membership-in-ndarray.html" rel="bookmark"
+                    <h1><a href="http://seekiu.github.io/2016/membership-in-ndarray.html" rel="bookmark"
                            title="Permalink to 检查多维 ndarray 中是否有某元素">检查多维 ndarray 中是否有某元素</a></h1>
                 </header>
 
@@ -72,10 +68,10 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.com/author/charles-chen.html">Charles Chen</a>
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
         </address>
-<p>In <a href="http://seekiu.com/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.com/tag/python.html">Python</a> </p>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/python.html">Python</a> </p>
 </footer><!-- /.post-info -->                <p>最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。</p>
 <p>通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 <code>in</code>。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：</p>
 <div class="highlight"><pre><span></span>a = [1, 2, 3]
@@ -89,7 +85,7 @@ print(4 in b)
 <p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
 <div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
 print([0,2] in a …</pre></div>
-                <a class="readmore" href="http://seekiu.com/2016/membership-in-ndarray.html">read more</a>
+                <a class="readmore" href="http://seekiu.github.io/2016/membership-in-ndarray.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
@@ -106,7 +102,7 @@ print([0,2] in a …</pre></div>
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://seekiu.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/seekiu">Twitter</a></li>
                             <li><a href="http://instagram.com/seekiu">Instagram</a></li>
