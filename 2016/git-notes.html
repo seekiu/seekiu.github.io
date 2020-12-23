@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Git 笔记</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="声明：这个笔记是根据我自己的理解所写，可能有部分理解有误或不全，仅供参考。 以前在装 Vundle 的时候安装了 Git，但只作为 Vundle 的后台使用，没有直接使用过 git。趁着这次搬博客的机会，大致学会了基础的使用，本文是对 git 基本操作尤其是与 github..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -77,14 +79,12 @@
 <li>建立 repository (aka 'repo')</li>
 </ul>
 <p>如果需要到远程比如 Github 上下载一个 repo，执行如下命令：</p>
-<div class="highlight"><pre><span></span>git clone some_url [target_dir_name]
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">some_url</span><span class="w"> </span><span class="o">[</span><span class="n">target_dir_name</span><span class="o">]</span><span class="w"></span>
+</code></pre></div>
 
 <p>而如果是需要在本地直接新建一个 repo，则在所需目录下执行：</p>
-<div class="highlight"><pre><span></span>git init
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">git init</span>
+</code></pre></div>
 
 <p>Git 本地文件管理带来的一个好处是文件非常「干净」，当一个 repo 项目不需要的时候，只需要将该文件夹完整地删除即可，所有的数据库和历史版本等都会随之清除。</p>
 <ul>
@@ -128,10 +128,10 @@
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

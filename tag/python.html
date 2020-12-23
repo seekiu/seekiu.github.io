@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Charles Chen's blog - python</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
@@ -9,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -33,17 +34,15 @@
 pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
 的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。</p>
 <p>按最通常的想法，是直接写一个循环：</p>
-<div class="highlight"><pre><span></span>for df_i in dfs:
-    pd.concat(df, df_i)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">for df_i in dfs:</span>
+<span class="err">    pd.concat(df, df_i)</span>
+</code></pre></div>
 
 <p>显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。</p>
 <p>在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
 的 df 放到一个列表中，然后用 concat 函数一次性合并：</p>
-<div class="highlight"><pre><span></span>df = pd.concat(dfs)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">df = pd.concat(dfs)</span>
+</code></pre></div>
 
 <p>这样避免了产生中间临时 df。</p>
 <p>在 pandas 开发者 Wes McKinney 最近的<a href="http://wesmckinney.com/blog/apache-arrow-pandas-internals/">博客</a> 中提到，pandas 不能很好地处理 append 这一点也一直困扰着他，而这个问题，有希望在 arrow 中得到解决。</p>
@@ -74,17 +73,16 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
 <p>tags: <a href="http://seekiu.github.io/tag/python.html">Python</a> </p>
 </footer><!-- /.post-info -->                <p>最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。</p>
 <p>通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 <code>in</code>。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：</p>
-<div class="highlight"><pre><span></span>a = [1, 2, 3]
-print(4 in a)
-b = np.array(a)
-print(4 in b)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">a = [1, 2, 3]</span>
+<span class="err">print(4 in a)</span>
+<span class="err">b = np.array(a)</span>
+<span class="err">print(4 in b)</span>
+</code></pre></div>
 
 <p>结果是<code>False False</code></p>
 <p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
-<div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
-print([0,2] in a …</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">a = [[0,0], [0,1]]</span>
+<span class="err">print([0,2] in a …</span></code></pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2016/membership-in-ndarray.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -112,10 +110,10 @@ print([0,2] in a …</pre></div>
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

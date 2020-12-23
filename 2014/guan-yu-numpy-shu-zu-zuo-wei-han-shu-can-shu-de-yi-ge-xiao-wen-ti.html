@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>关于 Numpy 数组作为函数参数的一个小问题</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="注：本文的所写的只是我自己想出来的一个办法，很可能不是最优或者最标准的做法，如果有高手看到，欢迎指正！ 在计算过程中遇到这样的一个问题，需要对一个 nx*ny 的网格上每一个节点调用一次函数，然后返回一个 nx*ny 的数组。 我之前就写过类似的程序，numpy..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -86,10 +88,10 @@ print test(np.arange(nx), np.arange(ny))</pre>
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

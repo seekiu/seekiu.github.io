@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Charles Chen's blog - Charles Chen</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
@@ -9,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -18,28 +19,6 @@
 
                 <section id="content" class="body">
                     <ol id="posts-list" class="hfeed" start="5">
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
-                           title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2015-12-22T09:58:00+08:00">
-                Published: 周二 22 十二月 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
-</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable …</p>
-                <a class="readmore" href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
             <li><article class="hentry">
                 <header>
                     <h1><a href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html" rel="bookmark"
@@ -59,19 +38,19 @@
 <p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
 <p>首先从下面一段非常简单的程序开始：</p>
-<div class="highlight"><pre><span></span>def main():
-    x = [1, 2, 3, 4, 5]
-    foo(x)
-    print(x)
+<div class="highlight"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">1, 2, 3, 4, 5</span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 
-def foo(x):
-    bar(x)
-    # x = bar2(x)
-    for i in range(len(x)):
-        x[i] = x[i]**2
+<span class="n">def</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="err">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]**</span><span class="mi">2</span><span class="w"></span>
 
-def bar(x):
-    for i in range(len …</pre></div>
+<span class="n">def</span><span class="w"> </span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="nf">len …</span></code></pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -184,11 +163,47 @@ def bar(x):
                 <a class="readmore" href="http://seekiu.github.io/2015/use-numba-to-accelerate-python.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/install-youcompleteme-windows.html" rel="bookmark"
+                           title="Permalink to 如何在Windows下给Vim安装YouCompleteMe">如何在Windows下给Vim安装YouCompleteMe</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-05-30T20:15:00+08:00">
+                Published: 周六 30 五月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/gong-ju.html">工具</a> <a href="http://seekiu.github.io/tag/vim.html">Vim</a> </p>
+</footer><!-- /.post-info -->                <p>更合理的一个标题是「A (far from perfect) guide for installing YouCompleteMe under Windows」，因为虽然我已经成功地安装好了YCM，但确实全程都非常不优雅。此处「优雅」的定义为有良好的可重现能力，换一台机器同样可以比较轻松地重新安装一遍。不管怎样，不优雅的过程还是值得记录一下的。</p>
+<p>由于YCM官方没有提供Windows下的安装指南，我主要参考的是<a href="https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/">Haroogan的方案</a>。</p>
+<p>安装YCM有几个基本的要求：</p>
+<ol>
+<li>包含Python支持的Vim版本。</li>
+<li>LLVM/Clang，具体地说其实是<code>libclang.dll</code>这一个文件。</li>
+<li>Haroogan预编译好的YCM库，主要是指<code>ycm_core.pyd</code>这个文件。</li>
+</ol>
+<p>检查Vim的Python支持的办法是在cmd中运行<code>python --version</code>看看出来的Python前面是否有加号，或者在Vim中执行<code>:echo has('python')</code>。不过相信会看这篇文章的多半是从官网下的gvim74，很不幸地这个版本并不支持Python。</p>
+<p>不过Haroogan同学很贴心地给出了全套解决方案，上面的三个基本要求他都提供了预编译好的版本：</p>
+<ol>
+<li>带Python和其它一大票语言支持的<a href="https://bitbucket.org/Haroogan/vim-for-windows">Vim</a></li>
+<li><a href="https://bitbucket.org/Haroogan/llvm-for-windows">LLVM …</a></li></ol>
+                <a class="readmore" href="http://seekiu.github.io/2015/install-youcompleteme-windows.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
+        <a href="http://seekiu.github.io/author/charles-chen.html">&#8647;</a>
         <a href="http://seekiu.github.io/author/charles-chen3.html">&laquo;</a>
     Page 4 / 9
         <a href="http://seekiu.github.io/author/charles-chen5.html">&raquo;</a>
+        <a href="http://seekiu.github.io/author/charles-chen9.html">&#8649;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -213,10 +228,10 @@ def bar(x):
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

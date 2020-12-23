@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>用 pelican 创建静态网站放到 GitHub 上</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="去年在 GoDaddy 买域名半送的 Linux 空间到期了，最近一直在找替代方案。大致的方向是想用 GitHub 免费的 github pages 作为 host，因为此前已经知道 jekyll 是一个选项。但是考虑到 jekyll 是基于 Ruby..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -60,7 +62,7 @@
 </ol>
 <p>这里用的是我自己的办法，没有用文档推荐的用 <code>ghp-import</code> 的方法。我喜欢把设置保持为最简，然后慢慢添加自己需要的设置，这样 config 文件里所有的项我都知道它的用途。</p>
 <p>在本地建立 Blog 文件夹，下面新建一个 <code>content</code> 和 <code>output</code> 文件夹，前者用来放 markdown 的源文件，后者放 pelican 生成的 html。然后新建一个 <code>pelicanconf.py</code> 的文件，里放一些相关的设置，我最初的设置是这样的：</p>
-<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="n">AUTHOR</span> <span class="o">=</span> <span class="s1">&#39;Charles Chen&#39;</span>
 <span class="n">SITENAME</span> <span class="o">=</span> <span class="s2">&quot;Charles Chen&#39;s blog&quot;</span>
@@ -74,17 +76,15 @@
 
 <span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;notmyidea&#39;</span>
 
-<span class="n">ARTICLE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
-<span class="n">ARTICLE_URL</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/{slug}.html&#39;</span>
-</pre></div>
-
+<span class="n">ARTICLE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/</span><span class="si">{slug}</span><span class="s1">.html&#39;</span>
+<span class="n">ARTICLE_URL</span> <span class="o">=</span> <span class="s1">&#39;{date:%Y}/</span><span class="si">{slug}</span><span class="s1">.html&#39;</span>
+</code></pre></div>
 
 <p>最后两行是为了用 <code>slug</code> 定义 URL 的格式，默认的是用标题，如果有中文用的是拼音，我觉得不太好，直接用 <code>slug</code> 自定义更可控。</p>
 <p>然后在 Blog 文件夹下 <code>git clone</code> 相应的 repo 到 output 文件夹，这样以后更新内容之后，只需要在 output 文件夹里 <code>git push</code> 就可以更新了。（这也是我的笨办法和官方方法最大的不同）</p>
 <p>做好这些，然后就可以在 content 文件夹里添内容了。每一次新建内容之后，<code>cd</code> 到 Blog 文件夹下，运行</p>
-<div class="highlight"><pre><span></span>pelican content -s pelicanconf.py
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">pelican content -s pelicanconf.py</span>
+</code></pre></div>
 
 <p>这样 output 文件夹就更新了。</p>
 <hr>
@@ -115,10 +115,10 @@
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

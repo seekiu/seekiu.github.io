@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>检查多维 ndarray 中是否有某元素</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。 通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 in。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如： a = [1, 2, 3]..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -36,21 +38,19 @@
 <p>tags: <a href="http://seekiu.github.io/tag/python.html">Python</a> </p>
 </footer><!-- /.post-info -->      <p>最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。</p>
 <p>通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 <code>in</code>。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：</p>
-<div class="highlight"><pre><span></span>a = [1, 2, 3]
-print(4 in a)
-b = np.array(a)
-print(4 in b)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">a = [1, 2, 3]</span>
+<span class="err">print(4 in a)</span>
+<span class="err">b = np.array(a)</span>
+<span class="err">print(4 in b)</span>
+</code></pre></div>
 
 <p>结果是<code>False False</code></p>
 <p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
-<div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
-print([0,2] in a)
-b = np.array(a)
-print([0,2] in b)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">a = [[0,0], [0,1]]</span>
+<span class="err">print([0,2] in a)</span>
+<span class="err">b = np.array(a)</span>
+<span class="err">print([0,2] in b)</span>
+</code></pre></div>
 
 <p>结果是<code>False True</code>。</p>
 <p><a href="http://stackoverflow.com/questions/38303381/check-membership-in-a-2d-ndarray-object-in-python">SO 上问了一下</a>，原来已经<a href="http://stackoverflow.com/questions/14766194/testing-whether-a-numpy-array-contains-a-given-row">有人解释过了</a>：</p>
@@ -82,10 +82,10 @@ print([0,2] in b)
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

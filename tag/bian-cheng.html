@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Charles Chen's blog - 编程</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
@@ -9,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -57,19 +58,19 @@
 <p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
 </footer><!-- /.post-info -->                <p>最近在尝试通过 multiprocessing 把原来的计算核心改为通过多进程实现的并行程序，但碰到了一个非常奇怪的问题，经过一些时间的排查，终于找到了问题所在。虽然问题本身很简单，但也许也有一定典型性，尤其是对编程新手而言，因此在这里用最简单的模型重现一下。</p>
 <p>首先从下面一段非常简单的程序开始：</p>
-<div class="highlight"><pre><span></span>def main():
-    x = [1, 2, 3, 4, 5]
-    foo(x)
-    print(x)
+<div class="highlight"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">1, 2, 3, 4, 5</span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 
-def foo(x):
-    bar(x)
-    # x = bar2(x)
-    for i in range(len(x)):
-        x[i] = x[i]**2
+<span class="n">def</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="err">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]**</span><span class="mi">2</span><span class="w"></span>
 
-def bar(x):
-    for i in range(len …</pre></div>
+<span class="n">def</span><span class="w"> </span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="nf">len …</span></code></pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2015/python-pass-parameter-as-pointer-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -167,11 +168,11 @@ def bar(x):
 </footer><!-- /.post-info -->                <p>很久之前看到的东西了，今天总算抽空把它写完了。</p>
 <p>最开始是在 Quora 上看到一个很有意思的<a href="http://www.quora.com/What-are-the-most-interesting-or-popular-probability-puzzles-in-which-the-intuition-is-contrary-to-the-solution/answer/Alon-Amit">答案</a>，虽然是简单的抛硬币问题，但结果确实是相当反直觉，因此，干脆用 Python 写了一系列的小程序，来验证这些结果。</p>
 <p>第一个游戏很简单，抛一个硬币，连续抛两次，先后出现正面（heads，后面记为H）和反面（tail，后面记为T）的概率是ht，先后出现HH的概率记为hh。很显然，两者相等。程序验证也很简单，试验十万次，看分别出现多少次。</p>
-<div class="highlight"><pre><span></span>def game1():  
-    # flip twice, the possibility of HH or HT  
-    hh = 0; ht = 0  
-    for i in xrange(100000):  
-        pre = &#39;&#39;; cur …</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">def game1():  </span>
+<span class="err">    # flip twice, the possibility of HH or HT  </span>
+<span class="err">    hh = 0; ht = 0  </span>
+<span class="err">    for i in xrange(100000):  </span>
+<span class="err">        pre = &#39;&#39;; cur …</span></code></pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2014/program-to-verify-counterintuitive-math-problem.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -179,6 +180,7 @@ def bar(x):
 <p class="paginator">
     Page 1 / 3
         <a href="http://seekiu.github.io/tag/bian-cheng2.html">&raquo;</a>
+        <a href="http://seekiu.github.io/tag/bian-cheng3.html">&#8649;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -203,10 +205,10 @@ def bar(x):
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

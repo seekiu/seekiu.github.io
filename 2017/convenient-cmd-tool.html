@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>方便的个人命令行小助理</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="最近发现有一些经常重复性做的工作，包括： 打开命令行查看本机在局域网的 IP 用 Inkscape 命令行转换矢量图格式 调用已写好的某脚本快速查看关注股票的价格..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -44,7 +46,7 @@
 <p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
 <p>需求想明白了，实现就简单了。</p>
 <p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -61,21 +63,18 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>这里实现了在命令行中输入 <code>python tools.py ip</code> 就输出本机IP的功能，没有额外输出，也没有额外的功能（暂时）。</p>
 <p>第二步，让这个程序可以在任意位置的命令行简便地执行。办法之一是把它做成命令行程序，这个有不少现成的 Python 库可以做到。我选择的是另一种 Windows 内置的一种方法，把它放到一个 <code>alias.cmd</code> 文件中，里面给上述命令起一个别名，然后让 cmd 每次启动时都先读一下上面的 alias（如果是*nix系统就更简单地可以直接用alias的功能）。</p>
 <p>首先 alias.cmd 文件中加入下面一行：</p>
-<div class="highlight"><pre><span></span>DOSKEY tools=python &quot;path_to_tools.py&quot; $*
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">DOSKEY tools=python &quot;path_to_tools.py&quot; $*</span>
+</code></pre></div>
 
 <p>这样可以把 tools 命令连同后面的任意参数转换为后面那一段再加参数的格式。</p>
 <p>然后在 regedit 中，定位到</p>
-<div class="highlight"><pre><span></span>HKEY_CURRENT_USER -&gt; Software -&gt; Microsoft -&gt; Command Processor
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">HKEY_CURRENT_USER -&gt; Software -&gt; Microsoft -&gt; Command Processor</span>
+</code></pre></div>
 
 <p>添加一个字符串值，名称为 <code>AutoRun</code>，值为上面 <code>alias.cmd</code> 的完整路径。</p>
 <hr>
@@ -106,10 +105,10 @@
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

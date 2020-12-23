@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>合并多个 pd.DataFrame 的常规方法</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="在使用 pandas 时经常会碰到一个需求，即合并多个 DataFrame。比较遗憾的是，按现在 pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有 的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -38,17 +40,15 @@
 pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数据 append 到一个现有
 的 df 中，因此如何相对有效地合并多个 df 一直是困扰我的问题。</p>
 <p>按最通常的想法，是直接写一个循环：</p>
-<div class="highlight"><pre><span></span>for df_i in dfs:
-    pd.concat(df, df_i)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">for df_i in dfs:</span>
+<span class="err">    pd.concat(df, df_i)</span>
+</code></pre></div>
 
 <p>显然这样会额外地创建很多个临时的 df，虽然能够工作，但不是好的工作方法。</p>
 <p>在 StackOverflow 上有人给出了一个办法，我认为相对还是比较好的，就是把所有要合并
 的 df 放到一个列表中，然后用 concat 函数一次性合并：</p>
-<div class="highlight"><pre><span></span>df = pd.concat(dfs)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">df = pd.concat(dfs)</span>
+</code></pre></div>
 
 <p>这样避免了产生中间临时 df。</p>
 <p>在 pandas 开发者 Wes McKinney 最近的<a href="http://wesmckinney.com/blog/apache-arrow-pandas-internals/">博客</a> 中提到，pandas 不能很好地处理 append 这一点也一直困扰着他，而这个问题，有希望在 arrow 中得到解决。</p>
@@ -80,10 +80,10 @@ pandas 的设计，并不能在不产生新 DataFrame 对象的情况下把数�
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

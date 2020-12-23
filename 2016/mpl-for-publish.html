@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>用 matplotlib 画出规范的论文插图</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="我最近所写的论文中基本上放弃了 Origin，而转为用 matplotlib 画几乎所有的插图。相比专业的 Origin，MPL 基本可以替代所有的功能，甚至单论功能还略有胜出。从可定制性角度，两者也接近，但 MPL 没有 Origin 图形化操作的直观性，这方面有所欠缺。而且 MPL..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -71,8 +73,8 @@
 24
 25
 26
-27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;STIXGeneral&#39;</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;mathtext.fontset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;stix&#39;</span>
 
@@ -82,7 +84,7 @@
 <span class="n">Y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">X</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="o">/</span><span class="mf">2.54</span><span class="p">,</span> <span class="mf">4.5</span><span class="o">/</span><span class="mf">2.54</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">c1</span> <span class="o">=</span> <span class="s1">&#39;#023474&#39;</span>
 <span class="n">c2</span> <span class="o">=</span> <span class="s1">&#39;#ef0107&#39;</span>
 
@@ -94,13 +96,12 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="c1"># plt.savefig(&#39;demo.svg&#39;, bbox_inches=&#39;tight&#39;)</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>效果如下图所示：</p>
 <p><img alt="single" src="http://seekiu.github.io/images/mpl-demo.svg"></p>
 <p>看起来在 MPL 中为了画图需要写很多行代码，在这里连空行一共是 27 行。但其实画图相关的代码是中间的 10 行左右，其它的都是导入模块和产生演示用的数据的。这些画图的代码做了这么几件事情：</p>
@@ -117,12 +118,11 @@
 <p>如果是用于 Word 中，我目前的经验是 EMF 的兼容性最好，可惜从某个版本开始就不再提供 EMF 格式的支持，因此需要用 SVG 中转一下，这里需要用到 <a href="https://inkscape.org/zh/">Inkscape</a> 这个开源的矢量编辑软件。Inkscape 原生的格式正是 SVG，所以可以直接用它打开，另存为 EMF，但这样比较慢，因为 Inkscape 本身启动就很慢，而且莫名地在高分屏上占用内存非常大。更好的办法是用它的命令行工具，甚至更方便地，把命令行的调用也放到 Python 中：</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;&lt;inkscape_exe_path&gt; &#39;</span> <span class="o">+</span> <span class="n">svg_name</span> <span class="o">+</span> <span class="s1">&#39;.svg &#39;</span>
                 <span class="s1">&#39;--export-emf=&#39;</span> <span class="o">+</span> <span class="n">emf_name</span> <span class="o">+</span> <span class="s1">&#39;.emf&#39;</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>这样用起来就相当于用 Python 直接输出了 EMF 文件了。</p>
 <h1>双坐标轴</h1>
 <p>有些时候为了对比的需要，会把两条相同 X 不同 Y 的曲线画在一起，这在 Origin 中一般是用多个图层，MPL 中则可以用 twinx 解决。如果同样用上面的 demo 数据，部分画图代码的示例如下：</p>
@@ -155,10 +155,10 @@
 27
 28
 29
-30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="o">/</span><span class="mf">2.54</span><span class="p">,</span> <span class="mf">4.5</span><span class="o">/</span><span class="mf">2.54</span><span class="p">))</span>
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="o">/</span><span class="mf">2.54</span><span class="p">,</span> <span class="mf">4.5</span><span class="o">/</span><span class="mf">2.54</span><span class="p">))</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">c1</span> <span class="o">=</span> <span class="s1">&#39;#023474&#39;</span>
 <span class="n">c2</span> <span class="o">=</span> <span class="s1">&#39;#ef0107&#39;</span>
 
@@ -176,7 +176,7 @@
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c1</span><span class="p">)</span>
 
-<span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span> <span class="n">label</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
@@ -185,9 +185,8 @@
 <span class="n">h1</span><span class="p">,</span> <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
 <span class="n">h2</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">h1</span><span class="o">+</span><span class="n">h2</span><span class="p">,</span> <span class="n">l1</span><span class="o">+</span><span class="n">l2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>效果如下图所示：</p>
 <p><img alt="double" src="http://seekiu.github.io/images/two-axes-demo.svg"></p>
 <p>相比相同 XY 坐标轴的情况，这里其实也非常类似，主要区别有两点：</p>
@@ -202,12 +201,11 @@
 <p>如果用外部 LaTeX，按下面的设置可以实现文字部分用非衬线字体，数学部分用 CM 字体：</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span><span class="o">=</span> <span class="bp">True</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span><span class="o">=</span> <span class="kc">True</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Calibri&#39;</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>这个设置仅供参考，如果对 LaTeX 字体设置熟悉的话，应该可以设置出更复杂的更美观的效果。例如用 LaTeX 实现所有字体都用非衬线字体（当然我觉得数学公式还是得用衬线字体来排）：</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -216,17 +214,16 @@
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.latex.preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-       <span class="sa">r</span><span class="s1">&#39;\usepackage{siunitx}&#39;</span><span class="p">,</span>
+       <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{siunitx}</span><span class="s1">&#39;</span><span class="p">,</span>
        <span class="sa">r</span><span class="s1">&#39;\sisetup{detect-all}&#39;</span><span class="p">,</span>
-       <span class="sa">r</span><span class="s1">&#39;\usepackage{helvet}&#39;</span><span class="p">,</span>
-       <span class="sa">r</span><span class="s1">&#39;\usepackage{sansmath}&#39;</span><span class="p">,</span>
+       <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{helvet}</span><span class="s1">&#39;</span><span class="p">,</span>
+       <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{sansmath}</span><span class="s1">&#39;</span><span class="p">,</span>
        <span class="sa">r</span><span class="s1">&#39;\sansmath&#39;</span>
 <span class="p">]</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>启用外部 LaTeX 可能会遇到一个问题，我用的是 MikTeX，虽然设置了自动安装本机没有的包，但第一次启用时，仍然提示我没有找到 <code>type1cm</code> 这个包，手动下载的时候提示 404 了，所以自己去网上找了一下，<a href="http://www.seekiu.com/files/type1cm.zip">这里</a>可以下载到我手动从 CTAN 下载的版本，解压到 latex 文字夹就可以用了。</p>
 <p>当然，我自己的观点是，在绝大多数情况下，画个小图没有必要请出 LaTeX 这个牛刀，而且用 LaTeX 时编译需要的时间也会长很多（十几秒到一分钟不等）。因此我更喜欢另一种开箱即用效果也不差的方案，也就是第一个 demo 中用的方案，把所有的字体都设为 STIX 字体（类似 Times 字体）。</p>
 <hr>
@@ -257,10 +254,10 @@
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

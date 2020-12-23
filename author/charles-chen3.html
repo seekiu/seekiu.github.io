@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Charles Chen's blog - Charles Chen</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
@@ -9,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -18,40 +19,6 @@
 
                 <section id="content" class="body">
                     <ol id="posts-list" class="hfeed" start="5">
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2016/membership-in-ndarray.html" rel="bookmark"
-                           title="Permalink to 检查多维 ndarray 中是否有某元素">检查多维 ndarray 中是否有某元素</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2016-07-11T18:39:00+08:00">
-                Published: 周一 11 七月 2016
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/python.html">Python</a> </p>
-</footer><!-- /.post-info -->                <p>最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。</p>
-<p>通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 <code>in</code>。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：</p>
-<div class="highlight"><pre><span></span>a = [1, 2, 3]
-print(4 in a)
-b = np.array(a)
-print(4 in b)
-</pre></div>
-
-
-<p>结果是<code>False False</code></p>
-<p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
-<div class="highlight"><pre><span></span>a = [[0,0], [0,1]]
-print([0,2] in a …</pre></div>
-                <a class="readmore" href="http://seekiu.github.io/2016/membership-in-ndarray.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
             <li><article class="hentry">
                 <header>
                     <h1><a href="http://seekiu.github.io/2016/save-web-page-more.html" rel="bookmark"
@@ -186,11 +153,35 @@ print([0,2] in a …</pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2016/hello-world-pelican.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html" rel="bookmark"
+                           title="Permalink to High-level GPU-accelerated Program in Python">High-level GPU-accelerated Program in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-12-22T09:58:00+08:00">
+                Published: 周二 22 十二月 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/bian-cheng.html">编程</a> </p>
+</footer><!-- /.post-info -->                <p>After some basic digging, sadly I found that currently (2015.12) there&#8217;s (probably) no mature solution that offers simple high-level GPU programming in Python. The commercial NumbaPro is promising, especially considering the success of its free version numba. However from my test, the JITted program is still highly unstable …</p>
+                <a class="readmore" href="http://seekiu.github.io/2015/high-level-gpu-programming-gpu-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
+        <a href="http://seekiu.github.io/author/charles-chen.html">&#8647;</a>
         <a href="http://seekiu.github.io/author/charles-chen2.html">&laquo;</a>
     Page 3 / 9
         <a href="http://seekiu.github.io/author/charles-chen4.html">&raquo;</a>
+        <a href="http://seekiu.github.io/author/charles-chen9.html">&#8649;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -215,10 +206,10 @@ print([0,2] in a …</pre></div>
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

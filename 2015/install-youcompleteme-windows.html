@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>如何在Windows下给Vim安装YouCompleteMe</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
+        <meta name="description" content="更合理的一个标题是「A (far from perfect) guide for installing YouCompleteMe under..." />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -55,9 +57,8 @@
 <p>幸运的话，到这里YCM就可以使用了，随便打开一个C的文件，输入一点就可以看到自动提示了。</p>
 <p>然而，对我来说，折腾显然没有结束。完成上面的安装之后，我用Vim打开任何文件都提示YCM server shutdown，而且没有任何其它有益的提示信息。经过很多的排除，最终确认是Python版本的问题。在我的电脑中安装了两个版本，一个是Anaconda套装（3.4），另一个是官网的几乎没有任何第三方库的2.7版，而且我的PATH中前者的目录是在前面的，所以系统运行<code>python.exe</code>时找到的是3.4版。然而前面的<code>ycm_core.pyd</code>是基于2.7版编译的，当然不能在3.4中正常使用。因此在我的情况中，只要把PATH中的2.7版移到前面，问题就部分解决了。</p>
 <p>另外一个遇到的小问题是，需要在vimrc中显式指定一个文件的位置，才能正确地处理C语言族的文件，只需要加入如下的一行：</p>
-<div class="highlight"><pre><span></span>let g:ycm_global_ycm_extra_conf = &#39;~/vimfiles/bundle/YouCompleteMe/third_party/ycmd/ycmd/tests/testdata/.ycm_extra_conf.py&#39;
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">let g:ycm_global_ycm_extra_conf = &#39;~/vimfiles/bundle/YouCompleteMe/third_party/ycmd/ycmd/tests/testdata/.ycm_extra_conf.py&#39;</span>
+</code></pre></div>
 
 <p>另外，其实开始YCM之后，Vim的启动速度还是有一点明显的变慢的，建议还是用个白名单，只允许在特定的文件类型中开启YCM，这个在帮助中有，就不再赘述了。</p>
 <p>到此，YCM基本上就可以正常工作了。然而，对我来说还有一个没有漂亮地解决的问题是，vimrc中告诉了Vundle有YCM这个插件，但在更新或安装插件时仍然会报警。应该是Vundle的设置有问题，不过暂时不影响使用也就不管了。</p>
@@ -88,10 +89,10 @@
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>

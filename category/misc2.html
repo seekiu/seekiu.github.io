@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
         <title>Charles Chen's blog - misc</title>
         <link rel="stylesheet" href="http://seekiu.github.io/theme/css/main.css" />
         <link href="http://seekiu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Charles Chen's blog Atom Feed" />
@@ -9,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://seekiu.github.io/">Charles Chen's blog </a></h1>
+                <h1><a href="http://seekiu.github.io/">Charles Chen's blog</a></h1>
                 <nav><ul>
                     <li><a href="http://seekiu.github.io/pages/about-me.html">about</a></li>
                     <li class="active"><a href="http://seekiu.github.io/category/misc.html">misc</a></li>
@@ -18,37 +19,6 @@
 
                 <section id="content" class="body">
                     <ol id="posts-list" class="hfeed" start="5">
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://seekiu.github.io/2017/latex-paper-tips.html" rel="bookmark"
-                           title="Permalink to 用 LaTeX 写大论文的一些经验">用 LaTeX 写大论文的一些经验</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-10-07T16:51:00+08:00">
-                Published: 周六 07 十月 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
-        </address>
-<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
-<p>tags: <a href="http://seekiu.github.io/tag/ge-ren.html">个人</a> </p>
-</footer><!-- /.post-info -->                <p>几个月前写博士毕业论文的时候，起初准备用 Word 来写，因为虽然我算是 LaTeX 的老用
-户，但其实遇到问题时并没有什么解决的经验。相比之下，用大部分人使用的 Word 会更
-加稳妥。不过在 Word 中写了几页就决定还是用 LaTeX 了，主要有两方面的原因：</p>
-<ol>
-<li>论文中存在大量公式，Word 虽然自 2007 版本起就引入了更好的公式支持，允许按部
-   分 LaTeX 的语法输入，并且有不错的显示效果。但比较遗憾的是，即使是目前最新版
-   本的 Word 2016，在存在行内公式时，段落内的行间距都会受到影响。这一点，如果一
-   直是使用 Word 的人并不一定会注意到，但一旦注意到了，而且确定地知道使用 LaTeX
-   可以克服时，就会觉得这个缺点难以忍受了。</li>
-<li>论文各个章节以及章节内部存在大量的交叉引用，图片、公式 …</li></ol>
-                <a class="readmore" href="http://seekiu.github.io/2017/latex-paper-tips.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
             <li><article class="hentry">
                 <header>
                     <h1><a href="http://seekiu.github.io/2017/convenient-cmd-tool.html" rel="bookmark"
@@ -76,7 +46,7 @@
 <p>想了一下，实现一个这样需求很简单的小工具还是比较容易的，我想的解决方案是这样的：第一步，写一个 Python 脚本，可以接受命令行参数来实现不同的功能；第二步，让这个脚本可以命令行运行。</p>
 <p>需求想明白了，实现就简单了。</p>
 <p>第一步，先编写 <code>tools.py</code>，以输出 IP 为例：</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -86,7 +56,7 @@
     <span class="k">except</span><span class="p">:</span>
         <span class="k">pass</span>
 
-<span class="k">def …</span></pre></div>
+<span class="k">def …</span></code></pre></div>
                 <a class="readmore" href="http://seekiu.github.io/2017/convenient-cmd-tool.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -205,11 +175,46 @@ nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyte
                 <a class="readmore" href="http://seekiu.github.io/2016/mpl-for-publish.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://seekiu.github.io/2016/membership-in-ndarray.html" rel="bookmark"
+                           title="Permalink to 检查多维 ndarray 中是否有某元素">检查多维 ndarray 中是否有某元素</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-07-11T18:39:00+08:00">
+                Published: 周一 11 七月 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://seekiu.github.io/author/charles-chen.html">Charles Chen</a>
+        </address>
+<p>In <a href="http://seekiu.github.io/category/misc.html">misc</a>.</p>
+<p>tags: <a href="http://seekiu.github.io/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>最近又在写科学计算的代码了。今天偶然发现一个 Numpy 中的一个小问题，不注意的话还是很容易踩坑的。</p>
+<p>通常来说，检查一个类似列表的对象中是否有某个元素，最直接的办法是用 <code>in</code>。这个方法对列表、字典、元组等都适用，对一维的 ndarray 对象也适用，例如：</p>
+<div class="highlight"><pre><span></span><code><span class="err">a = [1, 2, 3]</span>
+<span class="err">print(4 in a)</span>
+<span class="err">b = np.array(a)</span>
+<span class="err">print(4 in b)</span>
+</code></pre></div>
+
+<p>结果是<code>False False</code></p>
+<p>但是，如果这个 ndarray 是二维的数组，结果就非常奇怪了：</p>
+<div class="highlight"><pre><span></span><code><span class="err">a = [[0,0], [0,1]]</span>
+<span class="err">print([0,2] in a …</span></code></pre></div>
+                <a class="readmore" href="http://seekiu.github.io/2016/membership-in-ndarray.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
+        <a href="http://seekiu.github.io/category/misc.html">&#8647;</a>
         <a href="http://seekiu.github.io/category/misc.html">&laquo;</a>
     Page 2 / 9
         <a href="http://seekiu.github.io/category/misc3.html">&raquo;</a>
+        <a href="http://seekiu.github.io/category/misc9.html">&#8649;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">
@@ -234,10 +239,10 @@ nbviewer 上了，有兴趣的可以看一下：<a href="https://nbviewer.jupyte
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>
